@@ -1,0 +1,11 @@
+*.pyc
+*~
+dist
+build
+.pypirc
+.DS_Store
+pyenv
+LIWC
+LIWC.tgz
+node_modules
+*.rst
