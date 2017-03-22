@@ -830,7 +830,7 @@ class AFINN(sentiDict):
         #              [ line.split("\t") for line in self.openWithPath("data/AFINN/AFINN/AFINN-111.txt","r") ]))
         afinn = dict()
         i = 0
-        for line in self.openWithPath("data/AFINN/AFINN/AFINN-111.txt","r"):
+        for line in self.openWithPath("data/AFINN/AFINN-111.txt","r"):
             x = line.split("\t")
             afinn[x[0]] = (i,int(x[1]))
             i += 1

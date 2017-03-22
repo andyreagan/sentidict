@@ -2,10 +2,12 @@
 *~
 dist
 build
+_build
 .pypirc
 .DS_Store
 pyenv
+MANIFEST
 LIWC
 LIWC.tgz
 node_modules
-*.rst
+README.rst

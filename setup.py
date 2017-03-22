@@ -1,4 +1,5 @@
-from distutils.core import setup
+# from distutils.core import setup
+from setuptools import setup
 
 with open('README.rst') as file:
     long_description = file.read()
@@ -6,13 +7,13 @@ with open('README.rst') as file:
 setup(
     name = 'sentidict',
     packages = ['sentidict'],
-    package_data={'sentidict': ['data/*','static/*',]},
+    package_data={'sentidict': ['data/*','data/*/*','static/*',]},
     version = '0.0.3',
-    description = 'Basic usage script for dictionary-based sentiment analysis. Includes 24 sentiment dictionaries.',
+    description = 'Utilities for dictionary-based sentiment analysis. Includes 28 sentiment dictionaries with loaders, scoring, and interactive visualization.',
     long_description = long_description,
     install_requires=['marisa_trie','numpy','jinja2'],
     extras_require={
-        'dev': ['ipython,twine'],
+        'dev': ['ipython','twine','Sphinx','recommonmark'],
         'test': ['nose2'],
     },
     author = 'Andy Reagan',

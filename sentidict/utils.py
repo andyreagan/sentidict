@@ -58,9 +58,7 @@ def stopper_mat(tmpVec,score_list,word_list,stopVal=1.0,ignore=[],center=5.0):
     return tmpVec
 
 def emotionV(freq,happs):
-    """Given the frequency vector and the score vector, compute the happs.
-    
-    Doesn't use numpy, but equivalent to ``."""
+    """Given the frequency vector and the score vector, compute the happs."""
     
     if sum(freq) > 0:
         return dot(freq,happs)/sum(freq)
