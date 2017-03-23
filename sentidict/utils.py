@@ -5,13 +5,14 @@
 # written by Andy Reagan
 # 2014-03-01
 
-import os
 import re
 import codecs
 import copy
 import subprocess
 from jinja2 import Template
 from numpy import unique,dot,sum,mean,zeros,array,ndarray,arange
+from os import mkdir
+from os.path import isfile,isdir,abspath,join,dirname
 
 u = lambda x: x
 
@@ -148,8 +149,8 @@ def shiftHtmlJupyter(scoreList,wordList,refFreq,compFreq,outFile,corpus="LabMT",
     if not customTitle:
         title = "Example shift using {0}".format(corpus)
     
-    if not os.path.exists('static'):
-        os.mkdir('static')
+    if not isdir('static'):
+        mkdir('static')
 
     # strip off the .html
     outFileShort = outFile
@@ -207,8 +208,8 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile,corpus="LabMT",advance
     if not customTitle:
         title = "Example shift using {0}".format(corpus)
     
-    if not os.path.exists('static'):
-        os.mkdir('static')
+    if not isdir('static'):
+        mkdir('static')
 
     outFileShort = outFile.split('.')[0]
       
@@ -257,8 +258,8 @@ def shiftHtmlPreshifted(scoreList,wordList,refFreq,compFreq,outFile,corpus="LabM
     if not customTitle:
         title = "Example shift using {0}".format(corpus)
     
-    if not os.path.exists('static'):
-        os.mkdir('static')
+    if not isdir('static'):
+        mkdir('static')
 
     sortedMag,sortedWords,sortedType,sumTypes = shift(refFreq,compFreq,scoreList,wordList,sort=True)
 
@@ -305,9 +306,9 @@ def copy_static_files():
     # print('copying over static files')
     # for staticfile in ['d3.v3.min.js','plotShift.js','shift.js','example-on-load.js']:
     for staticfile in ['d3.js','jquery-1.11.0.min.js','urllib.js','hedotools.init.js','hedotools.shifter.js','hedotools.shift.css','shift-crowbar.js']:
-        if not os.path.isfile('static/'+staticfile):
+        if not isfile('static/'+staticfile):
             import shutil
-            relpath = os.path.abspath(__file__).split('/')[1:-1]
+            relpath = abspath(__file__).split('/')[1:-1]
             relpath.append('static')
             relpath.append(staticfile)
             fileName = ''
@@ -320,8 +321,8 @@ def link_static_files():
     # print('copying over static files')
     # for staticfile in ['d3.v3.min.js','plotShift.js','shift.js','example-on-load.js']:
     for staticfile in ['d3.js','jquery-1.11.0.min.js','urllib.js','hedotools.init.js','hedotools.shifter.js','hedotools.shift.css','shift-crowbar.js']:
-        if not os.path.isfile('static/'+staticfile):
-            relpath = os.path.abspath(__file__).split('/')[1:-1]
+        if not isfile('static/'+staticfile):
+            relpath = abspath(__file__).split('/')[1:-1]
             relpath.append('static')
             relpath.append(staticfile)
             fileName = '/'+'/'.join(relpath)
@@ -346,5 +347,20 @@ def open_codecs_dictify(file):
             test_dict[word] = 1        
     return test_dict
 
-
+def openWithPath(filename,mode,codec="utf8"):
+    return codecs.open(join(dirname(__file__),filename),mode,codec)
+    # def openWithPath(self,filename,mode):
+    #     """Helper function for searching for files."""
+    #     try:
+    #         f = codecs.open(filename,mode,'utf8')
+    #         return f
+    #     except IOError:
+    #         relpath = abspath(__file__).split('/')[:-1]
+    #         # relpath.append('data')
+    #         relpath.append(filename)
+    #         filename = '/'.join(relpath)
+    #         f = codecs.open(filename,mode,'utf8')
+    #         return f
+    #     except:
+    #         raise('could not open the needed file')
 

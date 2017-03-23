@@ -3,13 +3,13 @@
 # dictionary-based approach
 
 # import re
-import codecs
+# import codecs
 # from os import listdir
 from os import mkdir
-from os.path import isfile,abspath,isdir,join
+from os.path import isfile,isdir,join
 # import sys
 # import matplotlib.pyplot as plt
-from numpy import zeros,array,min,max,dot
+from numpy import zeros,array,min,max,dot,ndarray
 # from json import loads
 # import csv
 # import datetime
@@ -20,31 +20,21 @@ import marisa_trie
 # both allow prefix search
 # import datrie
 # import string
+import copy
+import warnings
 
 from .utils import *
 
 class sentiDict(object):
     """An abstract class to score them all."""
 
-    # datastructure = ''
-
-    def openWithPath(self,filename,mode):
-        """Helper function for searching for files."""
-        try:
-            f = codecs.open(filename,mode,'utf8')
-            return f
-        except IOError:
-            relpath = abspath(__file__).split('/')[:-1]
-            # relpath.append('data')
-            relpath.append(filename)
-            filename = '/'.join(relpath)
-            f = codecs.open(filename,mode,'utf8')
-            return f
-        except:
-            raise('could not open the needed file')
-
     data = dict()
-    fmt = "Hf"
+    # see below for format string spec
+    # https://docs.python.org/3/library/struct.html#format-strings
+    # these a short,long,longlong
+    # short is too small for SentiWordNet
+    fmts = ["Hf","Lf","Qf"]
+    fmt = fmts[1]
     my_marisa = (marisa_trie.RecordTrie(fmt,[]),marisa_trie.RecordTrie(fmt,[]))
     """Declare this globally."""
 
@@ -69,14 +59,16 @@ class sentiDict(object):
             else:
                 tmpfixedwords.append(key)
                 tmpfixedscores.append(score[1])
-        if self.title in ['labMT','ANEW']:
-            # keep the original sort in this case
-            stemindexer = []
-            fixedindexer = sorted(range(len(tmpfixedwords)), key=lambda k: self.data[tmpfixedwords[k]][0])
-        else:
-            # sort alphabetically
-            stemindexer = sorted(range(len(tmpstemscores)), key=lambda k: tmpstemwords[k])
-            fixedindexer = sorted(range(len(tmpfixedscores)), key=lambda k: tmpfixedwords[k])
+        # if self.title in ['labMT','ANEW']:
+        #     # keep the original sort in this case
+        #     stemindexer = []
+        #     fixedindexer = sorted(range(len(tmpfixedwords)), key=lambda k: self.data[tmpfixedwords[k]][0])
+        # else:
+        #     # sort alphabetically
+        #     stemindexer = sorted(range(len(tmpstemscores)), key=lambda k: tmpstemwords[k])
+        #     fixedindexer = sorted(range(len(tmpfixedscores)), key=lambda k: tmpfixedwords[k])
+        stemindexer = sorted(range(len(tmpstemwords)), key=lambda k: self.data[tmpstemwords[k]+"*"][0])        
+        fixedindexer = sorted(range(len(tmpfixedwords)), key=lambda k: self.data[tmpfixedwords[k]][0])
         # sort them
         self.stemwords = [tmpstemwords[i] for i in stemindexer]
         self.stemscores = [tmpstemscores[i] for i in stemindexer]
@@ -105,10 +97,12 @@ class sentiDict(object):
         self.unique_scores = len(my_set.keys())
 
     def makeMarisaTrie(self,save_flag=False):
-        """Turn a dictionary into a marisa_trie."""
-        fmt = "Hf"
-        fixedtrie = marisa_trie.RecordTrie(fmt,zip(map(u,self.fixedwords),zip(range(len(self.fixedscores)),self.fixedscores)))
-        stemtrie = marisa_trie.RecordTrie(fmt,zip(map(u,self.stemwords),zip(range(len(self.fixedscores),len(self.fixedscores)+len(self.stemscores)),self.stemscores)))
+        """Turn a dictionary into a marisa_trie.
+
+        Could select the format of the value based on the length of the list...using long for everything now."""
+        
+        fixedtrie = marisa_trie.RecordTrie(self.fmt,zip(map(u,self.fixedwords),zip([self.data[word][0] for word in self.fixedwords],self.fixedscores)))
+        stemtrie = marisa_trie.RecordTrie(self.fmt,zip(map(u,self.stemwords),zip([self.data[word+"*"][0] for word in self.stemwords],self.stemscores)))
         if save_flag:
             fixedtrie.save('{0}/{1:.2f}-fixed.marisa'.format(self.folder,self.stopVal))
             stemtrie.save('{0}/{1:.2f}-stem.marisa'.format(self.folder,self.stopVal))
@@ -128,6 +122,8 @@ class sentiDict(object):
 
     def matcherDictBool(self,word):
         """MatcherTrieDict(word) just checks if a word is in the dict."""
+        if self.stems:
+            warnings.warn("The *'s are kept in the dictionary, so won't match words without *")
         return (word in self.data)
 
     def stopper(self,tmpVec,stopVal=1.0,ignore=[]):
@@ -137,13 +133,19 @@ class sentiDict(object):
 
         Return the 0'ed vector."""
 
+        if not isarray(tmpVec):
+            tmpVec = array(tmpVec)
+
         ignoreWords = {"nigga": 1, "nigger": 1, "niggaz": 1, "niggas": 1}
         for word in ignore:
             ignoreWords[word] = 1
         ignore_vector = self.wordVecify(ignoreWords)
 
-        newVec = tmpVec
+        newVec = copy.deepcopy(tmpVec)
         newVec[(abs(self.scorelist-self.center) < stopVal) | (ignore_vector > 0)] = 0
+        # print(abs(self.scorelist-self.center)
+        # print(abs(self.scorelist-self.center) < stopVal)
+        # print(newVec)
         return newVec
 
     def wordVecifyTrieMarisa(self,wordDict):
@@ -269,15 +271,25 @@ class sentiDict(object):
             self.score_range = [self.scorelist.min(),self.scorelist.max()]
             self.score_range_str = "{0:.1f} $\\to$ {1:.1f}".format(self.scorelist.min(),self.scorelist.max())
 
-    def __init__(self,datastructure='dict',stopVal=0.0,bananas=False,loadFromFile=False,saveFile=False,lang='english'):
+    def __init__(self,datastructure='auto',stopVal=0.0,bananas=False,loadFromFile=False,saveFile=False,lang='english',v=False):
         """Instantiate the class."""
+        if v:
+            print("loading {0} with stopVal={1}, datastructure={2}".format(self.title,stopVal,datastructure))
         self.stopVal = stopVal
         self.folder = self.title[0].upper()+self.title[1:]
-        self.datastructure = datastructure
+        self.v = v
         if saveFile:
             if not isdir('{0}'.format(self.folder)):
                 mkdir('{0}'.format(self.folder))
-        if not self.stems and datastructure=="dict":
+        if datastructure == "auto" and self.stems:
+            self.datastructure="marisatrie"
+        elif datastructure == "auto":
+            self.datastructure="dict"
+        else:
+            self.datastructure=datastructure
+        if v:
+            print("selected datastructure {}".format(self.datastructure))
+        if self.datastructure=="dict":
             self.data = self.loadDict(bananas,lang)
             self.stopData()
             self.makeListsFromDict()
@@ -285,10 +297,10 @@ class sentiDict(object):
             self.matcherBool = self.matcherDictBool
             self.score = self.scoreTrieDict
             self.wordVecify = self.wordVecifyTrieDict
-            self.datastructure = "dict"
-        if self.stems or datastructure=="marisatrie":
+        else:
             if isfile('{0}/{1:.2f}-fixed.marisa'.format(self.folder,stopVal)) and loadFromFile:
-                # print("loading from cache")
+                if v:
+                    print("loading from cache")
                 self.my_marisa[0].load('{0}/{1:.2f}-fixed.marisa'.format(self.folder,stopVal))
                 self.my_marisa[1].load('{0}/{1:.2f}-stem.marisa'.format(self.folder,stopVal))
             else:
@@ -301,12 +313,12 @@ class sentiDict(object):
                 self.my_marisa = self.makeMarisaTrie()
 
             self.matcher = self.matcherTrieMarisa
-            self.matcherBool = self.matcherDictBool
+            self.matcherBool = self.matcherTrieBool
             self.score = self.scoreTrieMarisa
             self.wordVecify = self.wordVecifyTrieMarisa
-            self.datastructure = "marisatrie"
-        # this is not kosher for most use cases
-        # print("loading {0} with stopVal={1}, for {2} words".format(self.title,stopVal,len(self.data)))
+        # we generally want the load to be silent
+        if v:
+            print("loaded {0} with stopVal={1}, for {2} words".format(self.title,stopVal,len(self.data)))
 
 class LabMT(sentiDict):
     """LabMT class.
@@ -332,9 +344,8 @@ class LabMT(sentiDict):
     stems = False
 
     def loadDict(self,bananas,lang):
-        # don't cheat
-        LabMT = dict()
-        f = self.openWithPath("data/LabMT/labMT2{}.txt".format(lang),"r")
+        labMT = dict()
+        f = openWithPath(join("data","LabMT","labMT2{}.txt".format(lang)),"r")
         f.readline()
         # word    rank    happs   stddev  rank    rank    rank    rank
         i = 0
@@ -347,10 +358,10 @@ class LabMT(sentiDict):
             word,happsrank,happs,stddev = l[:4]
             # twitter_rank	gbooks_rank	nyt_rank	lyrics_rank
             other_ranks = l[4:]
-            LabMT[word] = [i,float(happs),float(stddev)]+other_ranks
+            labMT[word] = [i,float(happs),float(stddev)]+other_ranks
             i+=1
         f.close()
-        return LabMT
+        return labMT
 
     # n_fixed =
     # n_stems =
@@ -383,8 +394,8 @@ class ANEW(sentiDict):
         """Load the corpus into a dictionary, straight from the origin corpus file."""
 
         ANEW_data = dict()
-        f = self.openWithPath("data/ANEW/all-2.csv","r")
-        # f = self.openWithPath("data/ANEW/all.csv","r")
+        f = openWithPath(join("data","ANEW","all-2.csv"),"r")
+        # f = openWithPath(join("data","ANEW","all.csv"),"r")
         # f.readline()
         # Description,Word No.,Valence Mean,Valence SD,Arousal Mean,Arousal SD,Dominance Mean,Dominance SD,Word Frequency
         # ["Description","Word_No","Valence_Mean","Valence_SD","Arousal_Mean","Arousal_SD","Dominance_Mean","Dominance_SD","Word_Frequency",]
@@ -426,7 +437,7 @@ class LIWC(sentiDict):
     def loadDict(self,bananas,lang):
         """Load the corpus into a dictionary, straight from the origin corpus file."""
         word_type_dict = dict()
-        f = self.openWithPath("data/LIWC/LIWC20"+self.year+"_header.dic","r")
+        f = openWithPath(join("data","LIWC","LIWC20{}_header.dic".format(self.year)),"r")
         # leave space for index, happs_score
         i = 2
         for line in f:
@@ -441,8 +452,7 @@ class LIWC(sentiDict):
         # print(word_type_dict)
         LIWC_data = dict()
         # mostly just the raw data (just no header)
-        f = self.openWithPath("data/LIWC/LIWC20"+self.year+"_words.dic","r")
-        # print("loading data/LIWC/LIWC20"+self.year+"_words.dic")
+        f = openWithPath(join("data","LIWC","LIWC20{}_words.dic".format(self.year)),"r")
         i = 0
         for line in f:
             l = line.rstrip().split("\t")
@@ -548,7 +558,7 @@ class MPQA(sentiDict):
         MPQA = dict()
         scores = [-1,0,1]
         emotions = ["negative","neutral","positive"]
-        f = self.openWithPath("data/MPQA/subjectivity_clues_hltemnlp05/subjclueslen1-HLTEMNLP05.tff","r")
+        f = openWithPath(join("data","MPQA","subjectivity_clues_hltemnlp05/subjclueslen1-HLTEMNLP05.tff"),"r")
         i = 0
         num_duplicates = 0
         for line in f:
@@ -609,7 +619,7 @@ class OL(sentiDict):
     def loadDict(self,bananas,lang):
         """Load the corpus into a dictionary, straight from the origin corpus file."""
         liu = dict()
-        f = self.openWithPath("data/OL/negative-words.txt","r")
+        f = openWithPath(join("data","OL","negative-words.txt"),"r")
         i=0
         for line in f:
             l = line.rstrip()
@@ -620,7 +630,7 @@ class OL(sentiDict):
                 liu[l] = (i,-1)
                 i+=1
         f.close()
-        f = self.openWithPath("data/OL/positive-words.txt","r")
+        f = openWithPath(join("data","OL","positive-words.txt"),"r")
         for line in f:
             l = line.rstrip()
             if l in liu:
@@ -663,7 +673,7 @@ class WK(sentiDict):
 
     def loadDict(self,bananas,lang):
         Warriner = dict()
-        f = self.openWithPath("data/WK/BRM-emot-submit.csv","r")
+        f = openWithPath(join("data","WK","BRM-emot-submit.csv"),"r")
         f.readline()
         # ,Word,V.Mean.Sum,V.SD.Sum,V.Rat.Sum,A.Mean.Sum,A.SD.Sum,A.Rat.Sum,D.Mean.Sum,D.SD.Sum,D.Rat.Sum,V.Mean.M,V.SD.M,V.Rat.M,V.Mean.F,V.SD.F,V.Rat.F,A.Mean.M,A.SD.M,A.Rat.M,A.Mean.F,A.SD.F,A.Rat.F,D.Mean.M,D.SD.M,D.Rat.M,D.Mean.F,D.SD.F,D.Rat.F,V.Mean.Y,V.SD.Y,V.Rat.Y,V.Mean.O,V.SD.O,V.Rat.O,A.Mean.Y,A.SD.Y,A.Rat.Y,A.Mean.O,A.SD.O,A.Rat.O,D.Mean.Y,D.SD.Y,D.Rat.Y,D.Mean.O,D.SD.O,D.Rat.O,V.Mean.L,V.SD.L,V.Rat.L,V.Mean.H,V.SD.H,V.Rat.H,A.Mean.L,A.SD.L,A.Rat.L,A.Mean.H,A.SD.H,A.Rat.H,D.Mean.L,D.SD.L,D.Rat.L,D.Mean.H,D.SD.H,D.Rat.H
         # i,word,v_mean_sum,v_sd_sum,v_rat_sum,a_mean_sum,a_sd_sum,a_rat_sum,d_mean_sum,d_sd_sum,d_rat_sum,v_mean_m,v_sd_m,v_rat_m,v_mean_f,v_sd_f,v_rat_f,a_mean_m,a_sd_m,a_rat_m,a_mean_f,a_sd_f,a_rat_f,d_mean_m,d_sd_m,d_rat_m,d_mean_f,d_sd_f,d_rat_f,v_mean_y,v_sd_y,v_rat_y,v_mean_o,v_sd_o,v_rat_o,a_mean_y,a_sd_y,a_rat_y,a_mean_o,a_sd_o,a_rat_o,d_mean_y,d_sd_y,d_rat_y,d_mean_o,d_sd_o,d_rat_o,v_mean_l,v_sd_l,v_rat_l,v_mean_h,v_sd_h,v_rat_h,a_mean_l,a_sd_l,a_rat_l,a_mean_h,a_sd_h,a_rat_h,d_mean_l,d_sd_l,d_rat_l,d_mean_h,d_sd_h,d_rat_h
@@ -691,7 +701,7 @@ class PANASX(sentiDict):
 
     def loadDict(self,bananas,lang):
         PANAS = dict()
-        f = self.openWithPath("data/PANAS-X/affect.txt","r")
+        f = openWithPath(join("data","PANAS-X","affect.txt"),"r")
         i=0
         for line in f:
             l = line.rstrip().split(',')
@@ -722,10 +732,7 @@ class Pattern(sentiDict):
 
     def loadDict(self,bananas,lang):
         import xml.etree.ElementTree as etree
-        relpath = abspath(__file__).split('/')[:-1]
-        relpath.append('data/{0}/en-sentiment.xml'.format(self.folder))
-        filename = '/'.join(relpath)
-        tree = etree.parse(filename)
+        tree = etree.parse(join(dirname(__file__),"data",self.folder,"en-sentiment.xml"))
         root = tree.getroot()
         # look at some stuff:
         # print(root)
@@ -777,7 +784,7 @@ class SentiWordNet(sentiDict):
     score_range_type = "continuous"
 
     def loadDict(self,bananas,lang):
-        f = self.openWithPath("data/{0}/SentiWordNet_3.0.0_20130122.txt".format(self.folder),"r")
+        f = openWithPath(join("data",self.folder,"SentiWordNet_3.0.0_20130122.txt"),"r")
         f.readline()
         my_dict = dict()
         for line in f:
@@ -829,14 +836,14 @@ class AFINN(sentiDict):
 
     def loadDict(self,bananas,lang):
         # afinn = dict(map(lambda x: (x[0],int(x[1])),
-        #              [ line.split("\t") for line in self.openWithPath("data/AFINN/AFINN/AFINN-111.txt","r") ]))
+        #              [ line.split("\t") for line in openWithPath("data/AFINN/AFINN/AFINN-111.txt","r") ]))
         afinn = dict()
         i = 0
-        for line in self.openWithPath("data/AFINN/AFINN-111.txt","r"):
+        for line in openWithPath(join("data","AFINN","AFINN-111.txt"),"r"):
             x = line.split("\t")
             afinn[x[0]] = (i,int(x[1]))
             i += 1
-        # afinn = dict([ (line.rstrip().split("\t")[0],int(line.rstrip().split("\t")[1])) for line in self.openWithPath("data/AFINN/AFINN/AFINN-111.txt","r") ])
+        # afinn = dict([ (line.rstrip().split("\t")[0],int(line.rstrip().split("\t")[1])) for line in openWithPath("data/AFINN/AFINN/AFINN-111.txt","r") ])
         # pos_words = [word for word in afinn if afinn[word] > 0]
         # neg_words = [word for word in afinn if afinn[word] < 0]
         # neu_words = [word for word in afinn if afinn[word] == 0]
@@ -861,7 +868,7 @@ class GI(sentiDict):
 
     def loadDict(self,bananas,lang):
         # coding: utf-8
-        f = self.openWithPath("data/GI/inqtabs.txt","r")
+        f = openWithPath(join("data","GI","inqtabs.txt"),"r")
         header = f.readline().rstrip()
         # for line in f:
         #     splitline = line.rstrip().split("\t")
@@ -929,7 +936,7 @@ class WDAL(sentiDict):
     score_range_type = "continuous"
 
     def loadDict(self,bananas,lang):
-        f = self.openWithPath("data/WDAL/words.txt","r")
+        f = openWithPath(join("data","WDAL","words.txt"),"r")
         my_dict = dict()
         f.readline()
         i = 0
@@ -974,7 +981,7 @@ class EmoLex(sentiDict):
     score_range_type = "integer"
 
     def loadDict(self,bananas,lang):
-        f = self.openWithPath(join("data","NRC","NRC-Emotion-Lexicon-v0.92","NRC-emotion-lexicon-wordlevel-alphabetized-v0.92.txt"),"r")
+        f = openWithPath(join("data","NRC","NRC-Emotion-Lexicon-v0.92","NRC-emotion-lexicon-wordlevel-alphabetized-v0.92.txt"),"r")
         EmoLex_data = dict()
         i = 0
         emotions = {"anger": 2, "anticipation": 3, "disgust": 4, "fear": 5, "joy": 6, "sadness": 7, "surprise": 8, "trust": 9}
@@ -1013,7 +1020,7 @@ class MaxDiff(sentiDict):
     score_range_type = "continuous"
 
     def loadDict(self,bananas,lang):
-        f = self.openWithPath(join("data","NRC","MaxDiff-Twitter-Lexicon","Maxdiff-Twitter-Lexicon_-1to1.txt"),"r")
+        f = openWithPath(join("data","NRC","MaxDiff-Twitter-Lexicon","Maxdiff-Twitter-Lexicon_-1to1.txt"),"r")
         MaxDiff_data = dict()
         i = 0
         for line in f:
@@ -1044,7 +1051,7 @@ class HashtagSent(sentiDict):
     stems = False
     score_range_type = "continuous"
     def loadDict(self,bananas,lang):
-        f = self.openWithPath(join("data","NRC","NRC-Hashtag-Sentiment-Lexicon-v0.1","unigrams-pmilexicon.txt"),"r")
+        f = openWithPath(join("data","NRC","NRC-Hashtag-Sentiment-Lexicon-v0.1","unigrams-pmilexicon.txt"),"r")
         i = 0
         unigrams = dict()
         for line in f:
@@ -1078,7 +1085,7 @@ class Sent140Lex(sentiDict):
     def loadDict(self,bananas,lang):
         i = 0
         # coding: utf-8
-        f = self.openWithPath("data/NRC/Sentiment140-Lexicon-v0.1/unigrams-pmilexicon.txt","r")
+        f = openWithPath(join("data","NRC","Sentiment140-Lexicon-v0.1","unigrams-pmilexicon.txt"),"r")
         unigrams = dict()
         for line in f:
             word,score,poscount,negcount = line.rstrip().split("\t")
@@ -1091,7 +1098,7 @@ class Sent140Lex(sentiDict):
 
         # print("read in {0} unigrams".format(len(unigrams)))
 
-        f = self.openWithPath("data/NRC/Sentiment140-Lexicon-v0.1/bigrams-pmilexicon.txt","r")
+        f = openWithPath(join("data","NRC","Sentiment140-Lexicon-v0.1","bigrams-pmilexicon.txt"),"r")
         bigrams = dict()
         for line in f:
             word,score,poscount,negcount = line.rstrip().split("\t")
@@ -1104,7 +1111,7 @@ class Sent140Lex(sentiDict):
 
         # print("read in {0} bigrams".format(len(bigrams)))
 
-        f = self.openWithPath("data/NRC/Sentiment140-Lexicon-v0.1/pairs-pmilexicon.txt","r")
+        f = openWithPath(join("data","NRC","Sentiment140-Lexicon-v0.1","pairs-pmilexicon.txt"),"r")
         pairs = dict()
         for line in f:
             word,score,poscount,negcount = line.rstrip().split("\t")
@@ -1167,7 +1174,7 @@ class SOCAL(sentiDict):
     # -5 -> 5 # except for one word
     # but there are a bunch of manually assigned non-integer scores as well
     center = 0.0
-    stems = True
+    stems = False
 
     # here is an example of the syntax used, it's fairly intuitive
 # (#hold#)_[PRP$]_attention       2
@@ -1180,7 +1187,7 @@ class SOCAL(sentiDict):
     # the all_dictionaries that is loaded is just a cat of the others
     def loadDict(self,bananas,lang):
         this_dict = dict()
-        f = self.openWithPath("data/"+self.title+"/"+"all_dictionaries-utf8.txt","r")
+        f = openWithPath(join("data",self.title,"all_dictionaries-utf8.txt"),"r")
         i = 0
         for line in f:
             # print(line)
@@ -1220,14 +1227,14 @@ class SenticNet(sentiDict):
     score_range_type="continuous"
 
     def loadDict(self,bananas,lang):
-        f = self.openWithPath("data/"+self.title+"/senticnet3.rdf.xml","r")
+        f = openWithPath(join("data",self.title,"senticnet3.rdf.xml"),"r")
         # import xml.etree.ElementTree as etree
         # tree = etree.parse(filename)
         # root = tree.getroot()
         # import rdflib
         # rdf is not properly formatted
         import json
-        scraped = json.load(self.openWithPath(join("data",self.title,"senticnet3.json"),"r"))
+        scraped = json.load(openWithPath(join("data",self.title,"senticnet3.json"),"r"))
         return scraped
 
 class Emoticons(sentiDict):
@@ -1249,18 +1256,18 @@ class Emoticons(sentiDict):
 
     def loadDict(self,bananas,lang):
         emoticon_dict = dict()
-        f = self.openWithPath("data/"+self.title+"/positive.txt","r")
+        f = openWithPath(join("data",self.title,"positive.txt"),"r")
         i = 0
         for line in f:
             emoticon_dict[line.rstrip()] = (i,1)
             i+=1
         f.close()
-        f = self.openWithPath("data/"+self.title+"/neutral.txt","r")
+        f = openWithPath(join("data",self.title,"neutral.txt"),"r")
         for line in f:
             emoticon_dict[line.rstrip()] = (i,0)
             i+=1
         f.close()
-        f = self.openWithPath("data/"+self.title+"/negative.txt","r")
+        f = openWithPath(join("data",self.title,"negative.txt"),"r")
         for line in f:
             emoticon_dict[line.rstrip()] = (i,-1)
             i+=1
@@ -1307,7 +1314,7 @@ class SentiStrength(sentiDict):
     score_range_type="integer"
 
     def loadDict(self,bananas,lang):
-        f = self.openWithPath("data/"+self.title+"/EmotionLookupTable.txt","r")
+        f = openWithPath(join("data",self.title,"EmotionLookupTable.txt"),"r")
         this_dict = dict()
         i = 0
         for line in f:
@@ -1320,7 +1327,7 @@ class SentiStrength(sentiDict):
             #     print(line_split)
             # there is extra stuff here but it looks like it was removed on purpose
         f.close()
-        f = self.openWithPath("data/"+self.title+"/EmoticonLookupTable-utf8.txt","r")
+        f = openWithPath(join("data",self.title,"EmoticonLookupTable-utf8.txt"),"r")
         for line in f:
             line_split = line.rstrip().split("\t")
             if (len(line_split) == 2) or (len(line_split) == 3):
@@ -1346,7 +1353,7 @@ class VADER(sentiDict):
 
     def loadDict(self,bananas,lang):
         VADER_dict = dict()
-        f = self.openWithPath("data/"+self.title+"/vader_sentiment_lexicon-utf8.txt","r")
+        f = openWithPath(join("data",self.title,"vader_sentiment_lexicon-utf8.txt"),"r")
         i = 0
         for line in f:
             line_split = line.rstrip().split("\t")
@@ -1401,7 +1408,7 @@ class Umigon(sentiDict):
 
     def loadDict(self,bananas,lang):
         Umigon_dict = dict()
-        f = self.openWithPath("data/"+self.title+"/all.txt","r")
+        f = openWithPath(join("data",self.title,"all.txt"),"r")
         i = 0
         keys = ["010","011","012"]
         scores = [0.0,1.0,-1.0]
@@ -1449,14 +1456,14 @@ class USent(sentiDict):
 
     def loadDict(self,bananas,lang):
         USent_dict = dict()
-        f = self.openWithPath("data/"+self.title+"/SANN/positive.txt","r")
+        f = openWithPath(join("data",self.title,"SANN","positive.txt"),"r")
         i = 0
         for line in f:
             word = line.rstrip()
             USent_dict[word] = (i,1.0)
             i+=1
         f.close()
-        f = self.openWithPath("data/"+self.title+"/SANN/negative.txt","r")
+        f = openWithPath(join("data",self.title,"SANN","negative.txt"),"r")
         for line in f:
             word = line.rstrip()
             USent_dict[word] = (i,-1.0)
@@ -1499,7 +1506,7 @@ class EmoSenticNet(sentiDict):
 
     def loadDict(self,bananas,lang):
         ESS_dict = dict()
-        f = self.openWithPath(join("data",self.title,"emosenticnet.csv"),"r")
+        f = openWithPath(join("data",self.title,"emosenticnet.csv"),"r")
         i = 0
         header = f.readline()
         for line in f:

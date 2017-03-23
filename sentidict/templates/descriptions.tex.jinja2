@@ -1,0 +1,3 @@
+\begin{description} \itemsep1pt \parskip1pt \parsep0pt{% for sentiment_dictionary in all_sentiment_dictionaries %}
+    \item[{{ sentiment_dictionary.title }}] --- {{ sentiment_dictionary.note }} \cite{ {{- sentiment_dictionary.citation_key -}} }.{% endfor %}
+\end{description}

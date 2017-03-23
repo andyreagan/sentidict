@@ -1,0 +1,9 @@
+{\scriptsize
+  \begin{tabular*}{\linewidth}{ l | l | l | l | l | l | l | l | l | l}
+    \hline
+    Dictionary & \# Fixed & \# Stems & Total & Range & \# Pos & \# Neg & Construction & License & Ref.\\
+    \hline
+    \hline{% for sentiment_dictionary in all_sentiment_dictionaries %}{% if loop.index is equalto 7 %}
+    \hline{% endif %}
+    {{ sentiment_dictionary.title }} & {{ sentiment_dictionary.n_fixed | int }} & {{ sentiment_dictionary.n_stem | int }} & {{ sentiment_dictionary.n_total | int }} & {{ sentiment_dictionary.score_range_str }} & {{ sentiment_dictionary.n_pos | int }} & {{ sentiment_dictionary.n_neg }} & {{ sentiment_dictionary.construction_note }} & {{ sentiment_dictionary.license }} & \cite{ {{- sentiment_dictionary.citation_key -}} }\\{% endfor %}
+  \end{tabular*}}
