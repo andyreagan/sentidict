@@ -218,21 +218,6 @@ class sentiDict(object):
         else:
             return center
 
-    def matcherTrieMarisa(self,word,wordVec,count):
-        """Not sure what this one does."""
-        if word in self.my_marisa[0]:
-            wordVec[self.my_marisa[0].get(word)[0][0]] += count
-        # this strictly assumes that the keys in the stem set
-        # are non-overlapping!
-        # also they'll match anything after the word, not just [a-z']
-        elif len(self.my_marisa[1].prefixes(word)) > 0:
-            wordVec[self.my_marisa[1].get(self.my_marisa[1].prefixes(word)[0])[0][0]] += count
-
-    def matcherTrieDict(self,word,wordVec,count):
-        """Not sure what this one does."""
-        if word in self.data:
-            wordVec[self.data[word][0]] += count
-
     def stopData(self):
         stopWords = []
         for word in self.data:
@@ -293,7 +278,6 @@ class sentiDict(object):
             self.data = self.loadDict(bananas,lang)
             self.stopData()
             self.makeListsFromDict()
-            self.matcher = self.matcherTrieDict
             self.matcherBool = self.matcherDictBool
             self.score = self.scoreTrieDict
             self.wordVecify = self.wordVecifyTrieDict
@@ -312,7 +296,6 @@ class sentiDict(object):
                 # create the trie
                 self.my_marisa = self.makeMarisaTrie()
 
-            self.matcher = self.matcherTrieMarisa
             self.matcherBool = self.matcherTrieBool
             self.score = self.scoreTrieMarisa
             self.wordVecify = self.wordVecifyTrieMarisa

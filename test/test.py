@@ -3,6 +3,7 @@
 from sentidict.utils import *
 from sentidict.dictionaries import *
 from sentidict.functions import *
+from sentidict.wordshifts import *
 import  numpy as np
 from scipy.sparse import csr_matrix,issparse
 # import subprocess
@@ -77,14 +78,47 @@ def test_shift():
     mag,words,types,stypes = shift(test_f,np.ones(4),test_scores,test_words,sort=True)
     assert np.abs(np.sum(mag) == (compH-refH)) < .001
 
-def test_shiftHtmlJupyter():
-    assert True
+    # shiftHtml(senti_marisa.scorelist, senti_marisa.wordlist, ref_word_vec_stopped, comp_word_vec_stopped, "test-shift-{0}.html".format(senti_dict.title),corpus=senti_marisa.corpus)
+    # shiftHtml(senti_marisa.scorelist, senti_marisa.wordlist, ref_word_vec, comp_word_vec, "test-shift-titles.html".format(senti_dict.title),customTitle=True,title="Insert title here",ref_name="bananas",comp_name="apples")
 
-def test_shiftHtml():
-    assert True
+ref_dict = {"the": 1, "dude": 1, "abides": 1, "laughs": 1}
+comp_dict = {"the": 1, "dude": 1, "does": 1, "not": 1, "abide": 1}
 
-def shiftHtmlPreshifted():
-    assert True
+def shiftHtmlJupyter_test(all_sentidicts):
+    for my_sentidict in all_sentidicts[:1]:
+        ref_word_vec = my_sentidict.wordVecify(ref_dict)
+        ref_word_vec_stopped = my_sentidict.stopper(ref_word_vec,stopVal=1.0)
+        comp_word_vec = my_sentidict.wordVecify(comp_dict)
+        comp_word_vec_stopped = my_sentidict.stopper(comp_word_vec,stopVal=1.0)
+        shiftHtmlJupyter(my_sentidict.scorelist,
+                         my_sentidict.wordlist,
+                         ref_word_vec_stopped,
+                         comp_word_vec_stopped,
+                         "test-jupyter-wordshift-{}.html".format(my_sentidict.title))
+
+def shiftHtml_test(all_sentidicts):
+    for my_sentidict in all_sentidicts[:1]:
+        ref_word_vec = my_sentidict.wordVecify(ref_dict)
+        ref_word_vec_stopped = my_sentidict.stopper(ref_word_vec,stopVal=1.0)
+        comp_word_vec = my_sentidict.wordVecify(comp_dict)
+        comp_word_vec_stopped = my_sentidict.stopper(comp_word_vec,stopVal=1.0)
+        shiftHtml(my_sentidict.scorelist,
+                         my_sentidict.wordlist,
+                         ref_word_vec_stopped,
+                         comp_word_vec_stopped,
+                         "test-wordshift-{}.html".format(my_sentidict.title))
+
+def shiftHtmlPreshifted_test(all_sentidicts):
+    for my_sentidict in all_sentidicts[:1]:
+        ref_word_vec = my_sentidict.wordVecify(ref_dict)
+        ref_word_vec_stopped = my_sentidict.stopper(ref_word_vec,stopVal=1.0)
+        comp_word_vec = my_sentidict.wordVecify(comp_dict)
+        comp_word_vec_stopped = my_sentidict.stopper(comp_word_vec,stopVal=1.0)
+        shiftHtmlPreshifted(my_sentidict.scorelist,
+                         my_sentidict.wordlist,
+                         ref_word_vec_stopped,
+                         comp_word_vec_stopped,
+                         "test-wordshift-preshifted-{}.html".format(my_sentidict.title))
 
 def test_labMT_english():
     """Test as much of sentidict as possible, using the labMT dictionary subclass.
@@ -198,31 +232,23 @@ def test_extended_features():
         assert len(tweet_features) == 75
     f.close()
 
-def wordshift_test(all_sentidicts):
-    assert True
-    # # build it out here
-    # ref_word_vec = senti_marisa.wordVecify(ref_dict)
-    # ref_word_vec_stopped = senti_marisa.stopper(ref_word_vec,stopVal=stopVal)
-    # comp_word_vec = senti_marisa.wordVecify(comp_dict)
-    # comp_word_vec_stopped = senti_marisa.stopper(comp_word_vec,stopVal=stopVal)        
-    # shiftHtml(senti_marisa.scorelist, senti_marisa.wordlist, ref_word_vec_stopped, comp_word_vec_stopped, "test-shift-{0}.html".format(senti_dict.title),corpus=senti_marisa.corpus)
-    # shiftHtml(senti_marisa.scorelist, senti_marisa.wordlist, ref_word_vec, comp_word_vec, "test-shift-titles.html".format(senti_dict.title),customTitle=True,title="Insert title here",ref_name="bananas",comp_name="apples")
-
 def test_speedy_all():
     """Test all of the speedy dictionaries on scoring some dict of words."""
     all_sentidicts = load_26()
     assert len(all_sentidicts) == 26
     write_tables(all_sentidicts)
-    wordshift_test(all_sentidicts)
+    shiftHtmlJupyter_test(all_sentidicts)
+    shiftHtml_test(all_sentidicts)
+    shiftHtmlPreshifted_test(all_sentidicts)
     # cleanup()
 
 def cleanup():
-    '''Remove all test files.'''
+    '''Remoove all test files.'''
     print("removing all test files generated...go comment the \"cleanup()\" call to keep them")
     subprocess.call("\\rm -r test-* static *.tex",shell=True)
 
 class Dummy(sentiDict):
-    title="dummny"
+    title="dummy"
     url="lmgtfy.com"
     note="note"
     license="license"
@@ -337,15 +363,26 @@ def test_wordVecify():
     assert (d.wordVecify(ref_dict) == array([8,0,0,0])).all()
 
 def test_score():
-    ref_dict = {"neutral": 1, "dude": 1, "abides": 1, "happy": 5, "happyy": 2, "happyyy": 1}
+    ref_dict = {"neutral": 1, "dude": 1, "niggas": 2, "happy": 5, "happyy": 2, "happyyy": 1}
     d = Dummy4()
-    assert (d.score({}) == 5.0).all()
-    assert (d.wordVecify(ref_dict) == array([5,0,0,0])).all()
+    assert d.score({}) == 5.0
+    assert d.score({},center=-1) == -1
+    fixed_score = d.score(ref_dict)
+    assert fixed_score != 5.0
     # add stems to the mix
     class Dummy6(Dummy):
         stems = True
         def loadDict(self,bananas,lang):
             return {"happy*": (0, 6.),"remove": (1, 8.),"niggas": (2, 8.) ,"neutral": (3, 5.)}
     d = Dummy6(v=True)
-    assert (d.wordVecify({}) == zeros(4)).all()
-    assert (d.wordVecify(ref_dict) == array([8,0,0,0])).all()
+    assert d.score({}) == 5.0
+    assert d.score({},center=-1) == -1
+    # should move closer to 6
+    assert np.abs(d.score(ref_dict) - 6) < np.abs(fixed_score - 6)
+    # it's also not blocking the word list...
+    ref_dict = {"neutral": 1, "dude": 1, "niggas": 8, "happy": 5, "happyy": 0, "happyyy": 0}
+    assert np.abs(d.score(ref_dict) - 8) < np.abs(fixed_score - 8)
+
+    
+
+
