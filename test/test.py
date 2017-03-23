@@ -91,7 +91,7 @@ def test_labMT_english():
 
     Basically an extended example."""
     
-    my_labMT = labMT(lang='english')
+    my_labMT = LabMT(lang='english')
 
     # make sure the words got loaded in correctly in the dictionary
     assert my_labMT.data["test"][1] == 4.06
@@ -102,80 +102,80 @@ def test_labMT_english():
 
     return 1
 
-    f = codecs.open("examples/data/18.01.14.txt", "r", "utf8")
-    ref_text_raw = f.read()
-    f.close()
-    f = codecs.open("examples/data/21.01.14.txt", "r", "utf8")
-    comp_text_raw = f.read()
-    f.close()
+    # f = codecs.open("examples/data/18.01.14.txt", "r", "utf8")
+    # ref_text_raw = f.read()
+    # f.close()
+    # f = codecs.open("examples/data/21.01.14.txt", "r", "utf8")
+    # comp_text_raw = f.read()
+    # f.close()
     
-    ref_happs, ref_freq = emotion(ref_text_raw, labMT, shift=True, happsList=labMTvector)
-    comp_happs, comp_freq = emotion(comp_text_raw, labMT, shift=True, happsList=labMTvector)
+    # ref_happs, ref_freq = emotion(ref_text_raw, my_labMT, shift=True, happsList=my_labMTvector)
+    # comp_happs, comp_freq = emotion(comp_text_raw, my_labMT, shift=True, happsList=my_labMTvector)
 
-    ref_freq_stopped = stopper(ref_freq, labMTvector, labMTwordList, stopVal=1.0)
-    # make sure that it blocked "the" and "nigger"
-    index = int(labMT["the"][0])-1
-    assert ref_freq_stopped[index] == 0    
-    index = int(labMT["nigger"][0])-1
-    assert ref_freq_stopped[index] == 0
+    # ref_freq_stopped = stopper(ref_freq, my_labMTvector, my_labMTwordList, stopVal=1.0)
+    # # make sure that it blocked "the" and "nigger"
+    # index = int(my_labMT["the"][0])-1
+    # assert ref_freq_stopped[index] == 0    
+    # index = int(my_labMT["nigger"][0])-1
+    # assert ref_freq_stopped[index] == 0
 
-    ref_freq_stopped = stopper(ref_freq, labMTvector, labMTwordList, stopVal=1.0, ignore=["laughter"])
-    # make sure that it blocked "the" and "nigger" still
-    index = int(labMT["the"][0])-1
-    assert ref_freq_stopped[index] == 0    
-    index = int(labMT["nigger"][0])-1
-    assert ref_freq_stopped[index] == 0
-    # also check that it now blocked laughter    
-    index = int(labMT["laughter"][0])-1
-    assert ref_freq_stopped[index] == 0
+    # ref_freq_stopped = stopper(ref_freq, my_labMTvector, my_labMTwordList, stopVal=1.0, ignore=["laughter"])
+    # # make sure that it blocked "the" and "nigger" still
+    # index = int(my_labMT["the"][0])-1
+    # assert ref_freq_stopped[index] == 0    
+    # index = int(my_labMT["nigger"][0])-1
+    # assert ref_freq_stopped[index] == 0
+    # # also check that it now blocked laughter    
+    # index = int(my_labMT["laughter"][0])-1
+    # assert ref_freq_stopped[index] == 0
 
-    ref_freq_stopped = stopper(ref_freq, labMTvector, labMTwordList, stopVal=1.0)
+    # ref_freq_stopped = stopper(ref_freq, my_labMTvector, my_labMTwordList, stopVal=1.0)
     
-    comp_freq_stopped = stopper(comp_freq, labMTvector, labMTwordList, stopVal=1.0)
+    # comp_freq_stopped = stopper(comp_freq, my_labMTvector, my_labMTwordList, stopVal=1.0)
 
-    ref_happs_from_vector = emotionV(ref_freq, labMTvector)
-    # make sure this is the same as from emotion
-    print(ref_happs_from_vector)
-    print(ref_happs)
-    assert abs(ref_happs_from_vector - ref_happs) < TOL
+    # ref_happs_from_vector = emotionV(ref_freq, my_labMTvector)
+    # # make sure this is the same as from emotion
+    # print(ref_happs_from_vector)
+    # print(ref_happs)
+    # assert abs(ref_happs_from_vector - ref_happs) < TOL
 
-    comp_happs_stopped = emotionV(comp_freq_stopped, labMTvector)
+    # comp_happs_stopped = emotionV(comp_freq_stopped, my_labMTvector)
 
-    ref_happs_stopped = emotionV(ref_freq_stopped, labMTvector)
+    # ref_happs_stopped = emotionV(ref_freq_stopped, my_labMTvector)
         
-    # without stop words
-    assert abs(ref_happs - 5.51733944613) < TOL
-    assert ref_freq[5000] == 409
+    # # without stop words
+    # assert abs(ref_happs - 5.51733944613) < TOL
+    # assert ref_freq[5000] == 409
 
-    # with stop words
-    assert abs(ref_happs_stopped - 6.01346892642) < TOL
-    assert ref_freq_stopped[5000] == 0
+    # # with stop words
+    # assert abs(ref_happs_stopped - 6.01346892642) < TOL
+    # assert ref_freq_stopped[5000] == 0
 
-    print("-"*80)
-    print(ref_happs)
-    print(ref_happs_stopped)
-    print(comp_happs)
-    print(comp_happs_stopped)
-    print("-"*80)    
+    # print("-"*80)
+    # print(ref_happs)
+    # print(ref_happs_stopped)
+    # print(comp_happs)
+    # print(comp_happs_stopped)
+    # print("-"*80)    
 
-    outFile = "test.html"
-    shiftHtml(labMTvector, labMTwordList, ref_freq, comp_freq, outFile)
+    # outFile = "test.html"
+    # shiftHtml(my_labMTvector, my_labMTwordList, ref_freq, comp_freq, outFile)
 
-    outFile = "test-stopped.html"    
-    shiftHtml(labMTvector, labMTwordList, ref_freq_stopped, comp_freq_stopped, outFile)
+    # outFile = "test-stopped.html"    
+    # shiftHtml(my_labMTvector, my_labMTwordList, ref_freq_stopped, comp_freq_stopped, outFile)
     
-    # # also make the inkscape version
-    # shiftHtml(labMTvector, labMTwordList, ref_freq, comp_freq, "test-inkscape.html")
-    # generateSVG("test-inkscape.html")
-    # generatePDF("test-inkscape.svg",program="inkscape")
-    # subprocess.call("open test-inkscape.pdf",shell=True)
+    # # # also make the inkscape version
+    # # shiftHtml(my_labMTvector, my_labMTwordList, ref_freq, comp_freq, "test-inkscape.html")
+    # # generateSVG("test-inkscape.html")
+    # # generatePDF("test-inkscape.svg",program="inkscape")
+    # # subprocess.call("open test-inkscape.pdf",shell=True)
     
-    sortedMag,sortedWords,sortedType,sumTypes = shift(ref_freq, comp_freq, labMTvector, labMTwordList)
+    # sortedMag,sortedWords,sortedType,sumTypes = shift(ref_freq, comp_freq, my_labMTvector, my_labMTwordList)
 
-    assert sortedMag[0] < 0
-    assert sortedWords[0] == "love"
+    # assert sortedMag[0] < 0
+    # assert sortedWords[0] == "love"
     
-    shiftMag,shiftType,sumTypes = shift(ref_freq, comp_freq, labMTvector, labMTwordList, sort=False)
+    # shiftMag,shiftType,sumTypes = shift(ref_freq, comp_freq, my_labMTvector, my_labMTwordList, sort=False)
 
 def speedy_dict_marisa_test(my_senti_dict,my_senti_marisa,test_dict):
     """Speedy test."""

@@ -19,8 +19,13 @@ def all_features(rawtext,uid,tweet_id,gram_id):
     result[1] = gram_id
     result[2] = uid
 
-    words = listify(rawtext)
-    word_dict = dictify(words)
+    words = listify_quick(rawtext)
+    word_dict = dict()
+    for word in words:
+        if word in word_dict:
+            word_dict[word] += 1
+        else:
+            word_dict[word] = 1    
     result[3] = len(words)
 
     # load the classes that we need

@@ -327,6 +327,7 @@ def link_static_files():
             fileName = '/'+'/'.join(relpath)
             subprocess.call("ln -s {0} {1}".format(fileName,'static/'+staticfile),shell=True)
 
+listify_quick = lambda raw: [x.lower() for x in re.findall(r"[\w\@\#\'\&\]\*\-\/\[\=\;]+",raw,flags=re.UNICODE)]
 
 def open_codecs_dictify(file):
     '''Generate a word dict to test.'''
