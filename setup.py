@@ -7,14 +7,15 @@ with open('README.rst') as file:
 setup(
     name = 'sentidict',
     packages = ['sentidict'],
-    package_data={'sentidict': ['data/*','data/*/*','static/*',]},
+    package_data={'sentidict': ['data/*','data/*/*','data/*/*/*','static/*','templates/*']},
     version = '0.0.3',
     description = 'Utilities for dictionary-based sentiment analysis. Includes 28 sentiment dictionaries with loaders, scoring, and interactive visualization.',
     long_description = long_description,
     install_requires=['marisa_trie','numpy','jinja2'],
     extras_require={
         'dev': ['ipython','twine','Sphinx','recommonmark'],
-        'test': ['nose2'],
+        # http://nose2.readthedocs.io/en/latest/plugins/coverage.html
+        'test': ['nose2','cov-core','scipy'],
     },
     author = 'Andy Reagan',
     author_email = 'andy@andyreagan.com',
@@ -26,8 +27,3 @@ setup(
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',],
     )
-
-
-
-
-

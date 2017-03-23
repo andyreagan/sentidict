@@ -21,6 +21,8 @@ import marisa_trie
 # import datrie
 # import string
 
+from .utils import *
+
 class sentiDict(object):
     """An abstract class to score them all."""
 
@@ -32,7 +34,7 @@ class sentiDict(object):
             f = codecs.open(filename,mode,'utf8')
             return f
         except IOError:
-            relpath = abspath(__file__).split(u('/'))[:-1]
+            relpath = abspath(__file__).split('/')[:-1]
             # relpath.append('data')
             relpath.append(filename)
             filename = '/'.join(relpath)
@@ -135,9 +137,9 @@ class sentiDict(object):
 
         Return the 0'ed vector."""
 
-        ignoreWords = {u("nigga"): 1, u("nigger"): 1, u("niggaz"): 1, u("niggas"): 1}
+        ignoreWords = {"nigga": 1, "nigger": 1, "niggaz": 1, "niggas": 1}
         for word in ignore:
-            ignoreWords[u(word)] = 1
+            ignoreWords[word] = 1
         ignore_vector = self.wordVecify(ignoreWords)
 
         newVec = tmpVec
@@ -720,7 +722,7 @@ class Pattern(sentiDict):
 
     def loadDict(self,bananas,lang):
         import xml.etree.ElementTree as etree
-        relpath = abspath(__file__).split(u('/'))[:-1]
+        relpath = abspath(__file__).split('/')[:-1]
         relpath.append('data/{0}/en-sentiment.xml'.format(self.folder))
         filename = '/'.join(relpath)
         tree = etree.parse(filename)
