@@ -2,6 +2,7 @@
 
 from sentidict.utils import *
 from sentidict.dictionaries import *
+from sentidict.functions import *
 import  numpy as np
 from scipy.sparse import csr_matrix,issparse
 # import subprocess
