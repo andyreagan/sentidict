@@ -78,9 +78,6 @@ def test_shift():
     mag,words,types,stypes = shift(test_f,np.ones(4),test_scores,test_words,sort=True)
     assert np.abs(np.sum(mag) == (compH-refH)) < .001
 
-    # shiftHtml(senti_marisa.scorelist, senti_marisa.wordlist, ref_word_vec_stopped, comp_word_vec_stopped, "test-shift-{0}.html".format(senti_dict.title),corpus=senti_marisa.corpus)
-    # shiftHtml(senti_marisa.scorelist, senti_marisa.wordlist, ref_word_vec, comp_word_vec, "test-shift-titles.html".format(senti_dict.title),customTitle=True,title="Insert title here",ref_name="bananas",comp_name="apples")
-
 ref_dict = {"the": 1, "dude": 1, "abides": 1, "laughs": 1}
 comp_dict = {"the": 1, "dude": 1, "does": 1, "not": 1, "abide": 1}
 

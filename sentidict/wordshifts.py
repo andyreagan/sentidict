@@ -1,5 +1,5 @@
-from IPython.display import display, publish_display_data
-
+from IPython.display import Javascript, display, publish_display_data
+from os.path import isfile,isdir,abspath,join,dirname
 from .utils import *
 from .dictionaries import *
 

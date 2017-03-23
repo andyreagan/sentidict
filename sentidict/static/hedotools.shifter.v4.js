@@ -59,7 +59,7 @@ hedotools.shifter = function()
 	console.log("setting figure for wordshift");
 	figure = _;
         // wrap another relative parent div in there, for the overlay button to pad off of
-        figure = figure.append("div").attr({"class":"outwrapper"}).style({"position":"relative"});
+        figure = figure.append("div").attrs({"class":"outwrapper"}).styles({"position":"relative"});
 	if (!widthsetexplicitly) {
 	    grabwidth();
 	}
@@ -128,8 +128,8 @@ hedotools.shifter = function()
     // but just initialize the width-related variables
 
     // full width and height. we'll draw the outer svg this big
-    var fullwidth = 400;
-    var fullheight = 550 // 650; // make sure to change num words too
+    var fullwidth = 550;
+    var fullheight = 650; // 650; // make sure to change num words too
 
     var margin = {top: 0, right: 0, bottom: 0, left: 0};
 
@@ -149,7 +149,8 @@ hedotools.shifter = function()
     // individual bar height, and number of words
     // need to be tuned to the height of the plot
     var iBarH = 11;
-    var numWords = 28; // 37 with height 650 // 23 with height 500
+    var numWords = 37;
+    // 37 with height 650 // 23 with height 500 // 28 with height 550
     // I should be able to compute this?
 
     // max length of words to plot
@@ -348,14 +349,6 @@ hedotools.shifter = function()
         var that = this;
 	if (!arguments.length) return colorArray;
 	colorArray = _;
-	return that;
-    }
-
-    var bgcolor = "white";
-    var setBgcolor = function(_) {
-        var that = this;
-	if (!arguments.length) return bgcolor;
-	bgcolor = _;
 	return that;
     }
 
@@ -618,7 +611,7 @@ hedotools.shifter = function()
             refH += refF[i]*parseFloat(lens[i]);
 	}
 	refH = refH/Nref;
-	compH = 0.0;
+	compH = 0.000;
 
 	// do the shifting
 	shiftMag = Array(lensLength);
@@ -1113,7 +1106,7 @@ hedotools.shifter = function()
 	logowidth = logosize+40; // add some extra space
 	// not working yet
 	canvas.append("image")
-	    .attr({ "x": (boxwidth-logosize-10), 
+	    .attrs({ "x": (boxwidth-logosize-10), 
 		    "y": "0",
 		    "width": logosize,
 		    "height": logosize,
@@ -1295,8 +1288,8 @@ hedotools.shifter = function()
         // requires bootstrap, bootstrap-tour for the tour
         // and it requires mathjax for the equations
         figure.append("a")
-            .attr({"class": "btn btn-large btn-default"})
-            .style({
+            .attrs({"class": "btn btn-large btn-default"})
+            .styles({
                 "position": "absolute",
                 // this position starts from the padding on the left
                 // so inside a bootstrap col, this is 15px too far left
@@ -1306,7 +1299,7 @@ hedotools.shifter = function()
                 wordshift_tour();
             })
             .append("i")
-            .attr({"class": "fa fa-question"});
+            .attrs({"class": "fa fa-question"});
         
         // <a class="btn btn-large btn-default" style= onclick="wordshift_tour();"><i class="fa fa-question" aria-hidden="true"></i></a>
     }
@@ -1363,6 +1356,7 @@ hedotools.shifter = function()
 	    .attr("height",function () { return boxheight; });
 	
 	// this one will be white, and behind EVERYTHING
+        var bgcolor = "rgba(255,248,220,.2)";
 	bgbgrect = canvas.append("rect")
 	    .attr("x",0)
 	    .attr("y",0)
@@ -1388,27 +1382,23 @@ hedotools.shifter = function()
 	// a little extra padding for the words
 	var xpadding = 10;
 	// linear scale function
-	x = d3.scale.linear()
+	x = d3.scaleLinear()
 	    .domain([-Math.abs(sortedMag[0]),Math.abs(sortedMag[0])])
 	    .range([maxWidth+xpadding,figwidth-maxWidth-xpadding]);	
 
 	// linear scale function
-	y = d3.scale.linear()
+	y = d3.scaleLinear()
 	    .domain([numWords+1,1])
 	    .range([figheight+2, yHeight]); 
 
 	// zoom object for the axes
-	zoom = d3.behavior.zoom()
-	    .y(y) // pass linear scale function
+	zoom = d3.zoom()
+	    // .y(y) // pass linear scale function
 	    // .translate([10,10])
-	    .scaleExtent([1,1])
+	    // .scaleExtent([0,0])
+        // .translateExtent([[Number.NEGATIVE_INFINITY,Number.NEGATIVE_INFINITY],[Number.POSITIVE_INFINITY,Number.POSITIVE_INFINITY]])
+            .translateExtent([[Number.NEGATIVE_INFINITY,Number.NEGATIVE_INFINITY],[Number.POSITIVE_INFINITY,Number.POSITIVE_INFINITY]])
 	    .on("zoom",zoomed);
-
-	// drag = d3.behavior.drag()
-	//     // .y(y) // pass linear scale function
-	//     // .translate([10,10])
-	//     // .scaleExtent([1,1])
-	//     .on("drag",zoomed);
 
 	// create the axes themselves
 	axes = canvas
@@ -1423,38 +1413,39 @@ hedotools.shifter = function()
 	    .attr("height", figheight)
 	    .attr("class", "main");
 
-	axes.call(zoom);
+	// axes.call(zoom);
 	// axes.call(drag);
+        // var dispatch = d3.dispatch("wheel");
+        axes.on("wheel.zoom",zoomed);
 
-	// don't need these
-	axes.on("wheel.zoom", null);
-	axes.on("mousewheel.zoom", null);
-	// can re-register them...
-	// axes.on("wheel",function(d) { console.log(d3.event); });
-	// axes.on("mousewheel",function(d) { console.log(d3.event); });
-	// now use them to translate (instead of zoom)
-	axes.on("wheel",function(d) { d3.event.preventDefault(); zoom.translate([0,zoom.translate()[1]+d3.event.wheelDeltaY/2]); zoom.event(axes); });
-	axes.on("mousewheel",function(d) { d3.event.preventDefault(); zoom.translate([0,zoom.translate()[1]+d3.event.wheelDeltaY/2]); zoom.event(axes); });
+	// // don't need these
+	// axes.on("wheel.zoom", null);
+	// axes.on("mousewheel.zoom", null);
+	// // can re-register them...
+	// // axes.on("wheel",function(d) { console.log(d3.event); });
+	// // axes.on("mousewheel",function(d) { console.log(d3.event); });
+	// // now use them to translate (instead of zoom)
+	// axes.on("wheel",function(d) { d3.event.preventDefault(); zoom.translate([0,zoom.translate()[1]+d3.event.wheelDeltaY/2]); zoom.event(axes); });
+	// axes.on("mousewheel",function(d) { d3.event.preventDefault(); zoom.translate([0,zoom.translate()[1]+d3.event.wheelDeltaY/2]); zoom.event(axes); });
 	
 	// create the axes background
 	bgrect = axes.append("rect")
-	    .attr({"x": 0,
+	    .attrs({"x": 0,
 	           "y": 1,
 	           "width":  figwidth-2,
 	           "height":  figheight-2,
 	           "class":  "bg",})
-	    .style({"stroke-width":"0.5",
-                       "stroke":"rgb(0,0,0)",
-                       "fill": bgcolor,
-                       "opacity": ".96"});
+	    .styles({"stroke-width":"0.5",
+                    "stroke":"rgb(0,0,0)",
+                    "fill": "#FCFCFC",
+                    "opacity": "0.96"});
 
 	if (show_x_axis_bool) {
 	    // axes creation functions
 	    var create_xAxis = function() {
-		return d3.svg.axis()
+		return d3.axisBottom()
 		    .ticks(4)
-		    .scale(x)
-		    .orient("bottom"); }
+		    .scale(x); }
 
 	    xAxis = create_xAxis()
 		.innerTickSize(3)
@@ -1467,7 +1458,7 @@ hedotools.shifter = function()
 	    // .attr("transform", "translate(0," + (figheight) + ")")
 		.call(xAxis);
 
-	    canvas.selectAll(".tick line").style({"stroke":"black"});
+	    canvas.selectAll(".tick line").styles({"stroke":"black"});
 	}
 
 
@@ -1503,7 +1494,7 @@ hedotools.shifter = function()
 	    .data(sortedMag)
 	    .enter()
 	    .append("rect")
-	    .attr({ 
+	    .attrs({ 
 		"class": function(d,i) { return "shiftrect "+intStr0[sortedType[i]]+" "+typeClass[sortedType[i]]; },
 		// "x": function(d,i) { 
 		//     if (d>0) { return figcenter; } 
@@ -1528,10 +1519,10 @@ hedotools.shifter = function()
 		"fill": function(d,i) { return colorClass[sortedType[i]]; },
 	    });
 	// .on("mouseover", function(d){
-	//     var rectSelection = d3.select(this).style({opacity:"1.0"});
+	//     var rectSelection = d3.select(this).styles({opacity:"1.0"});
 	// })
 	// .on("mouseout", function(d){
-	//     var rectSelection = d3.select(this).style({opacity:"0.7"});
+	//     var rectSelection = d3.select(this).styles({opacity:"0.7"});
 	// });
 
 
@@ -1539,7 +1530,7 @@ hedotools.shifter = function()
 	    .data(sortedMag)
 	    .enter()
 	    .append("text")
-	    .attr({"class": function(d,i) { return "shifttext "+intStr0[sortedType[i]]; },
+	    .attrs({"class": function(d,i) { return "shifttext "+intStr0[sortedType[i]]; },
                    "x": 0,
                    "y": 0,
                    "transform": function(d,i) {
@@ -1548,7 +1539,7 @@ hedotools.shifter = function()
                    },})
 	    // .attr("x",function(d,i) { if (d>0) {return x(d)+2;} else {return x(d)-2; } } )
 	    // .attr("y",function(d,i) { return y(i+1)+iBarH; } )
-	    .style({"text-anchor": function(d,i) { return ((d < 0) ? "end" : "start"); },
+	    .styles({"text-anchor": function(d,i) { return ((d < 0) ? "end" : "start"); },
                     "font-size": wordfontsize})
 	    .text(function(d,i) { return sortedWords[i]; });
 
@@ -1633,9 +1624,9 @@ hedotools.shifter = function()
 	
 	// draw a white rectangle to hide the shift bars behind the summary shifts
 	// move x,y to 3 and width to -6 to give the bg a little space
-	topbgrect = axes.append("rect").attr("x",3).attr("y",3).attr("class","topbgrect").attr("width",figwidth-axeslabelmargin.left-5).attr("height",73-13).attr("fill",bgcolor).style({"opacity": "1.0"});
+	topbgrect = axes.append("rect").attr("x",3).attr("y",3).attr("width",figwidth-axeslabelmargin.left-5).attr("height",73-13).attr("fill","white").styles({"opacity": "1.0"});
 
-	topbgrect2 = canvas.append("rect").attr("x",0).attr("y",0).attr("class","topbgrect").attr("width",boxwidth).attr("height",toptextheight).attr("fill",bgcolor).style({"opacity": "1.0"});
+	topbgrect2 = canvas.append("rect").attr("x",0).attr("y",0).attr("width",boxwidth).attr("height",toptextheight).attr("fill","white").styles({"opacity": "1.0"});
 
 	// draw the text on top of this rect
 	toptext = canvas.selectAll("text.titletext")
@@ -1645,7 +1636,7 @@ hedotools.shifter = function()
 	    .attr("y",function(d,i) { return (i+1)*17; })
 	    .attr("x",3)
 	    .attr("class",function(d,i) { return "titletext "+intStr[i]; })
-	    .style({ // "font-family": "Helvetica Neue",
+	    .styles({ // "font-family": "Helvetica Neue",
 		     "font-size": function(d,i) { return topFontSizeArray[i]; },
 		     "line-height": "1.42857143",
 		     "color": function(d,i) { return colorArray[i]; },
@@ -1678,21 +1669,21 @@ hedotools.shifter = function()
             .attr("y",fullheight-axeslabelmargin.bottom-toptextheight)
             .attr("width",figwidth-2)
             .attr("height",axeslabelmargin.bottom)
-            .attr("fill",bgcolor)
-            .style({"opacity": "1.0"});
+            .attr("fill","white")
+            .styles({"opacity": "1.0"});
 
 	// draw the summary things
 	sepline = axes.append("line")
-	    .attr({"x1": 0,
+	    .attrs({"x1": 0,
 		   "x2": figwidth-2,
 		   "y1": barHeight,
 		   "y2": barHeight, })
-	    .style({"stroke-width" : "1",
+	    .styles({"stroke-width" : "1",
 		    "stroke": "black", });
 
 	maxShiftSum = Math.max(Math.abs(sumTypes[1]),Math.abs(sumTypes[2]),sumTypes[0],sumTypes[3],d3.sum(sumTypes));
 
-	topScale = d3.scale.linear()
+	topScale = d3.scaleLinear()
 	    .domain([-maxShiftSum,maxShiftSum])
 	    // .range([figwidth*.12,figwidth*.88]);
             .range([sumTextWidth,figwidth-sumTextWidth]);
@@ -1708,7 +1699,7 @@ hedotools.shifter = function()
 	    .data(summaryArray)
 	    .enter()
 	    .append("rect")
-	    .attr({
+	    .attrs({
 		"class": function(d,i) { 
 		    return "sumrectR "+intStr0[i]+" "+typeClass[i]; 
 		},
@@ -1741,7 +1732,7 @@ hedotools.shifter = function()
 		    return colorClass[i];
 		},
 	    })
-	    .style({
+	    .styles({
 		"opacity": function(d,i) {
 		    var specificType = [3,0,-1];
 		    if ((shiftTypeSelect) && (shiftType !== specificType[i])) {
@@ -1760,17 +1751,17 @@ hedotools.shifter = function()
 		if (shiftTypeSelect) {
 		    if (shiftType === specificType[i]) {
 			// console.log("in a shift type, and that specific type");
-			var rectSelection = d3.select(this).style({opacity:"0.7"});
+			var rectSelection = d3.select(this).styles({opacity:"0.7"});
 		    }
 		    else {
 			// console.log("in a shift type, but not that specific type");
-			var rectSelection = d3.select(this).style({opacity:"0.3"});
+			var rectSelection = d3.select(this).styles({opacity:"0.3"});
 		    }
 		}
 		// not in a shift selection
 		else {
 		    // console.log("not in a shift type");
-		    var rectSelection = d3.select(this).style({opacity:"1.0"});
+		    var rectSelection = d3.select(this).styles({opacity:"1.0"});
 		}
 	    })
 	    .on("mouseout", function(d,i){
@@ -1778,7 +1769,7 @@ hedotools.shifter = function()
 		if (shiftTypeSelect) {
 		    if (shiftType === specificType[i]) {
 			// console.log("in a shift type, and that specific type");
-			var rectSelection = d3.select(this).style({opacity:"0.7"});
+			var rectSelection = d3.select(this).styles({opacity:"0.7"});
 		    }
 		    else {
 			// console.log("in a shift type, but not that specific type");
@@ -1786,18 +1777,18 @@ hedotools.shifter = function()
 			// console.log(specificType);
 			// console.log(i);
 			// console.log(specificType[i]);
-			var rectSelection = d3.select(this).style({opacity:"0.14"});
+			var rectSelection = d3.select(this).styles({opacity:"0.14"});
 		    }
 		}
 		else {
 		    // console.log("not in a shift type");
-		    var rectSelection = d3.select(this).style({opacity:"0.7"});
+		    var rectSelection = d3.select(this).styles({opacity:"0.7"});
 		}
 	    })
 	    .on("click", function(d,i) { 
 		var specificType = [3,0,-1];
-		figure.selectAll(".sumrectR,.sumrectL").style({opacity:"0.1"});
-		var rectSelection = d3.select(this).style({opacity:"0.7"});
+		figure.selectAll(".sumrectR,.sumrectL").styles({opacity:"0.1"});
+		var rectSelection = d3.select(this).styles({opacity:"0.7"});
 		if (i==0) {
 		    shiftTypeSelect = true;
 		    shiftType = specificType[i];
@@ -1832,7 +1823,7 @@ hedotools.shifter = function()
 		}
 		else if (i==2) {
 		    // shiftTypeSelect = true;
-		    // d3.selectAll(".sumrectR,.sumrectL").style({opacity:"0.7"});
+		    // d3.selectAll(".sumrectR,.sumrectL").styles({opacity:"0.7"});
 		    resetfun();
 		    // shiftselencoder.varval("negdown");
 		}
@@ -1842,11 +1833,11 @@ hedotools.shifter = function()
 	    .data([sumTypes[3],sumTypes[0],d3.sum(sumTypes)])
 	    .enter()
 	    .append("text")
-	    .style({"text-anchor": function(d,i) { return ((d>0) ? "start" : "end");},
+	    .styles({"text-anchor": function(d,i) { return ((d>0) ? "start" : "end");},
                     "font-size": bigshifttextsize,})
 	//.attr("y",function(d,i) { if (i<2) {return i*17+17;} else if ((sumTypes[3]+sumTypes[1])*(sumTypes[0]+sumTypes[2])<0) {return i*17+33; } else {return i*17+33; } })
 	// for only three days
-            .attr({"class": "sumtextR",
+            .attrs({"class": "sumtextR",
                    "id": function(d,i) { return "sumTextR"+i; },
 	           "y": function(d,i) { return i*17+17; },
                    "x": function(d,i) { return topScale(d)+5*d/Math.abs(d); },})
@@ -1862,7 +1853,7 @@ hedotools.shifter = function()
 	    .data(summaryArray)
 	    .enter()
 	    .append("rect")
-	    .attr({
+	    .attrs({
 		"class": function(d,i) { return "sumrectL "+intStr0[i]+" "+typeClass[i]; },
                 "id": function(d,i) { return "sumTextL"+i; },
 		"x": function(d,i) { 
@@ -1894,7 +1885,7 @@ hedotools.shifter = function()
 		    return colorClass[i];
 		}, 
 	    })
-	    .style({
+	    .styles({
 		"opacity": function(d,i) {
 		    var specificType = [1,2];
 		    if ((shiftTypeSelect) && (shiftType !== specificType[i])) {
@@ -1913,17 +1904,17 @@ hedotools.shifter = function()
 		if (shiftTypeSelect) {
 		    if (shiftType === specificType[i]) {
 			// console.log("in a shift type, and that specific type");
-			var rectSelection = d3.select(this).style({opacity:"0.7"});
+			var rectSelection = d3.select(this).styles({opacity:"0.7"});
 		    }
 		    else {
 			// console.log("in a shift type, but not that specific type");
-			var rectSelection = d3.select(this).style({opacity:"0.3"});
+			var rectSelection = d3.select(this).styles({opacity:"0.3"});
 		    }
 		}
 		// not in a shift selection
 		else {
 		    // console.log("not in a shift type");
-		    var rectSelection = d3.select(this).style({opacity:"1.0"});
+		    var rectSelection = d3.select(this).styles({opacity:"1.0"});
 		}
 	    })
 	    .on("mouseout", function(d,i){
@@ -1931,7 +1922,7 @@ hedotools.shifter = function()
 		if (shiftTypeSelect) {
 		    if (shiftType === specificType[i]) {
 			// console.log("in a shift type, and that specific type");
-			var rectSelection = d3.select(this).style({opacity:"0.7"});
+			var rectSelection = d3.select(this).styles({opacity:"0.7"});
 		    }
 		    else {
 			// console.log("in a shift type, but not that specific type");
@@ -1939,20 +1930,20 @@ hedotools.shifter = function()
 			// console.log(specificType);
 			// console.log(i);
 			// console.log(specificType[i]);
-			var rectSelection = d3.select(this).style({opacity:"0.14"});
+			var rectSelection = d3.select(this).styles({opacity:"0.14"});
 		    }
 		}
 		else {
 		    // console.log("not in a shift type");
-		    var rectSelection = d3.select(this).style({opacity:"0.7"});
+		    var rectSelection = d3.select(this).styles({opacity:"0.7"});
 		}
 	    })
 	    .on("click", function(d,i) {
 		var specificType = [1,2];
 		shiftTypeSelect = true;
 		shiftType = specificType[i];
-		figure.selectAll(".sumrectR,.sumrectL").style({opacity:"0.1"});
-		var rectSelection = d3.select(this).style({opacity:"0.7"});
+		figure.selectAll(".sumrectR,.sumrectL").styles({opacity:"0.1"});
+		var rectSelection = d3.select(this).styles({opacity:"0.7"});
 		resetButton(true);
 		if (i==0) {
 		    shiftselencoder.varval("posdown");
@@ -1985,7 +1976,7 @@ hedotools.shifter = function()
 	    .data(summaryArray)
 	    .enter()
 	    .append("text")
-            .style({"text-anchor": "end",
+            .styles({"text-anchor": "end",
                     "font-size": bigshifttextsize,})
 	    .attr("class", "sumtextL")
 	    .attr("y",function(d,i) { return i*17+17; } )
@@ -1998,7 +1989,7 @@ hedotools.shifter = function()
 	    .attr("class","axes-text")
 	    .attr("x",axeslabelmargin.left+figcenter) // 350-20-10 for svg width,  
 	    .attr("y",boxheight-7)
-	    .style({"font-size": xylabelfontsize,
+	    .styles({"font-size": xylabelfontsize,
                     "fill": "#000000",
                     "text-anchor": "middle"});
 
@@ -2011,47 +2002,43 @@ hedotools.shifter = function()
 	    .attr("fill", "#000000")
 	    .attr("transform", "rotate(-90.0," + (18) + "," + (figheight/2+60+toptextheight) + ")");
 
+        axes.property("__zoom",0);
+        
 	function zoomed() {
 	    // console.log(d3.event);
-
+            // console.log(this.__zoom);
+            if ((this.__zoom <= 0) && (d3.event.deltaY < 0)) return;
+            d3.event.preventDefault();            
+            // console.log(zoom);
+            // console.log(axes);
+            // console.log(this);
+            // console.log(this.__zoom);
+	    // console.log(axes.__zoom);
+            // console.log(axes.property("__zoom"));
+            // axes.call(zoom.transform);
+            // axes.property("__zoom",axes.property("__zoom")+d3.event.deltaY);
+            this.__zoom += d3.event.deltaY/2;
             // this prevents scrolling in the wrong direction
-	    if (d3.event.translate[1] > 0) {
-		zoom.translate([0,0]).scale(1);
-	    }
-	    
-	    // if we have zoomed in, we set the y values for each subselection
-	    if (shiftTypeSelect) {
-		for (var j=0; j<4; j++) {
-		    axes.selectAll("rect.shiftrect."+intStr0[j])
-                        .attr("transform",function(d,i) {
-                            return "translate("+(shiftType===j ? ((d>0) ? figcenter : x(d)) : ((d>0) ? 500 : -500))+","+(y(i+1))+")";
-                        });
-		    axes.selectAll("text.shifttext."+intStr0[j])
-                        .attr("transform",function(d,i) {
-                            return "translate("+(shiftType===j ? ((d>0) ? (x(d)+2) : (x(d)-2) ) : ((d>0) ? 500 : -500))+","+(y(i+1)+iBarH)+")";
-		        });
-                }
-            }
-	    else {
-		axes.selectAll("rect.shiftrect")
-                    .attr("transform",function(d,i) {
-                            if (d>0) { return "translate("+(figcenter)+","+(y(i+1))+")"; } 
-		            else { return "translate("+(x(d))+","+(y(i+1))+")"; }
-                        });
-		axes.selectAll("text.shifttext").attr("transform",function(d,i) {
-                    if (d>0) { return "translate("+(x(d)+2)+","+(y(i+1)+iBarH)+")"; } 
-		    else { return "translate("+(x(d)-2)+","+(y(i+1)+iBarH)+")"; } });
-
-	    }
+	    // if (d3.event.transform.y > 0) {
+	    //     zoom.translate([0,0]).scale(1);
+	    // }
+            var that = this;
+	    axes.selectAll("rect.shiftrect")
+                .attr("y",function(d) { return -that.__zoom; });
+	    axes.selectAll("text.shifttext")
+                .attr("y",function(d) { return -that.__zoom; });
+                // .attr("y",d3.min([-d3.event.transform.y,0]));
+            // axes.selectAll("text.shifttext")
+            //     .attr("y",-d3.event.transform.y);
 	    if (distflag) {
 		// console.log(d3.event.translate);
 		// move scaled to the height of the window (23 words)
-		var scaledMove = d3.event.translate[1]/(figheight-yHeight);
+		var scaledMove = d3.event.translate.y/(figheight-yHeight);
 		// console.log(scaledMove);
 		// move relative to the height of the box and those 23 words
 		var relMove = scaledMove*distgrouph*numWords/lens.length;
 		// console.log(relMove);
-		figure.select(".distwin").attr({
+		figure.select(".distwin").attrs({
 		    "y": d3.max([2,-relMove+2]),
 		});
 	    }
@@ -2060,7 +2047,7 @@ hedotools.shifter = function()
 	// // console.log(figheight);
 	// // attach this guy. cleaner with the group
 	// help = axes.append("g")
-        //     .attr({"class": "help",
+        //     .attrs({"class": "help",
 	// 	   "fill": "#B8B8B8",
 	// 	   "transform": "translate("+(5)+","+(figheight-16)+")",
 	// 	  })
@@ -2071,12 +2058,12 @@ hedotools.shifter = function()
 	//     .data(["click here","for instructions"])
 	//     .enter()
 	//     .append("text")
-        //     .attr({"class": "help",
+        //     .attrs({"class": "help",
 	// 	   "fill": "#B8B8B8",
 	// 	   "x": 0,
 	// 	   "y": function(d,i) { return i*10; },
 	// 	   "font-size": "8.0px", })
-        //     .style({"text-anchor": "start", })
+        //     .styles({"text-anchor": "start", })
 	//     .text(function(d) { return d; });
 	
 	if (distflag) {
@@ -2090,13 +2077,13 @@ hedotools.shifter = function()
 	    var dyspace = 2;
 
 	    distgroup = axes.append("g")
-		.attr({"class": "dist",
+		.attrs({"class": "dist",
 		       "fill": "#B8B8B8",
 		       "transform": "translate("+(5)+","+(figheight-28-distgrouph)+")",
 		      });
 	    
 	    distgroup.append("rect")
-		.attr({
+		.attrs({
 		    "x": 0,
 		    "y": 0,
 		    "height": distgrouph,
@@ -2108,19 +2095,20 @@ hedotools.shifter = function()
 		    "opacity": "0.96",
 		});
 
-	    var distx = d3.scale.linear()
+	    var distx = d3.scaleLinear()
 		.domain(d3.extent(dist.map(function(d) { return d[4]; })))
 		.range([dxspace,distgroupw-2*dxspace]);
 
-	    var disty = d3.scale.linear()
+	    var disty = d3.scaleLinear()
 		.domain([0,nbins-1])
 		.range([dyspace,distgrouph-dyspace]);
 		// .range([dyspace,distgrouph-2*dyspace]);
 	    
-	    var line = d3.svg.line()
+	    var line = d3.line()
 		.x(function(d,i) { return distx(d); })
 		.y(function(d,i) { return disty(i); })
-		.interpolate("cardinal");
+                .curve(d3.curveCardinal);
+		// .interpolate("cardinal");
 
 	    // console.log(dist.map(function(d) { return d[4]; }));
 	    
@@ -2132,14 +2120,15 @@ hedotools.shifter = function()
 		.attr("stroke-width",1.25)
 		.attr("fill","none");
 
-	    var cdistx = d3.scale.linear()
+	    var cdistx = d3.scaleLinear()
 		.domain(d3.extent(cdist.map(function(d) { return d[4]; })))
 		.range([dxspace,distgroupw-2*dxspace]);
 
-	    var cline = d3.svg.line()
+	    var cline = d3.line()
 		.x(function(d,i) { return cdistx(d); })
 		.y(function(d,i) { return disty(i); })
-		.interpolate("cardinal");
+                .curve(d3.curveCardinal);
+		// .interpolate("cardinal");
 
 	    var cdistline = distgroup.append("path")
 		.datum(cdist.map(function(d) { return d[4]; }))
@@ -2153,7 +2142,7 @@ hedotools.shifter = function()
 	    // console.log(distgrouph*numWords/2000);
 
 	    var distwindowrect = distgroup.append("rect")
-		.attr({
+		.attrs({
 		    "x": 0,
 		    "y": 2,
 		    "height": distgrouph*numWords/nwords,
@@ -2166,11 +2155,11 @@ hedotools.shifter = function()
 		});
 
 	    var nwordstext = distgroup.append("text")
-		.attr({
+		.attrs({
 		    "x": distgroupw+2,
 		    "y": distgrouph+2,
 		    "class": "nwordslabel",})
-                .style({
+                .styles({
 		    "fill": "#B8B8B8",
 		    "font-size": distlabeltext,
 		    "text-anchor": "start",
@@ -2178,11 +2167,11 @@ hedotools.shifter = function()
 		.text(nwords);
 
 	    distgroup.append("text")
-		.attr({
+		.attrs({
 		    "x": distgroupw+2,
 		    "y": 2,
 		    "class": "zerolabel",})
-                .style({
+                .styles({
 		    "fill": "#B8B8B8",
 		    "font-size": distlabeltext,
 		    "text-anchor": "start",
@@ -2195,11 +2184,11 @@ hedotools.shifter = function()
 	    .data(["visualization by","@andyreagan",])
 	    .enter()
 	    .append("text")
-            .attr({"class": "credit",
+            .attrs({"class": "credit",
 		   "x": (figwidth-5),
 		   "y": function(d,i) { return figheight-15+i*10; },
 		   })
-            .style({"text-anchor": "end",
+            .styles({"text-anchor": "end",
                     "fill": "#B8B8B8",
                     "font-size": creditfontsize,
                    })
@@ -2227,7 +2216,7 @@ hedotools.shifter = function()
 
     function resetfun() {
 	// console.log("reset function");
-	figure.selectAll(".sumrectR,.sumrectL").style({opacity:"0.7"});
+	figure.selectAll(".sumrectR,.sumrectL").styles({opacity:"0.7"});
 	shiftTypeSelect = false;	
 	shiftType = -1;
 	figure.selectAll("rect.shiftrect").transition().duration(1000)
@@ -2262,7 +2251,7 @@ hedotools.shifter = function()
 		.attr("width",48)
 		.attr("height",17)
 		.attr("fill","#F0F0F0") //http://www.w3schools.com/html/html_colors.asp
-		.style({"stroke-width":"0.5","stroke":"rgb(0,0,0)"});
+		.styles({"stroke-width":"0.5","stroke":"rgb(0,0,0)"});
 
 	    resetGroup.append("text")
 		.text("Reset")
@@ -2278,7 +2267,7 @@ hedotools.shifter = function()
 		.attr("width",48)
 		.attr("height",18)
 		.attr("fill","white") //http://www.w3schools.com/html/html_colors.asp
-		.style({"opacity": "0.0"})
+		.styles({"opacity": "0.0"})
 		.on("click",function() { 
 		    resetfun();
 		});
@@ -2301,7 +2290,7 @@ hedotools.shifter = function()
 	    .attr("width",75)
 	    .attr("height",17)
 	    .attr("fill","#F0F0F0") //http://www.w3schools.com/html/html_colors.asp
-	    .style({"stroke-width":"0.5","stroke":"rgb(0,0,0)"});
+	    .styles({"stroke-width":"0.5","stroke":"rgb(0,0,0)"});
 
 	translateGroup.append("text")
 	    .text("Translate All")
@@ -2317,7 +2306,7 @@ hedotools.shifter = function()
 	    .attr("width",75)
 	    .attr("height",18)
 	    .attr("fill","white") //http://www.w3schools.com/html/html_colors.asp
-	    .style({"opacity": "0.0"})
+	    .styles({"opacity": "0.0"})
 	    .on("click",function() { 
 		for (var i=0; i<flipVector.length-1; i++) { flipVector[i] = flipVector[flipVector.length-1]; }
 		flipVector[flipVector.length-1] = (flipVector[flipVector.length-1] + 1) % 2;
@@ -2367,9 +2356,9 @@ hedotools.shifter = function()
         xlabel.transition().duration(2000).attr("y",1000);
         ylabel.transition().duration(2000).attr("x",-1000);
 	topbgrect.transition().duration(2000).attr("y",-200);
-        sepline.transition().duration(1000).attr({"y1":-10,"y2":-10,});
+        sepline.transition().duration(1000).attrs({"y1":-10,"y2":-10,});
 
-        var sizeScale = d3.scale.linear()
+        var sizeScale = d3.scaleLinear()
             .domain([Math.abs(sortedMag[49]),Math.abs(sortedMag[0])])
             .range([6,70]);
 
@@ -2381,14 +2370,14 @@ hedotools.shifter = function()
         // // cloud_canvas.height = 2048;
         figure.selectAll("canvas").remove();
         figure.append("canvas")
-            .attr({"width": figwidth, "height": figheight, "id": "cloudcanvas"})
-            .style({"display": "none"});
+            .attrs({"width": figwidth, "height": figheight, "id": "cloudcanvas"})
+            .styles({"display": "none"});
         // var cloud_canvas_context = cloud_canvas.getContext("2d");
         var cloud_canvas_context = document.getElementById("cloudcanvas").getContext("2d");
 
         figure.append("canvas")
-            .attr({"width": figwidth, "height": figheight, "id": "cloudcanvas2"})
-            .style({"display": "none"});
+            .attrs({"width": figwidth, "height": figheight, "id": "cloudcanvas2"})
+            .styles({"display": "none"});
         
         // var cloud_canvas_context = cloud_canvas.getContext("2d");
         var cloud_canvas_context_demo = document.getElementById("cloudcanvas2").getContext("2d");
@@ -2461,11 +2450,11 @@ hedotools.shifter = function()
         // check that the board works
         // console.log(board);
         // axes.append("rect")
-        //     .attr({"x": board[0].x0,
+        //     .attrs({"x": board[0].x0,
         //            "y": board[0].y0,
         //            "width": board[0].w,
         //            "height": board[0].h,})
-        //     .style({"stroke-width": 2,
+        //     .styles({"stroke-width": 2,
         //             "stroke": "black",
         //             "fill": "white",
         //             "fill-opacity": "0.0",
@@ -2535,8 +2524,8 @@ hedotools.shifter = function()
                 // console.log(dxdy);
                 // axes.selectAll("circle").remove();
                 // axes.append("circle")
-                //     .attr({"cx": tag.x, "cy": tag.y, "r": 1})
-                //     .style({"fill": "red",});
+                //     .attrs({"cx": tag.x, "cy": tag.y, "r": 1})
+                //     .styles({"fill": "red",});
 
 
                 // if the word extends past the edge, keep rotating
@@ -2641,7 +2630,7 @@ hedotools.shifter = function()
 	var newwords = axes.selectAll("text.shifttext").data(sortedMag);
 
 	newbars.transition().duration(1000)
-		.attr({"fill": "grey",
+		.attrs({"fill": "grey",
 		       "class": function(d,i) { return "shiftrect "+intStr0[sortedType[i]]; },
                        "transform": function(d,i) {
                            if (d>0) { return "translate("+barcenter+","+(y(i+1)+2.5)+")"; } 
@@ -2651,11 +2640,11 @@ hedotools.shifter = function()
 		       "width": function(d,i) { if ((d)>0) {return x(d)-x(0);} else { return x(0)-x(d); } } });
 
 	newwords.transition().duration(1000)
-	        .attr({"class": function(d,i) { return "shifttext "+intStr0[sortedType[i]]; },
+	        .attrs({"class": function(d,i) { return "shifttext "+intStr0[sortedType[i]]; },
                        "transform": function(d,i) {
                            return "translate("+rankwidth+","+(y(i+1)+iBarH)+")";
                        },})
-	    .style({"text-anchor": "start", "font-size": wordfontsize})        
+	    .styles({"text-anchor": "start", "font-size": wordfontsize})        
             .text(function(d,i) { return sortedWordsRaw[i]; });
 
         // fix these both for the translate button
@@ -2667,7 +2656,7 @@ hedotools.shifter = function()
             .append("text")
             .attr("y",function(d,i) { return y(i+1)+iBarH; } )
 	    .attr("x",function(d,i) { return 0; } )
-            .style({"text-anchor": "start", "font-size": wordfontsize})
+            .styles({"text-anchor": "start", "font-size": wordfontsize})
             .text(function(d,i) { return (i+1)+"."; });
 
         newtype = axes.selectAll("text.shifttype").data(sortedMag)
@@ -2675,7 +2664,7 @@ hedotools.shifter = function()
             .append("text")
             .attr("y",function(d,i) { return y(i+1)+iBarH; } )
 	    .attr("x",function(d,i) { return rankwidth+wordwidth; } )
-            .style({"text-anchor": "middle", "font-size": wordfontsize})
+            .styles({"text-anchor": "middle", "font-size": wordfontsize})
             .text(function(d,i) { 
 	        if (sortedType[i] == 0) { return "\u002D"; } 
 		else if (sortedType[i] == 2) { return "\u002D"; } // -
@@ -2687,7 +2676,7 @@ hedotools.shifter = function()
             .append("text")
             .attr("y",function(d,i) { return y(i+1)+iBarH; } )
 	    .attr("x",function(d,i) { return rankwidth+wordwidth+typewidth; } )
-            .style({"text-anchor": "middle", "font-size": wordfontsize})
+            .styles({"text-anchor": "middle", "font-size": wordfontsize})
             .text(function(d,i) { 
 	        if (sortedType[i] == 0) { return "\u2193"; } 
 		else if (sortedType[i] == 1) { return "\u2193"; }
@@ -2699,16 +2688,16 @@ hedotools.shifter = function()
             .append("text")
             .attr("y",function(d,i) { return y(i+1)+iBarH; } )
 	    .attr("x",function(d,i) { return rankwidth+wordwidth+typewidth+freqwidth+magwidth; } )
-            .style({"text-anchor": "end", "font-size": wordfontsize})
+            .styles({"text-anchor": "end", "font-size": wordfontsize})
             .text(function(d,i) { return (d/(Math.abs(compH-refH))*100).toFixed(2)+"%"; });
 
         header = axes.selectAll("text.header")
             .data(["#","Word","\u002B/\u002D","\u2191/\u2193","% Cont.","% Cont."])
             .enter()
             .append("text")
-            .attr({"x": function(d,i) { return width_offsets[i]; },
+            .attrs({"x": function(d,i) { return width_offsets[i]; },
                    "y": function(d,i) { return y(0)+iBarH; }, })
-            .style({"text-anchor": function(d,i) { return aligns[i]; },
+            .styles({"text-anchor": function(d,i) { return aligns[i]; },
                     "font-size": function(d,i) { return wordfontsize; }, })
             .text(function(d,i) { return d; })
         
@@ -2723,7 +2712,7 @@ hedotools.shifter = function()
         xlabel.transition().duration(2000).attr("y",1000);
         ylabel.transition().duration(2000).attr("x",-1000);
 	topbgrect.transition().duration(2000).attr("y",-200);
-        sepline.transition().duration(1000).attr({"y1":"15","y2":15,});
+        sepline.transition().duration(1000).attrs({"y1":"15","y2":15,});
 
         function zoomed() {
 	    // console.log(d3.event);
@@ -2742,11 +2731,11 @@ hedotools.shifter = function()
 
 	}; // zoomed
 
-        zoom = d3.behavior.zoom()
-	    .y(y) // pass linear scale function
-	    // .translate([10,10])
-	    .scaleExtent([1,1])
-	    .on("zoom",zoomed);
+        // zoom = d3.behavior.zoom()
+	//     .y(y) // pass linear scale function
+	//     // .translate([10,10])
+	//     .scaleExtent([1,1])
+	//     .on("zoom",zoomed);
         
 	return that;
     } // hedotools.shifter.table()
@@ -2760,7 +2749,7 @@ hedotools.shifter = function()
 
         // linear scale function
 	y.range([figheight+2, yHeight]);
-        sepline.transition().duration(1000).attr({"y1":barHeight,"y2":barHeight,});
+        sepline.transition().duration(1000).attrs({"y1":barHeight,"y2":barHeight,});
 
         if (viz_type_decoder().cached === "table") {
             // console.log("removing table stuff");
@@ -2822,7 +2811,7 @@ hedotools.shifter = function()
 	axes.attr("transform","translate("+(axeslabelmargin.left)+","+(axeslabelmargin.top+toptextheight)+")")
 	    .attr("height", figheight);
 	
-	bgrect.attr("height", figheight-2).style({"stroke-width":0.5,"stroke": "rgb(20,20,20)"});
+	bgrect.attr("height", figheight-2).styles({"stroke-width":0.5,"stroke": "rgb(20,20,20)"});
         
 	topbgrect2.attr("height",toptextheight);
 
@@ -2830,7 +2819,7 @@ hedotools.shifter = function()
 	// canvas.selectAll("g.help").remove();
 	// help.remove();
 	// help = axes.append("g")
-        //     .attr({"class": "help",
+        //     .attrs({"class": "help",
 	// 	   "fill": "#B8B8B8",
 	// 	   "transform": "translate("+(5)+","+(figheight-16)+")",
 	// 	  })
@@ -2841,12 +2830,12 @@ hedotools.shifter = function()
 	//     .data(["click here","for instructions"])
 	//     .enter()
 	//     .append("text")
-        //     .attr({"class": "help",
+        //     .attrs({"class": "help",
 	// 	   "fill": "#B8B8B8",
 	// 	   "x": 0,
 	// 	   "y": function(d,i) { return i*10; },
 	// 	   "font-size": "8.0px", })
-        //     .style({"text-anchor": "start", })
+        //     .styles({"text-anchor": "start", })
 	//     .text(function(d) { return d; });
 
 
@@ -2858,12 +2847,12 @@ hedotools.shifter = function()
 	    .data(["visualization by","@andyreagan"])
 	    .enter()
 	    .append("text")
-            .attr({"class": "credit",
+            .attrs({"class": "credit",
 		   "fill": "#B8B8B8",
 		   "x": (figwidth-5),
 		   "y": function(d,i) { return figheight-15+i*10; },
 		   "font-size": "8.0px", })
-            .style({"text-anchor": "end", })
+            .styles({"text-anchor": "end", })
 	    .text(function(d) { return d; });
 
 	// console.log("the comparison text in replot is:");
@@ -2875,10 +2864,10 @@ hedotools.shifter = function()
 	    .data(comparisonText)
 	    .enter()
 	    .append("text")
-	    .attr({ "y": function(d,i) { return (i+1)*17; },
+	    .attrs({ "y": function(d,i) { return (i+1)*17; },
 		    "x": 3,
 		    "class": function(d,i) { return "titletext "+intStr[i]; }, })
-	    .style({ // "font-family": "Helvetica Neue",
+	    .styles({ // "font-family": "Helvetica Neue",
 		     "font-size": function(d,i) { return topFontSizeArray[i]; },
 		     "line-height": "1.42857143",
 		     "color": function(d,i) { return colorArray[i]; },
@@ -2913,7 +2902,7 @@ hedotools.shifter = function()
 	// if we haven't dont a subselection, apply with a transition
 	if (shiftseldecoder().current === "none" || shiftseldecoder().current.length === 0) {
 	    newbars.transition().duration(1500)
-		.attr({"fill": function(d,i) { if (sortedType[i] == 2) {return "#4C4CFF";} else if (sortedType[i] == 3) {return "#FFFF4C";} else if (sortedType[i] == 0) {return "#B3B3FF";} else { return "#FFFFB3"; }},
+		.attrs({"fill": function(d,i) { if (sortedType[i] == 2) {return "#4C4CFF";} else if (sortedType[i] == 3) {return "#FFFF4C";} else if (sortedType[i] == 0) {return "#B3B3FF";} else { return "#FFFFB3"; }},
 		       "class": function(d,i) { return "shiftrect "+intStr0[sortedType[i]]; },
 		       // "x":function(d,i) { 
 		       //     if (d>0) { return figcenter; } 
@@ -2929,7 +2918,7 @@ hedotools.shifter = function()
 		       "width": function(d,i) { if ((d)>0) {return x(d)-x(0);} else {return x(0)-x(d); } } });
 
 	    newwords.transition().duration(1500)
-	        .attr({"class": function(d,i) { return "shifttext "+intStr0[sortedType[i]]; },
+	        .attrs({"class": function(d,i) { return "shifttext "+intStr0[sortedType[i]]; },
                        "x": 0,
                        "y": 0,
                        "transform": function(d,i) {
@@ -2940,13 +2929,13 @@ hedotools.shifter = function()
             // .attr("transform", null)
             // .attr("y",function(d,i) { return y(i+1)+iBarH; })
 	    // .attr("x",function(d,i) { if (d>0) {return x(d)+2;} else {return x(d)-2; } } )
-            	.style({"text-anchor": function(d,i) { if (sortedMag[i] < 0) { return "end";} else { return "start";}},
+            	.styles({"text-anchor": function(d,i) { if (sortedMag[i] < 0) { return "end";} else { return "start";}},
                         "font-size": wordfontsize,})
             	.text(function(d,i) { return sortedWords[i]; });
 	}
 	// else apply without a transition
 	else {
-	    newbars.attr({"fill": function(d,i) { if (sortedType[i] == 2) {return "#4C4CFF";} else if (sortedType[i] == 3) {return "#FFFF4C";} else if (sortedType[i] == 0) {return "#B3B3FF";} else { return "#FFFFB3"; }},
+	    newbars.attrs({"fill": function(d,i) { if (sortedType[i] == 2) {return "#4C4CFF";} else if (sortedType[i] == 3) {return "#FFFF4C";} else if (sortedType[i] == 0) {return "#B3B3FF";} else { return "#FFFFB3"; }},
 		       "class": function(d,i) { return "shiftrect "+intStr0[sortedType[i]]; },
 		       // "x":function(d,i) { 
 		       //     if (d>0) { return figcenter; } 
@@ -2961,14 +2950,14 @@ hedotools.shifter = function()
 		       "height": function(d,i) { return iBarH; },
 		       "width": function(d,i) { if ((d)>0) {return x(d)-x(0);} else {return x(0)-x(d); } } });
 
-	    newwords.attr({"class": function(d,i) { return "shifttext "+intStr0[sortedType[i]]; },
+	    newwords.attrs({"class": function(d,i) { return "shifttext "+intStr0[sortedType[i]]; },
                        "x": 0,
                        "y": 0,
                        "transform": function(d,i) {
                            if (d>0) { return "translate("+(x(d)+2)+","+(y(i+1)+iBarH)+")"; } 
 		           else { return "translate("+(x(d)-2)+","+(y(i+1)+iBarH)+")"; }
                        },})
-		.style({"text-anchor": function(d,i) { if (sortedMag[i] < 0) { return "end";} else { return "start";}}, "font-size": wordfontsize})
+		.styles({"text-anchor": function(d,i) { if (sortedMag[i] < 0) { return "end";} else { return "start";}}, "font-size": wordfontsize})
 		.text(function(d,i) { return sortedWords[i]; });
 
 	    if (shiftseldecoder().current === "posup") {
@@ -3204,7 +3193,6 @@ hedotools.shifter = function()
 		    setText: setText,
 		    setWidth: setWidth,
 		    setHeight: setHeight,
-                    setBgcolor: setBgcolor,
 		    splitstring: splitstring,
 		    drawlogo: drawlogo,
 		    resetbuttontoggle: resetbuttontoggle,
