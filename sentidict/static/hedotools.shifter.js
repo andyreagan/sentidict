@@ -226,6 +226,12 @@ hedotools.shifter = function()
 	sortedWordsRaw = _;
 	return that;
     }
+    var _sumTypes = function(_) {
+        var that = this;
+	if (!arguments.length) return sumTypes;
+	sumTypes = _;
+	return that;
+    }
 
     var xlabel_text = "Per word average happiness shift";
     var _xlabel_text = function(_) {
@@ -3236,6 +3242,7 @@ hedotools.shifter = function()
                     _sortedType: _sortedType,
                     _sortedWords: _sortedWords,
                     _sortedWordsRaw: _sortedWordsRaw,
+                    _sumTypes: _sumTypes,
                     get_word_index: get_word_index,
 		  }
     return opublic;

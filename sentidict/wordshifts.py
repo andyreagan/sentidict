@@ -104,7 +104,7 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile,corpus="LabMT",advance
     f.close()
     print("wrote shift to {}".format(outFile))
     # copy_static_files()
-    link_static_files()
+    copy_static_files()
 
 def shiftHtmlPreshifted(scoreList,wordList,refFreq,compFreq,outFile,corpus="LabMT",advanced=False,customTitle=False,title="",ref_name="reference",comp_name="comparison",ref_name_happs="",comp_name_happs="",isare=""):
     """Make an interactive shift for exploring and sharing.
@@ -167,4 +167,4 @@ def shiftHtmlPreshifted(scoreList,wordList,refFreq,compFreq,outFile,corpus="LabM
     f.close()
     print("wrote shift to {}".format(outFile))
     # copy_static_files()
-    link_static_files()
+    copy_static_files()
