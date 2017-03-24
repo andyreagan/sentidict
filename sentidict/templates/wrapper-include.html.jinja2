@@ -1,20 +1,18 @@
 <html>
 <head>
-<title>Simple Shift Plot</title>
-<link href="static/hedotools.shift.css" rel="stylesheet">
-<script type="text/javascript">
-  {% include "static/d3.v3.js" %}
-  {% include "static/jquery-1.11.0.min.js" %}
-  {% include "static/urllib.js" %}
-  {% include "static/hedotools.init.js" %}
-  {% include "static/hedotools.shifter.js" %}
-</script>
+  <title>Simple Shift Plot</title>
+  <style type="text/css">
+    {% include "static/hedotools.shift.css" %}
+  </style>
+  <script type="text/javascript">
+    {% include "templates/js-includes.jinja2" %}
+  </script>
 </head>
 <body>
 
-<div id="header"></div>
+  <div id="header"></div>
 
-{% include "templates/template.html.jinja2" %}
+  {% include "templates/template.html.jinja2" %}
 
 </body>
 </html>

@@ -5,6 +5,8 @@ from .dictionaries import *
 from jinja2 import FileSystemLoader
 from jinja2.environment import Environment
 
+display(Javascript())
+
 env = Environment()
 env.loader = FileSystemLoader(dirname(__file__))
 
