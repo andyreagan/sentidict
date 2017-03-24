@@ -233,10 +233,10 @@ def test_speedy_all():
     """Test all of the speedy dictionaries on scoring some dict of words."""
     all_sentidicts = load_26()
     assert len(all_sentidicts) == 26
-    write_tables(all_sentidicts)
+    # write_tables(all_sentidicts)
     shiftHtmlJupyter_test(all_sentidicts)
-    shiftHtml_test(all_sentidicts)
-    shiftHtmlPreshifted_test(all_sentidicts)
+    # shiftHtml_test(all_sentidicts)
+    # shiftHtmlPreshifted_test(all_sentidicts)
     # cleanup()
 
 def cleanup():

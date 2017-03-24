@@ -2,6 +2,11 @@ from IPython.display import Javascript, display, publish_display_data
 from os.path import isfile,isdir,abspath,join,dirname
 from .utils import *
 from .dictionaries import *
+from jinja2 import FileSystemLoader
+from jinja2.environment import Environment
+
+env = Environment()
+env.loader = FileSystemLoader(dirname(__file__))
 
 def shiftHtmlJupyter(scoreList,wordList,refFreq,compFreq,outFile,corpus="LabMT",advanced=False,customTitle=False,title="",ref_name="reference",comp_name="comparison",ref_name_happs="",comp_name_happs="",isare="",saveFull=True,selfshift=False,bgcolor="white"):
     """Shifter that generates HTML in two pieces, designed to work inside of a Jupyter notebook.
@@ -48,7 +53,9 @@ def shiftHtmlJupyter(scoreList,wordList,refFreq,compFreq,outFile,corpus="LabMT",
     f.close()
     print("wrote shift to {}".format(outFile))
 
-    wrapper = Template(openWithPath("templates/wrapper.html.jinja2","r").read())
+    # wrapper = Template(openWithPath("templates/wrapper.html.jinja2","r").read())
+    # wrapper = Template(openWithPath("templates/wrapper-include.html.jinja2","r").read())
+    wrapper = env.get_template('templates/wrapper-include.html.jinja2')
 
     if saveFull:
         f = codecs.open(outFileShort+"-wrapper.html",'w','utf8')
