@@ -1,2 +1,1 @@
-all = ['dictionaries','utils',]
-
+all = ['dictionaries','utils','wordshifts','functions']
