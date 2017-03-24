@@ -106,19 +106,19 @@ def write_tables(sentiment_dictionaries):
     for sentiment_dictionary in sentiment_dictionaries:
         sentiment_dictionary.computeStatistics(0.0)
 
-    table_template = Template(openWithPath("templates/table-short.tex.jinja2","r").read())
+    table_template = Template(openWithPath("templates/table-short.tex","r").read())
 
     f = open("all-dictionary-table-automatic-short.tex","w")
     f.write(table_template.render({"all_sentiment_dictionaries": sentiment_dictionaries}))
     f.close()
 
-    table_template = Template(openWithPath("templates/table.tex.jinja2","r").read())
+    table_template = Template(openWithPath("templates/table.tex","r").read())
     
     f = open("all-dictionary-table-automatic.tex","w")
     f.write(table_template.render({"all_sentiment_dictionaries": sentiment_dictionaries}))
     f.close()
 
-    template = Template(openWithPath("templates/descriptions.tex.jinja2","r").read())
+    template = Template(openWithPath("templates/descriptions.tex","r").read())
 
     f = open("all-dictionaries-list-description.tex","w")
     f.write(template.render({"all_sentiment_dictionaries": sentiment_dictionaries}))

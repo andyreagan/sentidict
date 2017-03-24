@@ -81,18 +81,6 @@ def test_shift():
 ref_dict = {"the": 1, "dude": 1, "abides": 1, "laughs": 1}
 comp_dict = {"the": 1, "dude": 1, "does": 1, "not": 1, "abide": 1}
 
-def shiftHtmlJupyter_test(all_sentidicts):
-    for my_sentidict in all_sentidicts[:1]:
-        ref_word_vec = my_sentidict.wordVecify(ref_dict)
-        ref_word_vec_stopped = my_sentidict.stopper(ref_word_vec,stopVal=1.0)
-        comp_word_vec = my_sentidict.wordVecify(comp_dict)
-        comp_word_vec_stopped = my_sentidict.stopper(comp_word_vec,stopVal=1.0)
-        shiftHtmlJupyter(my_sentidict.scorelist,
-                         my_sentidict.wordlist,
-                         ref_word_vec_stopped,
-                         comp_word_vec_stopped,
-                         "test-jupyter-wordshift-{}.html".format(my_sentidict.title))
-
 def shiftHtml_test(all_sentidicts):
     for my_sentidict in all_sentidicts[:1]:
         ref_word_vec = my_sentidict.wordVecify(ref_dict)
@@ -100,22 +88,28 @@ def shiftHtml_test(all_sentidicts):
         comp_word_vec = my_sentidict.wordVecify(comp_dict)
         comp_word_vec_stopped = my_sentidict.stopper(comp_word_vec,stopVal=1.0)
         shiftHtml(my_sentidict.scorelist,
-                         my_sentidict.wordlist,
-                         ref_word_vec_stopped,
-                         comp_word_vec_stopped,
-                         "test-wordshift-{}.html".format(my_sentidict.title))
-
-def shiftHtmlPreshifted_test(all_sentidicts):
-    for my_sentidict in all_sentidicts[:1]:
-        ref_word_vec = my_sentidict.wordVecify(ref_dict)
-        ref_word_vec_stopped = my_sentidict.stopper(ref_word_vec,stopVal=1.0)
-        comp_word_vec = my_sentidict.wordVecify(comp_dict)
-        comp_word_vec_stopped = my_sentidict.stopper(comp_word_vec,stopVal=1.0)
-        shiftHtmlPreshifted(my_sentidict.scorelist,
-                         my_sentidict.wordlist,
-                         ref_word_vec_stopped,
-                         comp_word_vec_stopped,
-                         "test-wordshift-preshifted-{}.html".format(my_sentidict.title))
+                  my_sentidict.wordlist,
+                  ref_word_vec_stopped,
+                  comp_word_vec_stopped,
+                  "test-wordshift-{}.html".format(my_sentidict.title))
+        shiftHtml(my_sentidict.scorelist,
+                  my_sentidict.wordlist,
+                  ref_word_vec_stopped,
+                  comp_word_vec_stopped,
+                  "test-wordshift-preshift-{}.html".format(my_sentidict.title),
+                  preshift=True,)
+        shiftHtml(my_sentidict.scorelist,
+                  my_sentidict.wordlist,
+                  ref_word_vec_stopped,
+                  comp_word_vec_stopped,
+                  "test-wordshift-linked-{}.html".format(my_sentidict.title),
+                  link=True,)
+        shiftHtml(my_sentidict.scorelist,
+                  my_sentidict.wordlist,
+                  ref_word_vec_stopped,
+                  comp_word_vec_stopped,
+                  "test-wordshift-linked-preshift-{}.html".format(my_sentidict.title),
+                  preshift=True,link=True,)
 
 def test_labMT_english():
     """Test as much of sentidict as possible, using the labMT dictionary subclass.
@@ -234,9 +228,7 @@ def test_speedy_all():
     all_sentidicts = load_26()
     assert len(all_sentidicts) == 26
     # write_tables(all_sentidicts)
-    shiftHtmlJupyter_test(all_sentidicts)
-    # shiftHtml_test(all_sentidicts)
-    # shiftHtmlPreshifted_test(all_sentidicts)
+    shiftHtml_test(all_sentidicts)
     # cleanup()
 
 def cleanup():
@@ -374,8 +366,7 @@ def test_score():
     d = Dummy6(v=True)
     assert d.score({}) == 5.0
     assert d.score({},center=-1) == -1
-    # should move closer to 6
-    assert np.abs(d.score(ref_dict) - 6) < np.abs(fixed_score - 6)
+    # should move closer to     assert np.abs(d.score(ref_dict) - 6) < np.abs(fixed_score - 6)
     # it's also not blocking the word list...
     ref_dict = {"neutral": 1, "dude": 1, "niggas": 8, "happy": 5, "happyy": 0, "happyyy": 0}
     assert np.abs(d.score(ref_dict) - 8) < np.abs(fixed_score - 8)
