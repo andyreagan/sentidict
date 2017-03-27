@@ -8,7 +8,7 @@ setup(
     name = 'sentidict',
     packages = ['sentidict'],
     package_data={'sentidict': ['static/*','templates/*']},
-    version = '0.1.2',
+    version = '0.1.3',
     description = 'Utilities for dictionary-based sentiment analysis. Includes 28 sentiment dictionaries with loaders, scoring, and interactive visualization.',
     long_description = long_description,
     install_requires=['marisa_trie','numpy','jinja2'],
@@ -20,7 +20,7 @@ setup(
     author = 'Andy Reagan',
     author_email = 'andy@andyreagan.com',
     url = 'https://github.com/andyreagan/sentidict', 
-    download_url = 'https://github.com/andyreagan/sentidict/tarball/0.1.2',
+    download_url = 'https://github.com/andyreagan/sentidict/tarball/0.1.3',
     keywords = 'sentiment emotion',
     classifiers = [
         'Development Status :: 4 - Beta',
