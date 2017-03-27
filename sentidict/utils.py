@@ -169,4 +169,7 @@ def open_codecs_dictify(file):
     return test_dict
 
 def openWithPath(filename,mode,codec="utf8"):
+    f = open("allfiles.txt","a")
+    f.write(filename+"\n")
+    f.close()
     return codecs.open(join(dirname(__file__),filename),mode,codec)
