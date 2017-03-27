@@ -8,14 +8,14 @@ setup(
     name = 'sentidict',
     packages = ['sentidict'],
     package_data={'sentidict': ['data/*','data/*/*','data/*/*/*','static/*','templates/*']},
-    version = '0.0.3',
+    version = '0.1',
     description = 'Utilities for dictionary-based sentiment analysis. Includes 28 sentiment dictionaries with loaders, scoring, and interactive visualization.',
     long_description = long_description,
     install_requires=['marisa_trie','numpy','jinja2'],
     extras_require={
         'dev': ['ipython','twine','Sphinx','recommonmark'],
         # http://nose2.readthedocs.io/en/latest/plugins/coverage.html
-        'test': ['nose2','cov-core','scipy'],
+        'test': ['nose2','cov-core','scipy','jupyter'],
     },
     author = 'Andy Reagan',
     author_email = 'andy@andyreagan.com',
