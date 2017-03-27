@@ -136,16 +136,18 @@ def shift(refFreq,compFreq,lens,words,sort=True):
         return shiftMag,shiftType,sumTypes
 
 def copy_static_files(link=True,absolute=True):
-    for staticfile in ['d3.v3.js','jquery-1.11.0.min.js',
-                       'urllib.js','hedotools.init.js',
-                       'hedotools.shifter.js','hedotools.shift.css',
-                       'shift-crowbar.js']:
-        if not isfile(join('static',staticfile)):
-            filename = join(dirname(__file__),staticfile)
+    # again, use the current working directory hre
+    LOCAL_STATIC_DIR = join(getcwd(), "static")
+    if not isdir(LOCAL_STATIC_DIR):
+        mkdir(LOCAL_STATIC_DIR)
+    for staticfile in ["d3.min.js","jquery.min.js","hedotools.min.js","hedotools.shift.css"]:
+        local_file = join(LOCAL_STATIC_DIR,staticfile)
+        if not isfile(local_file):
+            dist_file = join(dirname(__file__),staticfile)
             if link:
-                subprocess.call("ln -s {0} {1}".format(filename,join('static',staticfile)),shell=True)
+                subprocess.call("ln -s {0} {1}".format(dist_file,local_file),shell=True)
             else:
-                shcopy(filename,join('static',staticfile))
+                shcopy(dist_file,local_file)
 
 listify_quick = lambda raw: [x.lower() for x in re.findall(r"[\w\@\#\'\&\]\*\-\/\[\=\;]+",raw,flags=re.UNICODE)]
 
