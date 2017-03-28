@@ -12,7 +12,7 @@ pypi: dist/*
 	@# python setup.py sdist upload
 	twine upload dist/*
 docs:
-	cd docs/ ....
+	cd docs; make html
 tag: *.py
 	@# git tag 0.1 -m "release 0.1"
 	git push --tags origin master

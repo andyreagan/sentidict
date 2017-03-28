@@ -2,6 +2,7 @@
 *~
 dist
 build
+*.egg-info
 _build
 .pypirc
 .DS_Store
@@ -11,3 +12,4 @@ LIWC
 LIWC.tgz
 node_modules
 README.rst
+

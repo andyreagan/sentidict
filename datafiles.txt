@@ -1,15 +1,9 @@
 data/LabMT/labMT2english.txt
 data/ANEW/all-2.csv
-data/LIWC/LIWC2007_header.dic
-data/LIWC/LIWC2007_words.dic
 data/MPQA/subjectivity_clues_hltemnlp05/subjclueslen1-HLTEMNLP05.tff
 data/OL/negative-words.txt
 data/OL/positive-words.txt
 data/WK/BRM-emot-submit.csv
-data/LIWC/LIWC2001_header.dic
-data/LIWC/LIWC2001_words.dic
-data/LIWC/LIWC2015_header.dic
-data/LIWC/LIWC2015_words.dic
 data/PANAS-X/affect.txt
 data/SentiWordNet/SentiWordNet_3.0.0_20130122.txt
 data/AFINN/AFINN-111.txt
