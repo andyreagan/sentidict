@@ -30,7 +30,6 @@ setup(
     download_url = "https://github.com/andyreagan/sentidict/tarball/0.1.5",
     keywords = "sentiment emotion",
     classifiers = [
-        "Development Status :: 5 - Beta",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",],
     )
