@@ -104,6 +104,11 @@ dev = [
     "twine",
 ]
 
+[tool.pytest.ini_options]
+testpaths = ["test"]
+python_files = ["test.py", "test_*.py"]
+python_functions = ["test*"]
+
 [tool.hatch.envs.docs]
 dependencies = [
     "sphinx>=4.0.0",
