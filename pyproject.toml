@@ -45,41 +45,42 @@ exclude = "sentidict/data/.*"
 path = "sentidict/__init__.py"
 pattern = "__version__ = [\"'\"](?P<version>.+)[\"'\"]"
 
-[tool.hatch.build.targets.wheel.sources]
-sentidict = [
-    "static/*",
-    "templates/*",
-    "data/LabMT/labMT2english.txt",
-    "data/ANEW/all-2.csv",
-    "data/MPQA/subjectivity_clues_hltemnlp05/subjclueslen1-HLTEMNLP05.tff",
-    "data/OL/negative-words.txt",
-    "data/OL/positive-words.txt",
-    "data/WK/BRM-emot-submit.csv",
-    "data/PANAS-X/affect.txt",
-    "data/SentiWordNet/SentiWordNet_3.0.0_20130122.txt",
-    "data/AFINN/AFINN-111.txt",
-    "data/GI/inqtabs.txt",
-    "data/WDAL/words.txt",
-    "data/NRC/NRC-Emotion-Lexicon-v0.92/NRC-emotion-lexicon-wordlevel-alphabetized-v0.92.txt",
-    "data/NRC/MaxDiff-Twitter-Lexicon/Maxdiff-Twitter-Lexicon_-1to1.txt",
-    "data/NRC/NRC-Hashtag-Sentiment-Lexicon-v0.1/unigrams-pmilexicon.txt",
-    "data/NRC/Sentiment140-Lexicon-v0.1/unigrams-pmilexicon.txt",
-    "data/NRC/Sentiment140-Lexicon-v0.1/bigrams-pmilexicon.txt",
-    "data/NRC/Sentiment140-Lexicon-v0.1/pairs-pmilexicon.txt",
-    "data/SOCAL/all_dictionaries-utf8.txt",
-    "data/SenticNet/senticnet3.rdf.xml",
-    "data/SenticNet/senticnet3.json",
-    "data/Emoticons/positive.txt",
-    "data/Emoticons/neutral.txt",
-    "data/Emoticons/negative.txt",
-    "data/SentiStrength/EmotionLookupTable.txt",
-    "data/SentiStrength/EmoticonLookupTable-utf8.txt",
-    "data/VADER/vader_sentiment_lexicon-utf8.txt",
-    "data/Umigon/all.txt",
-    "data/USent/SANN/positive.txt",
-    "data/USent/SANN/negative.txt",
-    "data/EmoSenticNet/emosenticnet.csv",
-]
+[tool.hatch.build.targets.wheel]
+packages = ["sentidict"]
+
+[tool.hatch.build.targets.wheel.forced-include]
+"sentidict/static" = "sentidict/static"
+"sentidict/templates" = "sentidict/templates"
+"sentidict/data/LabMT/labMT2english.txt" = "sentidict/data/LabMT/labMT2english.txt"
+"sentidict/data/ANEW/all-2.csv" = "sentidict/data/ANEW/all-2.csv"
+"sentidict/data/MPQA/subjectivity_clues_hltemnlp05/subjclueslen1-HLTEMNLP05.tff" = "sentidict/data/MPQA/subjectivity_clues_hltemnlp05/subjclueslen1-HLTEMNLP05.tff"
+"sentidict/data/OL/negative-words.txt" = "sentidict/data/OL/negative-words.txt"
+"sentidict/data/OL/positive-words.txt" = "sentidict/data/OL/positive-words.txt"
+"sentidict/data/WK/BRM-emot-submit.csv" = "sentidict/data/WK/BRM-emot-submit.csv"
+"sentidict/data/PANAS-X/affect.txt" = "sentidict/data/PANAS-X/affect.txt"
+"sentidict/data/SentiWordNet/SentiWordNet_3.0.0_20130122.txt" = "sentidict/data/SentiWordNet/SentiWordNet_3.0.0_20130122.txt"
+"sentidict/data/AFINN/AFINN-111.txt" = "sentidict/data/AFINN/AFINN-111.txt"
+"sentidict/data/GI/inqtabs.txt" = "sentidict/data/GI/inqtabs.txt"
+"sentidict/data/WDAL/words.txt" = "sentidict/data/WDAL/words.txt"
+"sentidict/data/NRC/NRC-Emotion-Lexicon-v0.92/NRC-emotion-lexicon-wordlevel-alphabetized-v0.92.txt" = "sentidict/data/NRC/NRC-Emotion-Lexicon-v0.92/NRC-emotion-lexicon-wordlevel-alphabetized-v0.92.txt"
+"sentidict/data/NRC/MaxDiff-Twitter-Lexicon/Maxdiff-Twitter-Lexicon_-1to1.txt" = "sentidict/data/NRC/MaxDiff-Twitter-Lexicon/Maxdiff-Twitter-Lexicon_-1to1.txt"
+"sentidict/data/NRC/NRC-Hashtag-Sentiment-Lexicon-v0.1/unigrams-pmilexicon.txt" = "sentidict/data/NRC/NRC-Hashtag-Sentiment-Lexicon-v0.1/unigrams-pmilexicon.txt"
+"sentidict/data/NRC/Sentiment140-Lexicon-v0.1/unigrams-pmilexicon.txt" = "sentidict/data/NRC/Sentiment140-Lexicon-v0.1/unigrams-pmilexicon.txt"
+"sentidict/data/NRC/Sentiment140-Lexicon-v0.1/bigrams-pmilexicon.txt" = "sentidict/data/NRC/Sentiment140-Lexicon-v0.1/bigrams-pmilexicon.txt"
+"sentidict/data/NRC/Sentiment140-Lexicon-v0.1/pairs-pmilexicon.txt" = "sentidict/data/NRC/Sentiment140-Lexicon-v0.1/pairs-pmilexicon.txt"
+"sentidict/data/SOCAL/all_dictionaries-utf8.txt" = "sentidict/data/SOCAL/all_dictionaries-utf8.txt"
+"sentidict/data/SenticNet/senticnet3.rdf.xml" = "sentidict/data/SenticNet/senticnet3.rdf.xml"
+"sentidict/data/SenticNet/senticnet3.json" = "sentidict/data/SenticNet/senticnet3.json"
+"sentidict/data/Emoticons/positive.txt" = "sentidict/data/Emoticons/positive.txt"
+"sentidict/data/Emoticons/neutral.txt" = "sentidict/data/Emoticons/neutral.txt"
+"sentidict/data/Emoticons/negative.txt" = "sentidict/data/Emoticons/negative.txt"
+"sentidict/data/SentiStrength/EmotionLookupTable.txt" = "sentidict/data/SentiStrength/EmotionLookupTable.txt"
+"sentidict/data/SentiStrength/EmoticonLookupTable-utf8.txt" = "sentidict/data/SentiStrength/EmoticonLookupTable-utf8.txt"
+"sentidict/data/VADER/vader_sentiment_lexicon-utf8.txt" = "sentidict/data/VADER/vader_sentiment_lexicon-utf8.txt"
+"sentidict/data/Umigon/all.txt" = "sentidict/data/Umigon/all.txt"
+"sentidict/data/USent/SANN/positive.txt" = "sentidict/data/USent/SANN/positive.txt"
+"sentidict/data/USent/SANN/negative.txt" = "sentidict/data/USent/SANN/negative.txt"
+"sentidict/data/EmoSenticNet/emosenticnet.csv" = "sentidict/data/EmoSenticNet/emosenticnet.csv"
 
 [project.optional-dependencies]
 docs = [
@@ -102,9 +103,6 @@ dev = [
     "ipython",
     "twine",
 ]
-
-[tool.hatch.build.targets.wheel]
-packages = ["sentidict"]
 
 [tool.hatch.envs.docs]
 dependencies = [
