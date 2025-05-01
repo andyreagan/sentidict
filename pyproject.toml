@@ -1,9 +1,119 @@
 [build-system]
-requires = ["setuptools>=42", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling>=1.0.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sentidict"
+dynamic = ["version"]
+description = "Utilities for dictionary-based sentiment analysis. Includes 28 sentiment dictionaries with loaders, scoring, and interactive visualization."
+readme = "README.md"
+license = {file = "LICENSE.md"}
+requires-python = ">=3.9"
+authors = [
+    {name = "Andy Reagan", email = "andy@andyreagan.com"}
+]
+keywords = ["sentiment", "emotion", "nlp", "text-analysis"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "marisa_trie",
+    "numpy",
+    "jinja2",
+]
+
+[project.urls]
+Documentation = "https://sentidict.readthedocs.io/"
+Repository = "https://github.com/andyreagan/sentidict"
+Issues = "https://github.com/andyreagan/sentidict/issues"
 
 [tool.black]
 line-length = 100
 target-version = ["py39", "py310", "py311", "py312"]
 skip-string-normalization = true
 exclude = "sentidict/data/.*"
+
+[tool.hatch.version]
+path = "sentidict/__init__.py"
+pattern = "__version__ = [\"'\"](?P<version>.+)[\"'\"]"
+
+[tool.hatch.build.targets.wheel.sources]
+sentidict = [
+    "static/*",
+    "templates/*",
+    "data/LabMT/labMT2english.txt",
+    "data/ANEW/all-2.csv",
+    "data/MPQA/subjectivity_clues_hltemnlp05/subjclueslen1-HLTEMNLP05.tff",
+    "data/OL/negative-words.txt",
+    "data/OL/positive-words.txt",
+    "data/WK/BRM-emot-submit.csv",
+    "data/PANAS-X/affect.txt",
+    "data/SentiWordNet/SentiWordNet_3.0.0_20130122.txt",
+    "data/AFINN/AFINN-111.txt",
+    "data/GI/inqtabs.txt",
+    "data/WDAL/words.txt",
+    "data/NRC/NRC-Emotion-Lexicon-v0.92/NRC-emotion-lexicon-wordlevel-alphabetized-v0.92.txt",
+    "data/NRC/MaxDiff-Twitter-Lexicon/Maxdiff-Twitter-Lexicon_-1to1.txt",
+    "data/NRC/NRC-Hashtag-Sentiment-Lexicon-v0.1/unigrams-pmilexicon.txt",
+    "data/NRC/Sentiment140-Lexicon-v0.1/unigrams-pmilexicon.txt",
+    "data/NRC/Sentiment140-Lexicon-v0.1/bigrams-pmilexicon.txt",
+    "data/NRC/Sentiment140-Lexicon-v0.1/pairs-pmilexicon.txt",
+    "data/SOCAL/all_dictionaries-utf8.txt",
+    "data/SenticNet/senticnet3.rdf.xml",
+    "data/SenticNet/senticnet3.json",
+    "data/Emoticons/positive.txt",
+    "data/Emoticons/neutral.txt",
+    "data/Emoticons/negative.txt",
+    "data/SentiStrength/EmotionLookupTable.txt",
+    "data/SentiStrength/EmoticonLookupTable-utf8.txt",
+    "data/VADER/vader_sentiment_lexicon-utf8.txt",
+    "data/Umigon/all.txt",
+    "data/USent/SANN/positive.txt",
+    "data/USent/SANN/negative.txt",
+    "data/EmoSenticNet/emosenticnet.csv",
+]
+
+[project.optional-dependencies]
+docs = [
+    "sphinx>=4.0.0",
+    "sphinx-rtd-theme>=1.0.0",
+    "myst-parser>=0.18.0",
+]
+
+test = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "scipy",
+    "jupyter",
+]
+
+dev = [
+    "black>=22.1.0",
+    "isort>=5.10.1",
+    "flake8>=4.0.1",
+    "ipython",
+    "twine",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["sentidict"]
+
+[tool.hatch.envs.docs]
+dependencies = [
+    "sphinx>=4.0.0",
+    "sphinx-rtd-theme>=1.0.0",
+    "myst-parser>=0.18.0",
+]
+
+[tool.hatch.envs.docs.scripts]
+build = "cd docs && make html"
+clean = "cd docs && make clean"
+serve = "python -m http.server -d docs/_build/html 8000"

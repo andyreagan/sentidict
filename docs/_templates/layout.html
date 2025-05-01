@@ -1,0 +1,16 @@
+{% extends "!layout.html" %}
+
+{% block footer %}
+{{ super() }}
+<div class="footer">
+  <p>
+    &copy; {{ copyright }}
+    <br/>
+    Documentation built with
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    <a href="https://sphinx-rtd-theme.readthedocs.io/en/stable/">Read the Docs theme</a>.
+    <br/>
+    Deployed with <a href="https://readthedocs.org/">Read the Docs</a>.
+  </p>
+</div>
+{% endblock %}
