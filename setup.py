@@ -1,7 +1,7 @@
 # from distutils.core import setup
 from setuptools import setup
 
-with open("README.rst") as file:
+with open("README.markdown") as file:
     long_description = file.read()
 
 # get the files that are actually loaded by the program
@@ -15,7 +15,7 @@ setup(
     name = "sentidict",
     packages = ["sentidict"],
     package_data={"sentidict": ["static/*","templates/*"]+data_files},
-    version = "0.1.7",
+    version = "0.1.8",
     description = "Utilities for dictionary-based sentiment analysis. Includes 28 sentiment dictionaries with loaders, scoring, and interactive visualization.",
     long_description = long_description,
     install_requires=["marisa_trie","numpy","jinja2"],
@@ -27,7 +27,7 @@ setup(
     author = "Andy Reagan",
     author_email = "andy@andyreagan.com",
     url = "https://github.com/andyreagan/sentidict", 
-    download_url = "https://github.com/andyreagan/sentidict/tarball/0.1.7",
+    download_url = "https://github.com/andyreagan/sentidict/tarball/0.1.8",
     keywords = "sentiment emotion",
     classifiers = [
         "Programming Language :: Python",
