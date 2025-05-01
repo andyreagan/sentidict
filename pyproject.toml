@@ -47,6 +47,20 @@ pattern = "__version__ = [\"'\"](?P<version>.+)[\"'\"]"
 
 [tool.hatch.build.targets.wheel]
 packages = ["sentidict"]
+exclude = [
+    "sentidict/data",
+    "*.zip",
+    "*.tar.gz",
+    "*.tgz",
+    "*.tar",
+    "*.exe",
+    "*.pdf",
+    "*.rar",
+    "*.xls",
+    "*.xml",
+    "*.PKL",
+    "*.swp",
+]
 
 [tool.hatch.build.targets.wheel.forced-include]
 "sentidict/static" = "sentidict/static"
@@ -58,6 +72,7 @@ packages = ["sentidict"]
 "sentidict/data/OL/positive-words.txt" = "sentidict/data/OL/positive-words.txt"
 "sentidict/data/WK/BRM-emot-submit.csv" = "sentidict/data/WK/BRM-emot-submit.csv"
 "sentidict/data/PANAS-X/affect.txt" = "sentidict/data/PANAS-X/affect.txt"
+"sentidict/data/Pattern/en-sentiment.xml" = "sentidict/data/Pattern/en-sentiment.xml"
 "sentidict/data/SentiWordNet/SentiWordNet_3.0.0_20130122.txt" = "sentidict/data/SentiWordNet/SentiWordNet_3.0.0_20130122.txt"
 "sentidict/data/AFINN/AFINN-111.txt" = "sentidict/data/AFINN/AFINN-111.txt"
 "sentidict/data/GI/inqtabs.txt" = "sentidict/data/GI/inqtabs.txt"
@@ -66,10 +81,7 @@ packages = ["sentidict"]
 "sentidict/data/NRC/MaxDiff-Twitter-Lexicon/Maxdiff-Twitter-Lexicon_-1to1.txt" = "sentidict/data/NRC/MaxDiff-Twitter-Lexicon/Maxdiff-Twitter-Lexicon_-1to1.txt"
 "sentidict/data/NRC/NRC-Hashtag-Sentiment-Lexicon-v0.1/unigrams-pmilexicon.txt" = "sentidict/data/NRC/NRC-Hashtag-Sentiment-Lexicon-v0.1/unigrams-pmilexicon.txt"
 "sentidict/data/NRC/Sentiment140-Lexicon-v0.1/unigrams-pmilexicon.txt" = "sentidict/data/NRC/Sentiment140-Lexicon-v0.1/unigrams-pmilexicon.txt"
-"sentidict/data/NRC/Sentiment140-Lexicon-v0.1/bigrams-pmilexicon.txt" = "sentidict/data/NRC/Sentiment140-Lexicon-v0.1/bigrams-pmilexicon.txt"
-"sentidict/data/NRC/Sentiment140-Lexicon-v0.1/pairs-pmilexicon.txt" = "sentidict/data/NRC/Sentiment140-Lexicon-v0.1/pairs-pmilexicon.txt"
 "sentidict/data/SOCAL/all_dictionaries-utf8.txt" = "sentidict/data/SOCAL/all_dictionaries-utf8.txt"
-"sentidict/data/SenticNet/senticnet3.rdf.xml" = "sentidict/data/SenticNet/senticnet3.rdf.xml"
 "sentidict/data/SenticNet/senticnet3.json" = "sentidict/data/SenticNet/senticnet3.json"
 "sentidict/data/Emoticons/positive.txt" = "sentidict/data/Emoticons/positive.txt"
 "sentidict/data/Emoticons/neutral.txt" = "sentidict/data/Emoticons/neutral.txt"

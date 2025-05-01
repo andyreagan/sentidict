@@ -1,0 +1,96 @@
+include LICENSE.md
+include README.md
+include pyproject.toml
+include setup.cfg
+recursive-include docs *
+
+# Exclude all data files by default
+global-exclude sentidict/data/*
+
+# Then explicitly include only the necessary data files
+
+# LabMT files
+include sentidict/data/LabMT/labMT2*.txt
+
+# ANEW files
+include sentidict/data/ANEW/all-2.csv
+
+# LIWC files
+include sentidict/data/LIWC/LIWC20*_header.dic
+include sentidict/data/LIWC/LIWC20*_words.dic
+
+# MPQA files
+include sentidict/data/MPQA/subjectivity_clues_hltemnlp05/subjclueslen1-HLTEMNLP05.tff
+
+# OL files
+include sentidict/data/OL/negative-words.txt
+include sentidict/data/OL/positive-words.txt
+
+# WK files
+include sentidict/data/WK/BRM-emot-submit.csv
+
+# PANAS-X files
+include sentidict/data/PANAS-X/affect.txt
+
+# Pattern files
+include sentidict/data/Pattern/en-sentiment.xml
+
+# SentiWordNet files
+include sentidict/data/SentiWordNet/SentiWordNet_3.0.0_20130122.txt
+
+# AFINN files
+include sentidict/data/AFINN/AFINN-111.txt
+
+# GI files
+include sentidict/data/GI/inqtabs.txt
+
+# WDAL files
+include sentidict/data/WDAL/words.txt
+
+# NRC files for EmoLex
+include sentidict/data/NRC/NRC-Emotion-Lexicon-v0.92/NRC-emotion-lexicon-wordlevel-alphabetized-v0.92.txt
+
+# NRC files for MaxDiff
+include sentidict/data/NRC/MaxDiff-Twitter-Lexicon/Maxdiff-Twitter-Lexicon_-1to1.txt
+
+# NRC files for HashtagSent
+include sentidict/data/NRC/NRC-Hashtag-Sentiment-Lexicon-v0.1/unigrams-pmilexicon.txt
+
+# NRC files for Sent140Lex
+include sentidict/data/NRC/Sentiment140-Lexicon-v0.1/unigrams-pmilexicon.txt
+
+# SOCAL files
+include sentidict/data/SOCAL/all_dictionaries-utf8.txt
+
+# SenticNet files
+include sentidict/data/SenticNet/senticnet3.json
+
+# Emoticons files
+include sentidict/data/Emoticons/positive.txt
+include sentidict/data/Emoticons/neutral.txt
+include sentidict/data/Emoticons/negative.txt
+
+# SentiStrength files
+include sentidict/data/SentiStrength/EmotionLookupTable.txt
+include sentidict/data/SentiStrength/EmoticonLookupTable-utf8.txt
+
+# VADER files
+include sentidict/data/VADER/vader_sentiment_lexicon-utf8.txt
+
+# Umigon files
+include sentidict/data/Umigon/all.txt
+
+# USent files
+include sentidict/data/USent/SANN/positive.txt
+include sentidict/data/USent/SANN/negative.txt
+
+# EmoSenticNet files
+include sentidict/data/EmoSenticNet/emosenticnet.csv
+
+# Python files
+recursive-include sentidict *.py
+recursive-include test *.py
+
+# Include example data but exclude large data files
+recursive-include examples *.py
+include examples/data/*.txt
