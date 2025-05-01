@@ -25,8 +25,8 @@ import marisa_trie
 # import string
 import copy
 import warnings
-from numpy import isarray, sum
-from .utils import u, openWithPath
+from numpy import sum
+from .utils import isarray, u, openWithPath
 
 
 class sentiDict:
