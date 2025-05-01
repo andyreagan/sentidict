@@ -2,9 +2,9 @@
 # Exclude patterns for all hooks
 exclude: &exclude_patterns |
   (?x)(
-    ^.*/load-.*\.py$|
+    ^sentidict/data.*/load-|_.*\.py$|
     ^docs/conf\.py$|
-    ^sentidict/data/VADER/vaderSentiment\.py$|
+    ^sentidict/data/VADER/vaderSentiment\.py$
   )
 
 repos:

@@ -1475,7 +1475,6 @@ class Emoticons(sentiDict):
 # 	Year = {2012}}"""
 
 
-
 class SentiStrength(sentiDict):
     title = "SentiStrength"
     note = "an API and Java program for general purpose sentiment detection (here we use only the sentiment dictionary)"
