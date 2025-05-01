@@ -14,7 +14,9 @@ from os import mkdir
 from os.path import isfile, isdir, join, dirname
 from shutil import copy as shcopy
 
-u = lambda x: x
+
+def u(x):
+    return x
 
 
 def isarray(x):
@@ -99,12 +101,12 @@ def shift(refFreq, compFreq, lens, words, sort=True):
     # for i in range(len(refFreq)):
     #     refFreq[i] = float(refFreq[i])/Nref
     #     compFreq[i] = float(compFreq[i])/Ncomp
-    refFreqN = refFreq / refFreq.sum()
-    compFreqN = compFreq / compFreq.sum()
+    refFreq / refFreq.sum()
+    compFreq / compFreq.sum()
     # compute the reference happiness
     # refH = sum([refFreqN[i]*lens[i] for i in range(len(lens))])
     refH = emotionV(refFreq, lens)
-    compH = emotionV(compFreq, lens)
+    emotionV(compFreq, lens)
     # determine shift magnitude, type
     # shiftMag = [0 for i in range(len(lens))]
     # shiftType = [0 for i in range(len(lens))]
@@ -141,6 +143,8 @@ def shift(refFreq, compFreq, lens, words, sort=True):
 
 def copy_static_files(link=True, absolute=True):
     # again, use the current working directory hre
+    from os import getcwd
+
     LOCAL_STATIC_DIR = join(getcwd(), "static")
     if not isdir(LOCAL_STATIC_DIR):
         mkdir(LOCAL_STATIC_DIR)
@@ -154,9 +158,8 @@ def copy_static_files(link=True, absolute=True):
                 shcopy(dist_file, local_file)
 
 
-listify_quick = lambda raw: [
-    x.lower() for x in re.findall(r"[\w\@\#\'\&\]\*\-\/\[\=\;]+", raw, flags=re.UNICODE)
-]
+def listify_quick(raw):
+    return [x.lower() for x in re.findall(r"[\w\@\#\'\&\]\*\-\/\[\=\;]+", raw, flags=re.UNICODE)]
 
 
 def open_codecs_dictify(file):

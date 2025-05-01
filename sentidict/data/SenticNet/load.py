@@ -1,5 +1,8 @@
-f = open("senticnet3.rdf.xml")
 import re
+import json
+
+f = open("senticnet3.rdf.xml")
+
 
 all_words = list()
 all_scores = list()
@@ -36,7 +39,5 @@ print(len(all_scores))
 scraped = dict()
 for i, word, score in zip(range(len(all_words)), all_words, all_scores):
     scraped[word] = (i, float(score))
-
-import json
 
 json.dump(scraped, open("senticnet3.json", "w"), indent=4)

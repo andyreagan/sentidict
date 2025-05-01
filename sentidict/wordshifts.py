@@ -1,8 +1,8 @@
 from IPython.display import publish_display_data
 from IPython import get_ipython
 from os.path import join, dirname
-from .utils import *
-from .dictionaries import *
+import codecs
+from .utils import shift, copy_static_files
 from jinja2 import FileSystemLoader
 from jinja2.environment import Environment
 

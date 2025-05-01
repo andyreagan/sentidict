@@ -1,6 +1,35 @@
-from .utils import *
-from .dictionaries import *
-from numpy import zeros
+from jinja2 import Template
+from .utils import openWithPath, listify_quick
+from .dictionaries import (
+    LabMT,
+    WK,
+    ANEW,
+    MPQA,
+    OL,
+    LIWC01,
+    GI,
+    LIWC07,
+    EmoLex,
+    LIWC15,
+    PANASX,
+    Sent140Lex,
+    SOCAL,
+    USent,
+    MaxDiff,
+    Umigon,
+    VADER,
+    AFINN,
+    Emoticons,
+    SentiWordNet,
+    LIWC,
+    Pattern,
+    WDAL,
+    SenticNet,
+    HashtagSent,
+    EmoSenticNet,
+    SentiStrength,
+)
+from numpy import zeros, array
 
 
 def all_features(rawtext, uid, tweet_id, gram_id):

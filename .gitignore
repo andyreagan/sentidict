@@ -4,12 +4,12 @@ dist
 build
 *.egg-info
 _build
-.pypirc
 .DS_Store
-pyenv
 MANIFEST
 LIWC
 LIWC.tgz
 node_modules
-README.rst
 .venv/
+.ipynb_checkpoints/
+
+**/.claude/settings.local.json

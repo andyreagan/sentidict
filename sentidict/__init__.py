@@ -1,7 +1,6 @@
-__all__ = ["dictionaries", "utils", "wordshifts", "functions"]
+from . import dictionaries
+from . import utils
+from . import wordshifts
+from . import functions
 
-# load everything
-from .dictionaries import *
-from .utils import *
-from .wordshifts import *
-from .functions import *
+__all__ = ["dictionaries", "utils", "wordshifts", "functions"]

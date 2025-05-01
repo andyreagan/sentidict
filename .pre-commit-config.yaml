@@ -1,12 +1,22 @@
 ---
+# Exclude patterns for all hooks
+exclude: &exclude_patterns |
+  (?x)(
+    ^.*/load-.*\.py$|
+    ^docs/conf\.py$|
+    ^sentidict/data/VADER/vaderSentiment\.py$|
+  )
+
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
       - id: check-ast
+        exclude: *exclude_patterns
       - id: check-added-large-files
       - id: check-toml
       - id: check-docstring-first
+        exclude: *exclude_patterns
       - id: mixed-line-ending
         args: [--fix=auto]
       - id: end-of-file-fixer
@@ -19,11 +29,13 @@ repos:
     hooks:
       - id: black
         args: [--line-length=100]
+        exclude: *exclude_patterns
 
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.15.0
     hooks:
       - id: mypy
+        exclude: *exclude_patterns
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     # Ruff version.
@@ -31,11 +43,13 @@ repos:
     hooks:
       - id: ruff
         args: [ --fix, --exit-non-zero-on-fix ]
+        exclude: *exclude_patterns
 
   - repo: https://github.com/asottile/pyupgrade  # automatically upgrade py code to newer syntax versions
     rev: v3.19.1
     hooks:
       - id: pyupgrade
         args: [ --py311-plus ]
+        exclude: *exclude_patterns
 
 ...

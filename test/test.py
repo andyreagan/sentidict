@@ -1,14 +1,14 @@
 # note: nose2 will run all functions that begin with test
 
-from sentidict.utils import *
-from sentidict.dictionaries import *
-from sentidict.functions import *
-from sentidict.wordshifts import *
+from sentidict.utils import stopper, stopper_mat, emotionV, shift
+from sentidict.wordshifts import shiftHtml
+from sentidict.functions import all_features, load_26
+from sentidict.dictionaries import sentiDict, LabMT
 import numpy as np
+from numpy import zeros, array
 from scipy.sparse import csr_matrix, issparse
-
-# import subprocess
-# import codecs
+import subprocess
+import codecs
 from json import loads
 
 # from jinja2 import Template
@@ -113,7 +113,6 @@ def test_stopper_mat():
 def test_emotionV():
     # not really much to test here...
     test_f = np.array([1, 1, 1, 1])
-    test_words = ["happy", "remove", "niggas", "neutral"]
     test_scores = [6.0, 8.0, 8.0, 5.0]
     assert emotionV(test_f, test_scores) == np.sum(test_scores) / 4
     assert emotionV(np.zeros(4), test_scores) == -1
@@ -213,7 +212,6 @@ def dict_vs_marisa_test(my_senti_dict, my_senti_marisa, test_dict, v=True):
             print(my_senti_marisa.stemwords[0])
     else:
         assert abs(dict_score - marisa_score) < TOL
-        diff = dict_word_vec - marisa_word_vec
         if v:
             # print(dict_word_vec,marisa_word_vec)
             print(my_senti_dict.fixedwords[0])
@@ -272,7 +270,6 @@ def test_dict_vs_marisa_all():
     # ref_dict = open_codecs_dictify("examples/data/18.01.14.txt")
     # comp_dict = open_codecs_dictify("examples/data/21.01.14.txt")
     ref_dict = {"the": 1, "dude": 1, "abides": 1, "happy": 5, "happyy": 2, "happyyy": 1}
-    comp_dict = {"the": 1, "dude": 1, "abides": 1, "happy": 1, "happyy": 0, "happyyy": 0}
 
     all_sentidicts = load_26(datastructure="dict", v=True)
     all_sentimarisas = load_26(datastructure="marisa_trie", v=True)
@@ -283,7 +280,6 @@ def test_dict_vs_marisa_all():
 
 def test_extended_features():
     f = codecs.open("test/example-tweets.json", "r", "utf8")
-    i = 0
     for line in f:
         tweet = loads(line)
         tweet_features = all_features(tweet["text"], tweet["user"]["id"], tweet["id"], -1)

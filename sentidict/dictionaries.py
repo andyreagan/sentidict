@@ -6,7 +6,7 @@
 # import codecs
 # from os import listdir
 from os import mkdir
-from os.path import isfile, isdir, join
+from os.path import isfile, isdir, join, dirname
 
 # import sys
 # import matplotlib.pyplot as plt
@@ -25,14 +25,14 @@ import marisa_trie
 # import string
 import copy
 import warnings
-
-from .utils import *
+from numpy import isarray, sum
+from .utils import u, openWithPath
 
 
 class sentiDict:
     """An abstract class to score them all."""
 
-    data = dict()
+    data: dict = dict()
     # see below for format string spec
     # https://docs.python.org/3/library/struct.html#format-strings
     # these a short,long,longlong
@@ -388,14 +388,14 @@ class LabMT(sentiDict):
         # word    rank    happs   stddev  rank    rank    rank    rank
         i = 0
         for line in f:
-            l = line.rstrip().split("\t")
+            line_parts = line.rstrip().split("\t")
             # this is for the english set
-            # word,overallrank,happs,stddev,rank1,rank2,rank3,rank4 = l
+            # word,overallrank,happs,stddev,rank1,rank2,rank3,rank4 = line_parts
             # for other langs, not the same
             # we'll at least assume that the first four ar the same
-            word, happsrank, happs, stddev = l[:4]
+            word, happsrank, happs, stddev = line_parts[:4]
             # twitter_rank	gbooks_rank	nyt_rank	lyrics_rank
-            other_ranks = l[4:]
+            other_ranks = line_parts[4:]
             labMT[word] = [i, float(happs), float(stddev)] + other_ranks
             i += 1
         f.close()
@@ -488,7 +488,7 @@ class LIWC(sentiDict):
     stems = True
 
     # special for LIWC here
-    word_types = dict()
+    word_types: dict = dict()
     year = "07"
     affect = 125
     positive = 126
@@ -515,15 +515,15 @@ class LIWC(sentiDict):
         f = openWithPath(join("data", "LIWC", f"LIWC20{self.year}_words.dic"), "r")
         i = 0
         for line in f:
-            l = line.rstrip().split("\t")
-            word = l[0]
-            # print(l[1:])
+            line_parts = line.rstrip().split("\t")
+            word = line_parts[0]
+            # print(line_parts[1:])
             # fixed this by hand...
-            # if l[1] == "(02 134)125/464":
+            # if line_parts[1] == "(02 134)125/464":
             #     tags = [2,134,125,464]
             # else:
-            #     tags = list(map(int,l[1:]))
-            tags = list(map(int, l[1:]))
+            #     tags = list(map(int,line_parts[1:]))
+            tags = list(map(int, line_parts[1:]))
             if word not in LIWC_data:
                 LIWC_data[word] = [0 for j in range(len(word_type_dict) + 2)]
                 LIWC_data[word][0] = i
@@ -631,11 +631,11 @@ class MPQA(sentiDict):
         num_duplicates = 0
         for line in f:
             # type=weaksubj len=1 word1=abandoned pos1=adj stemmed1=n priorpolarity=negative
-            l = [x.split("=")[1] for x in line.rstrip().split(" ")]
-            if len(l) == 6:
-                my_type, my_len, word, pos, stemmed, priorpolarity = l
-            elif len(l) == 7:
-                my_type, my_len, word, pos, stemmed, polarity, priorpolarity = l
+            line_parts = [x.split("=")[1] for x in line.rstrip().split(" ")]
+            if len(line_parts) == 6:
+                my_type, my_len, word, pos, stemmed, priorpolarity = line_parts
+            elif len(line_parts) == 7:
+                my_type, my_len, word, pos, stemmed, polarity, priorpolarity = line_parts
                 priorpolarity = polarity
 
             if stemmed == "y":
@@ -691,22 +691,22 @@ class OL(sentiDict):
         f = openWithPath(join("data", "OL", "negative-words.txt"), "r")
         i = 0
         for line in f:
-            l = line.rstrip()
-            if l in liu:
-                # print(l)
+            line_text = line.rstrip()
+            if line_text in liu:
+                # print(line_text)
                 pass
             else:
-                liu[l] = (i, -1)
+                liu[line_text] = (i, -1)
                 i += 1
         f.close()
         f = openWithPath(join("data", "OL", "positive-words.txt"), "r")
         for line in f:
-            l = line.rstrip()
-            if l in liu:
-                # print(l)
+            line_text = line.rstrip()
+            if line_text in liu:
+                # print(line_text)
                 pass
             else:
-                liu[l] = (i, 1)
+                liu[line_text] = (i, 1)
                 i += 1
         f.close()
         return liu
@@ -748,7 +748,7 @@ class WK(sentiDict):
         # ,Word,V.Mean.Sum,V.SD.Sum,V.Rat.Sum,A.Mean.Sum,A.SD.Sum,A.Rat.Sum,D.Mean.Sum,D.SD.Sum,D.Rat.Sum,V.Mean.M,V.SD.M,V.Rat.M,V.Mean.F,V.SD.F,V.Rat.F,A.Mean.M,A.SD.M,A.Rat.M,A.Mean.F,A.SD.F,A.Rat.F,D.Mean.M,D.SD.M,D.Rat.M,D.Mean.F,D.SD.F,D.Rat.F,V.Mean.Y,V.SD.Y,V.Rat.Y,V.Mean.O,V.SD.O,V.Rat.O,A.Mean.Y,A.SD.Y,A.Rat.Y,A.Mean.O,A.SD.O,A.Rat.O,D.Mean.Y,D.SD.Y,D.Rat.Y,D.Mean.O,D.SD.O,D.Rat.O,V.Mean.L,V.SD.L,V.Rat.L,V.Mean.H,V.SD.H,V.Rat.H,A.Mean.L,A.SD.L,A.Rat.L,A.Mean.H,A.SD.H,A.Rat.H,D.Mean.L,D.SD.L,D.Rat.L,D.Mean.H,D.SD.H,D.Rat.H
         # i,word,v_mean_sum,v_sd_sum,v_rat_sum,a_mean_sum,a_sd_sum,a_rat_sum,d_mean_sum,d_sd_sum,d_rat_sum,v_mean_m,v_sd_m,v_rat_m,v_mean_f,v_sd_f,v_rat_f,a_mean_m,a_sd_m,a_rat_m,a_mean_f,a_sd_f,a_rat_f,d_mean_m,d_sd_m,d_rat_m,d_mean_f,d_sd_f,d_rat_f,v_mean_y,v_sd_y,v_rat_y,v_mean_o,v_sd_o,v_rat_o,a_mean_y,a_sd_y,a_rat_y,a_mean_o,a_sd_o,a_rat_o,d_mean_y,d_sd_y,d_rat_y,d_mean_o,d_sd_o,d_rat_o,v_mean_l,v_sd_l,v_rat_l,v_mean_h,v_sd_h,v_rat_h,a_mean_l,a_sd_l,a_rat_l,a_mean_h,a_sd_h,a_rat_h,d_mean_l,d_sd_l,d_rat_l,d_mean_h,d_sd_h,d_rat_h
         for line in f:
-            l = line.rstrip().split(",")
+            line_parts = line.rstrip().split(",")
             (
                 i,
                 word,
@@ -815,7 +815,7 @@ class WK(sentiDict):
                 d_mean_h,
                 d_sd_h,
                 d_rat_h,
-            ) = l
+            ) = line_parts
             Warriner[word] = (int(i), float(v_mean_sum), float(v_sd_sum))
         f.close()
         return Warriner
@@ -841,8 +841,8 @@ class PANASX(sentiDict):
         f = openWithPath(join("data", "PANAS-X", "affect.txt"), "r")
         i = 0
         for line in f:
-            l = line.rstrip().split(",")
-            word, score = l
+            line_parts = line.rstrip().split(",")
+            word, score = line_parts
             PANAS[word] = (i, int(score))
             i += 1
         f.close()
@@ -1014,7 +1014,7 @@ class GI(sentiDict):
     def loadDict(self, bananas, lang):
         # coding: utf-8
         f = openWithPath(join("data", "GI", "inqtabs.txt"), "r")
-        header = f.readline().rstrip()
+        f.readline().rstrip()
         # for line in f:
         #     splitline = line.rstrip().split("\t")
         #     word = splitline[0]
@@ -1407,7 +1407,7 @@ class SenticNet(sentiDict):
     score_range_type = "continuous"
 
     def loadDict(self, bananas, lang):
-        f = openWithPath(join("data", self.title, "senticnet3.rdf.xml"), "r")
+        openWithPath(join("data", self.title, "senticnet3.rdf.xml"), "r")
         # import xml.etree.ElementTree as etree
         # tree = etree.parse(filename)
         # root = tree.getroot()
@@ -1457,6 +1457,7 @@ class Emoticons(sentiDict):
         return emoticon_dict
 
 
+# this is a naive bayes classifier, not a dictionary
 # class SASA(sentiDict):
 #     title="SASA"
 #     note="A system for real-time twitter sentiment analysis of 2012 us presidential election cycle"
@@ -1472,7 +1473,7 @@ class Emoticons(sentiDict):
 # 	Pages = {115--120},
 # 	Title = {A system for real-time twitter sentiment analysis of 2012 us presidential election cycle},
 # 	Year = {2012}}"""
-# this is a naive bayes classifier
+
 
 
 class SentiStrength(sentiDict):
@@ -1547,7 +1548,7 @@ class VADER(sentiDict):
             word = line_split[0]
             score = float(line_split[1])
             std = float(line_split[2])
-            all_scores = line_split[3]
+            line_split[3]
             VADER_dict[word] = (i, score, std)
             i += 1
         f.close()
@@ -1698,7 +1699,7 @@ class EmoSenticNet(sentiDict):
         ESS_dict = dict()
         f = openWithPath(join("data", self.title, "emosenticnet.csv"), "r")
         i = 0
-        header = f.readline()
+        f.readline()
         for line in f:
             line_split = line.split(",")
             word = line_split[0]
