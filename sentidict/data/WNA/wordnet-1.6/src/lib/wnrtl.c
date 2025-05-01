@@ -26,9 +26,9 @@ int wnsnsflag = 0;		/* if set, print WN sense # for each word */
 /* File pointers for database files */
 
 int OpenDB = 0;			/* if non-zero, database file are open */
-FILE *datafps[NUMPARTS + 1] = { NULL, NULL, NULL, NULL, NULL } , 
+FILE *datafps[NUMPARTS + 1] = { NULL, NULL, NULL, NULL, NULL } ,
      *indexfps[NUMPARTS + 1] = { NULL, NULL, NULL, NULL, NULL } ,
-     *sensefp = NULL, 
+     *sensefp = NULL,
      *cousinfp = NULL, *cousinexcfp = NULL,
      *vsentfilefp = NULL, *vidxfilefp = NULL;
 
@@ -45,7 +45,7 @@ int default_display_message(char *);
 int (*display_message)(char *) = default_display_message;
 
 /*
-   Revsion log: 
+   Revsion log:
 
    $Log: wnrtl.c,v $
  * Revision 1.1  1997/09/02  16:31:18  wn

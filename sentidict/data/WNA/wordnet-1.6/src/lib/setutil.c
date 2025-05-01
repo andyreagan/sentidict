@@ -20,13 +20,13 @@ struct set_tag {
 /*create and initialise a set object that can hold up to max distinct objs*/
 Set_t set_create(unsigned max_elem)
 {
-     Set_t s = calloc(1, sizeof *s + 
+     Set_t s = calloc(1, sizeof *s +
 		      (NBUCKETS(max_elem) - 1)*BUCKET_SIZE);
-     
+
      assert(s);
      s->max_elem = max_elem;
      return s;
-} 
+}
 
 
 Set_t set_resize(Set_t s, unsigned new_max_elem)
@@ -56,7 +56,7 @@ void set_addobj(Set_t s, unsigned objnum)
 {
      assert(s);
      assert(objnum < s->max_elem);
-     
+
      s->buckets[objnum/BITS_PER_BUCKET] |= 1 << (objnum % BITS_PER_BUCKET);
 }
 
@@ -64,20 +64,20 @@ void removeobj(Set_t s, unsigned objnum)
 {
      assert(s);
      assert(objnum < s->max_elem);
-     
+
      s->buckets[objnum/BITS_PER_BUCKET] &= ~(1 << (objnum % BITS_PER_BUCKET));
 }
- 
+
 void set_union(Set_t u, Set_t a, Set_t b)
 {
      unsigned i;
-     
+
      assert(a);
      assert(b);
      assert(u);
      assert(a->max_elem == b->max_elem);
      assert(u->max_elem >= a->max_elem);
-     
+
      for (i = 0; i < NBUCKETS(a->max_elem); i++)
 	  u->buckets[i] = a->buckets[i] | b->buckets[i];
      for ( ; i < NBUCKETS(u->max_elem); i++)
@@ -93,7 +93,7 @@ void set_intersection(Set_t n, Set_t a, Set_t b)
      assert(n);
      assert(a->max_elem == b->max_elem);
      assert(n->max_elem >= a->max_elem);
- 
+
      for (i = 0; i < NBUCKETS(a->max_elem); i++)
 	  n->buckets[i] = a->buckets[i] & b->buckets[i];
      for ( ; i < NBUCKETS(n->max_elem); i++)
@@ -103,7 +103,7 @@ void set_intersection(Set_t n, Set_t a, Set_t b)
 static int bitcount(bucket_t n)
 {
      int i, count;
-     
+
      for (count = 0, i = 0; i < BITS_PER_BUCKET - 1; i++)
 	  if (n & (1 << i)) count++;
 
@@ -125,7 +125,7 @@ int set_isempty(Set_t s)
 {
      int i;
      assert(s);
-     
+
      for (i = 0; i < NBUCKETS(s->max_elem); i++)
 	  if (s->buckets[i])
 	       return 0;
@@ -137,8 +137,8 @@ int set_haselem(Set_t s, unsigned objnum)
      assert(s);
      assert(objnum < s->max_elem);
 
-     return 
-	  s->buckets[objnum/BITS_PER_BUCKET] & 
+     return
+	  s->buckets[objnum/BITS_PER_BUCKET] &
 	       (1 << (objnum % BITS_PER_BUCKET));
 }
 

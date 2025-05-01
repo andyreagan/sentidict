@@ -15,7 +15,7 @@ install: $(WN_FILES)
 		echo "Making directory $(WN_INSTALLDIR)" ; \
 		mkdir -p $(WN_INSTALLDIR) ; \
 		chmod 755 $(WN_INSTALLDIR) ; \
-	fi ; 
+	fi ;
 	@for file in $(WN_FILES) ; \
 	 do \
 		filename=$(WN_INSTALLDIR)/$$file ; \

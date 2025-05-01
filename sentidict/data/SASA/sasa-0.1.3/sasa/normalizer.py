@@ -9,18 +9,27 @@ __version__ = "1.0"
 __maintainer__ = "Last modified by Abe Kazemzadeh"
 __email__ = "See the authors' website"
 
-class N0(object):
+
+class N0:
     def normalize(self, tokens):
         return [token.lower() for token in tokens]
 
-class N1(object):
+
+class N1:
     def __init__(self):
         self.url = re.compile(r"""^\b[^\s]*[a-z]\.[a-z]{2,3}[^\s]*$""")
-        self.emopos = re.compile(r"""^[<>]?[:;=8][\-o\*\']?[\)\]dDpP\}]|[\)\]dDpP\}][\-o\*\']?[:;=8][<>]?$""")
-        self.emoneg = re.compile(r"""^[<>]?[:;=8][\-o\*\']?[\(\[/\{\\]|[\(\[/\{\\][\-o\*\']?[:;=8][<>]?$""")
-        self.emo = re.compile(r"""^[<>]?[:;=8][\-o\*\']?[\)\]\(\[dDpP/\:\}\{@\|\\]|[\)\]\(\[dDpP/\:\}\{@\|\\][\-o\*\']?[:;=8][<>]?$""")
+        self.emopos = re.compile(
+            r"""^[<>]?[:;=8][\-o\*\']?[\)\]dDpP\}]|[\)\]dDpP\}][\-o\*\']?[:;=8][<>]?$"""
+        )
+        self.emoneg = re.compile(
+            r"""^[<>]?[:;=8][\-o\*\']?[\(\[/\{\\]|[\(\[/\{\\][\-o\*\']?[:;=8][<>]?$"""
+        )
+        self.emo = re.compile(
+            r"""^[<>]?[:;=8][\-o\*\']?[\)\]\(\[dDpP/\:\}\{@\|\\]|[\)\]\(\[dDpP/\:\}\{@\|\\][\-o\*\']?[:;=8][<>]?$"""
+        )
         self.repeat = re.compile(r"""^(?P<first_char>\W)(?P=first_char){1,}$""")
         self.lowercase = re.compile("""^.*[a-z].*$""")
+
     def normalize(self, tokens):
         norms = []
         for token in tokens:

@@ -19,7 +19,7 @@ following files and subdirectories in this directory:
 	man		WordNet Reference Manual (man pages)
 	src		source code for WordNet library and interfaces
 
-2. Makefile 
+2. Makefile
 
 To prepare WordNet for installation on your systems you must edit the
 Makefile.  Following is a brief description of the variables used for
@@ -47,7 +47,7 @@ the WordNet source code.
 
 	INSTALLFLAGS	Defaults to "-p" for use with "INSTALLCMD=cp".
 			Set to "" if using "INSTALLCMD=mv".
-		
+
 	WN_LIBDIR	Directory for installation of WordNet library
 			libwn.a.  Defaults to WN_ROOT/lib
 
@@ -144,7 +144,7 @@ database files from the download directory with the command:
 
 You can remove the various pieces of WordNet from the installation
 directories with the command:
-	
+
 	make uninstall
 
 Note that this does not attempt to remove directories, and does not

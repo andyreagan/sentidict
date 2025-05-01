@@ -306,15 +306,15 @@ import re
 import string
 import sys
 
-# Are we running at least python 2.2?                                           
+# Are we running at least python 2.2?
 try:
   if tuple(sys.version_info[:3]) < (2,2,0):
     raise NotImplementedError("requires python 2.2.0 or later")
-except AttributeError:   # a very old python, that lacks sys.version_info       
+except AttributeError:   # a very old python, that lacks sys.version_info
   raise NotImplementedError("requires python 2.2.0 or later")
 
-# If we're not running at least python 2.2.1, define True, False, and bool.     
-# Thanks, Guido, for the code.                                                  
+# If we're not running at least python 2.2.1, define True, False, and bool.
+# Thanks, Guido, for the code.
 try:
   True, False, bool
 except NameError:
@@ -581,7 +581,7 @@ def DocToHelp(doc):
   # 2) keep ws after new lines if not empty line
   # 3) all other new lines shall be changed to a space
   # Solution: Match new lines between non white space and replace with space.
-  doc = re.sub('(?<=\S)\n(?=\S)', ' ', doc, re.M)
+  doc = re.sub('(?<=\\S)\n(?=\\S)', ' ', doc, re.M)
 
   return doc
 
@@ -1151,7 +1151,7 @@ class FlagValues:
       # lhuang:
       if flag.name in ["help", "helpshort"]:
 			  continue
-			
+
       if flag.short_name:
         flaghelp += "-" if len(flag.short_name) == 1 else "--"  # lhuang: shortname can be long
         flaghelp += "%s," % flag.short_name

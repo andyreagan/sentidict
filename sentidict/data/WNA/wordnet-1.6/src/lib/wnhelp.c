@@ -1,6 +1,6 @@
 /*
-  
-  wnhelp.c 
+
+  wnhelp.c
 
 */
 
@@ -168,7 +168,7 @@ grep_help
 
 };
 
-static char *verbhelps[] = { 
+static char *verbhelps[] = {
 /* HYPERPTR */
 "Display synonyms and immediate `troponyms' of synsets containing \n\
 the search string.  \n\
@@ -251,7 +251,7 @@ grep_help
 
  };
 
-static char *adjhelps[] = { 
+static char *adjhelps[] = {
 /* SIMPTR */
 "Display synonyms and synsets related to synsets containing \n\
 the search string.  If the search string is in a `head synset' \n\
@@ -356,6 +356,5 @@ grep_help
 };
 
 char **helptext[NUMPARTS + 1] = {
-    NULL,  nounhelps, verbhelps, adjhelps, advhelps 
+    NULL,  nounhelps, verbhelps, adjhelps, advhelps
 };
-

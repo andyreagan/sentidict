@@ -7,28 +7,28 @@ Copyright (C) 2011 National Research Council Canada (NRC)
 Contact: Saif Mohammad (saif.mohammad@nrc-cnrc.gc.ca)
 
 Terms of use:
-1. This lexicon can be used freely for research purposes. 
-2. The papers listed below provide details of the creation and use of 
-   the lexicon. If you use a lexicon, then please cite the associated 
+1. This lexicon can be used freely for research purposes.
+2. The papers listed below provide details of the creation and use of
+   the lexicon. If you use a lexicon, then please cite the associated
    papers.
-3. If interested in commercial use of the lexicon, send email to the 
-   contact. 
-4. If you use the lexicon in a product or application, then please 
-   credit the authors and NRC appropriately. Also, if you send us an 
-   email, we will be thrilled to know about how you have used the 
+3. If interested in commercial use of the lexicon, send email to the
+   contact.
+4. If you use the lexicon in a product or application, then please
+   credit the authors and NRC appropriately. Also, if you send us an
+   email, we will be thrilled to know about how you have used the
    lexicon.
-5. National Research Council Canada (NRC) disclaims any responsibility 
-   for the use of the lexicon and does not provide technical support. 
-   However, the contact listed above will be happy to respond to 
+5. National Research Council Canada (NRC) disclaims any responsibility
+   for the use of the lexicon and does not provide technical support.
+   However, the contact listed above will be happy to respond to
    queries and clarifications.
-6. Rather than redistributing the data, please direct interested 
+6. Rather than redistributing the data, please direct interested
    parties to this page:
-   http://www.purl.com/net/lexicons 
+   http://www.purl.com/net/lexicons
 
 Please feel free to send us an email:
-- with feedback regarding the lexicon. 
-- with information on how you have used the lexicon. 
-- if interested in having us analyze your data for sentiment, emotion, 
+- with feedback regarding the lexicon.
+- with information on how you have used the lexicon.
+- if interested in having us analyze your data for sentiment, emotion,
   and other affectual information.
 - if interested in a collaborative research project.
 
@@ -52,17 +52,17 @@ publications:
 -- Crowdsourcing a Word-Emotion Association Lexicon, Saif Mohammad and
 Peter Turney, To Appear in Computational Intelligence, Wiley Blackwell
 Publishing Ltd.
- 	 
+
 -- Tracking Sentiment in Mail: How Genders Differ on Emotional Axes,
 Saif Mohammad and Tony Yang, In Proceedings of the ACL 2011 Workshop
 on ACL 2011 Workshop on Computational Approaches to Subjectivity and
 Sentiment Analysis (WASSA), June 2011, Portland, OR.  Paper (pdf)
- 	 
+
 -- From Once Upon a Time to Happily Ever After: Tracking Emotions in
 Novels and Fairy Tales, Saif Mohammad, In Proceedings of the ACL 2011
 Workshop on Language Technology for Cultural Heritage, Social
 Sciences, and Humanities (LaTeCH), June 2011, Portland, OR.  Paper
- 	 
+
 -- Emotions Evoked by Common Words and Phrases: Using Mechanical Turk
 to Create an Emotion Lexicon", Saif Mohammad and Peter Turney, In
 Proceedings of the NAACL-HLT 2010 Workshop on Computational Approaches

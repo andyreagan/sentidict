@@ -15,7 +15,7 @@ Welcome to sentidict's documentation!
    wordshifts
    advanced
    sentidict
-    
+
 Indices and tables
 ==================
 

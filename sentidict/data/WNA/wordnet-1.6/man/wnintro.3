@@ -8,7 +8,7 @@ wnintro \- introduction to WordNet library functions
 This section of the \fIWordNet Reference Manual\fP contains manual
 pages that describe the WordNet library functions and API.
 
-Functions are organized into the following categories: 
+Functions are organized into the following categories:
 
 .TS
 center box ;
@@ -24,7 +24,7 @@ Binary Search	\fBbinsrch\fP(3WN)	binsrch.o
 The WordNet library is used by all of the searching interfaces
 provided with the various WordNet packages.  Additional programs in
 the system, such as
-.BR escort (1WN) 
+.BR escort (1WN)
 and
 .BR grind (1WN),
 also use functions in this library.
@@ -38,7 +38,7 @@ The code conforms to ANSI C standards.  Functions are defined with
 function prototypes.  If you do not have a compiler that accepts
 prototypes, you must edit the source code and remove the prototypes
 before compiling.
-.BR gcc (1), 
+.BR gcc (1),
 version 2.7.2, was used to compile all of the Unix libraries.  The
 Macintosh code was compiled with Metroworks CodeWarrior 9, the Windows
 code was compiled with Microsoft Visual C++ 4.0, and the DOS code was
@@ -68,7 +68,7 @@ development.  Data structures are defined in
 .SS Database Searching Functions (search.o)
 
 .TP 25
-.B findtheinfo 
+.B findtheinfo
 Primary search function for WordNet database.  Returns
 formatted search results in text buffer.  Used by WordNet interfaces
 to perform requested search.
@@ -220,7 +220,7 @@ on line in sorted file.
 Copy contents from one file to another.
 .TP 25
 .B replace_line
-Replace a line in a sorted file. 
+Replace a line in a sorted file.
 .TP 25
 .B insert_line
 Insert a line into a sorted file.
@@ -269,13 +269,13 @@ to be open.  The function
 must be called before other database access functions such as
 .BR findtheinfo (3WN)
 or
-.BR read_synset (3WN).  
+.BR read_synset (3WN).
 
 Inclusion of the header file \fBwn.h\fP is usually
 sufficient, as it includes several other WordNet header files.
 
 The command line interface is a good example of a simple application
-that uses several WordNet library functions. 
+that uses several WordNet library functions.
 
 Many of the library functions are passed or return syntactic category
 or synset type information.  The following table lists the possible
@@ -341,7 +341,7 @@ header files for use with WordNet library (Mac)
 .LP
 Miller, G. A. (1990), ed.
 \fI"WordNet: An On\-Line Lexical Database"\fP.
-International Journal of Lexicography, Volume 3, Number 4.  
+International Journal of Lexicography, Volume 3, Number 4.
 .LP
 Miller, G. A., et al. (1990, 1993). \fI"Five Papers on WordNet"\fP. Cognitive
 Science Laboratory Report 43. (Available from

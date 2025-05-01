@@ -6,7 +6,7 @@
 		<text xmlns="http://sentic.net/api/">April fifteenth</text>
 		<polarity xmlns="http://sentic.net/api/" rdf:datatype="http://www.w3.org/2001/XMLSchema#float">+0.125</polarity>
 	</rdf:Description>
-    
+
 	<rdf:Description rdf:about="http://openmind.media.mit.edu/api/en/concept/December">
 		<rdf:type rdf:resource="http://sentic.net/api/concept"/>
 		<text xmlns="http://sentic.net/api/">December</text>

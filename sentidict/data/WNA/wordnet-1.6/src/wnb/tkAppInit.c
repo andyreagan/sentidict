@@ -1,4 +1,4 @@
-/* 
+/*
  * tkAppInit.c --
  *
  *	Provides a default version of the Tcl_AppInit procedure for
@@ -24,7 +24,7 @@ static char sccsid[] = "@(#) tkAppInit.c 1.15 95/06/28 13:14:28";
 
 extern int matherr();
 int *tclDummyMathPtr = (int *) matherr;
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -50,7 +50,7 @@ main(argc, argv)
     Tk_Main(argc, argv, Tcl_AppInit);
     return 0;			/* Needed only to prevent compiler warning. */
 }
-
+
 /*
  *----------------------------------------------------------------------
  *

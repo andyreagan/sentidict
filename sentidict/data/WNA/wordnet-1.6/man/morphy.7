@@ -28,19 +28,19 @@ string is either a single word or a collocation.  Since some words,
 such as \fBaxes\fP can have more than one base form (\fBaxe\fP and
 \fBaxis\fP), Morphy works in the following manner.  The first time
 that Morphy is called with a specific string, it returns a base form.
-For each subsequent call to Morphy made with a 
-.SB NULL 
+For each subsequent call to Morphy made with a
+.SB NULL
 string argument, Morphy returns another base form.  Whenever Morphy
 cannot perform a transformation, whether on the first call for a word
 or subsequent calls,
-.SB NULL 
-is returned.  A transformation to a valid English string will return 
+.SB NULL
+is returned.  A transformation to a valid English string will return
 .SB NULL
 if the base form of the string is not in WordNet.
 
 The morphological functions are found in the WordNet library.  See
 .BR morph (3WN)
-for information on using these functions.  
+for information on using these functions.
 .SS Rules of Detachment
 The following table shows the rules of detachment used by Morphy.  If
 a word ends with one of the suffixes, it is stripped from the word and
@@ -87,7 +87,7 @@ for information on the format of the exception list files.
 In general, single words are relatively easy to process.  Morphy first
 looks for the word in the exception list.  If it is found the first
 base form is returned.  Subsequent calls with a
-.SB NULL 
+.SB NULL
 argument return additional base forms, if present.  A
 .SB NULL
 is returned when there are no more base forms of the word.
@@ -146,7 +146,7 @@ passed \fBlines~of~products\fP, the search string becomes
 .SH ENVIRONMENT VARIABLES
 .TP 20
 .B WNHOME
-Base directory for WordNet.  Unix default is 
+Base directory for WordNet.  Unix default is
 \fB/usr/local/wordnet1.6\fP, PC default is \fBC:\ewn16\fP, Macintosh
 default is \fB:\fP.
 .TP 20

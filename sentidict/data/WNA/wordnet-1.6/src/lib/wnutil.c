@@ -30,7 +30,7 @@ static char *strstr_word;
 static char *strstr_stringstart;
 static char *strstr_stringcurrent;
 
-
+
 /* Initialization functions */
 
 static void closefps();
@@ -47,8 +47,8 @@ int wninit(void)
 	    assert(wnrelease);
 	}
 	openerr = do_init();
-	if (!openerr) {	
-	    done = 1;	
+	if (!openerr) {
+	    done = 1;
 	    OpenDB = 1;
 	    openerr = morphinit();
 	}
@@ -77,7 +77,7 @@ int re_wninit(void)
     return(openerr);
 }
 
-static void closefps(void) 
+static void closefps(void)
 {
     int i;
 
@@ -112,7 +112,7 @@ static int do_init(void)
     int i, openerr;
     char searchdir[256], tmpbuf[256];
     char *env;
- 
+
     openerr = 0;
 
     /* Find base directory for database.  If set, use WNSEARCHDIR.
@@ -191,7 +191,7 @@ static int do_init(void)
 
     return(openerr);
 }
-
+
 /* Count the number of underscore or space separated words in a string. */
 
 int cntwords(char *s, char separator)
@@ -324,7 +324,7 @@ int StrToPos(char *str)
 	return(-1);
     }
 }
-
+
 #define MAX_TRIES	5
 
 /* Find string for 'searchstr' as it is in index file */
@@ -335,7 +335,7 @@ char *GetWNStr(char *searchstr, int dbase)
     register char c;
     char *underscore = NULL, *hyphen = NULL, *period = NULL;
     static char strings[MAX_TRIES][WORDBUF];
-	
+
     ToLowerCase(searchstr);
 
     if (!(underscore = strchr(searchstr, '_')) &&
@@ -353,15 +353,15 @@ char *GetWNStr(char *searchstr, int dbase)
     }
     strings[3][j] = '\0';
     strings[4][k] = '\0';
-	
+
     for(i = 1; i < MAX_TRIES; i++)
 	if(strcmp(strings[0], strings[i]) == 0) strings[i][0] = '\0';
-	
+
     for (i = (MAX_TRIES - 1); i >= 0; i--)
 	if (strings[i][0] != '\0')
 	    if (bin_search(strings[i], indexfps[dbase]) != NULL)
 		offset = i;
-	
+
     return(strings[offset]);
 }
 
@@ -419,7 +419,7 @@ int GetPolyCount(char *sensekey)
     }
     return(sense_cnt);
 }
-
+
 /* Return word part of sense key */
 char *GetWORD(char *sensekey)
 {
@@ -445,7 +445,7 @@ int GetPOS(char *sensekey)
     sscanf(sensekey, "%1d", &pos);
     return(pos == SATELLITE ? ADJ : pos);
 }
-
+
 /* Reconstruct synset from synset pointer and return ptr to buffer */
 
 char *FmtSynset(SynsetPtr synptr, int defn)
@@ -489,7 +489,7 @@ char *WNSnsToStr(IndexPtr idx, int sense)
 		assert(sptr->headword);
 		strcpy(sptr->headword, adjss->words[0]);
 		sptr->headsense = adjss->lexid[0];
-		free_synset(adjss); 
+		free_synset(adjss);
 		break;
 	    }
 	}
@@ -507,18 +507,18 @@ char *WNSnsToStr(IndexPtr idx, int sense)
 	return(NULL);
     }
 
-    if (sstype == SATELLITE) 
+    if (sstype == SATELLITE)
 	sprintf(sensekey,"%s%%%-1.1d:%-2.2d:%-2.2d:%s:%-2.2d",
 		idx->wd, SATELLITE, sptr->fnum,
 		sptr->lexid[j], sptr->headword,sptr->headsense);
-    else 
+    else
 	sprintf(sensekey,"%s%%%-1.1d:%-2.2d:%-2.2d::",
 		idx->wd, pos, sptr->fnum, sptr->lexid[j]);
 
     free_synset(sptr);
     return(strdup(sensekey));
 }
-
+
 /* Search for string and/or baseform of word in database and return
    index structure for word if found in database. */
 
@@ -538,7 +538,7 @@ IndexPtr GetValidIndexPointer(char *word, int pos)
     }
     return (idx);
 }
-
+
 /* Return sense number in database for word and lexsn passed. */
 
 int GetWNSense(char *word, char *lexsn)
@@ -594,7 +594,7 @@ int default_display_message(char *msg)
     return(-1);
 }
 
-/* 
+/*
 ** Wrapper functions for strstr that allow you to retrieve each
 ** occurance of a word within a longer string, not just the first.
 **
@@ -617,4 +617,3 @@ int strstr_getnext (void) {
    strstr_stringcurrent = loc + 1;
    return (loc - strstr_stringstart);
 }
-

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 
+<!--
 SUBJECTIVITY LEXICON FOR ENGLISH ADJECTIVES.
 Adjectives have a polarity (negative/positive, -1.0 to +1.0) and a subjectivity (objective/subjective, +0.0 to +1.0).
 The reliability specifies if an adjective was hand-tagged (1.0) or inferred (0.7).

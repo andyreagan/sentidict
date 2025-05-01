@@ -43,4 +43,3 @@ the target directory for Tk, and again we recommend "/usr/local".
    ./configure --prefix=INSTALLPATH
    make
    make install
-

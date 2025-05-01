@@ -1,4 +1,4 @@
-/* 
+/*
 
   wn.c - Command line interface to WordNet
 
@@ -69,7 +69,7 @@ static struct {
 struct {
     char *template;		/* template for generic search message */
     char *option;		/* text for help message */
-    char *helpstr;	
+    char *helpstr;
 } searchstr[] = {		/* index by search type type */
     { NULL, NULL, NULL },
     { "-ants%c",	"-ants{n|v|a|r}",	"\t\tAntonyms", },
@@ -111,13 +111,13 @@ static int do_is_defined(char *);
 static void printusage(), printlicense(),
        printsearches(char *, int, unsigned long);
 static int error_message(char *);
-
+
 main(int argc,char *argv[])
 {
     int i;
 
     display_message = error_message;
-    
+
     if (argc < 2) {
 	printusage();
 	exit(-1);
@@ -130,7 +130,7 @@ main(int argc,char *argv[])
 	display_message("wn: Fatal error - cannot open WordNet database\n");
 	exit (-1);
     }
-    
+
     exit(searchwn(argc, argv));
 }
 
@@ -140,7 +140,7 @@ static int searchwn(int ac, char *av[])
     int whichsense = ALLSENSES, help = 0;
     int errcount = 0, outsenses = 0;
     char tmpbuf[256];		/* buffer for constuction error messages */
-    
+
     if (ac == 2)		/* print available searches for word */
 	exit(do_is_defined(av[1]));
 
@@ -214,7 +214,7 @@ static int do_search(char *searchword, int pos, int search, int whichsense,
 	do {
 	    outbuf = findtheinfo(morphword, pos, search, whichsense);
 	    totsenses += wnresults.printcnt;
-	    if (strlen(outbuf) > 0) 
+	    if (strlen(outbuf) > 0)
 		printf("\n%s of %s %s\n%s",
 		       label, partnames[pos], morphword, outbuf);
 	} while (morphword = morphstr(NULL, pos));
@@ -232,11 +232,11 @@ static int do_is_defined(char *searchword)
 	display_message("wn: invalid search word\n");
 	return(-1);
     }
-    
+
     /* Print all valid searches for word in all parts of speech */
 
     strtolower(strsubst(searchword, ' ', '_'));
-	    
+
     for (i = 1; i <= NUMPARTS; i++) {
 	if ((search = is_defined(searchword, i)) != 0) {
 	    printsearches(searchword, i, search);
@@ -331,7 +331,7 @@ static int error_message(char *msg)
 
 /*
   Revision log: (since version 1.5)
-  
+
   $Log: wn.c,v $
  * Revision 1.58  1997/11/21  19:01:17  wn
  * added simsv search
@@ -357,9 +357,8 @@ static int error_message(char *msg)
  * Revision 1.51  1995/06/30  19:25:02  wn
  * access first element of OutSenseCount array
  *
-  * 
+  *
   * Revision 1.1  91/09/17  15:51:09  wn
   * Initial revision
-  * 
+  *
   */
-

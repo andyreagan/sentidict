@@ -68,5 +68,4 @@ France Telecom.
 This work was made possible by using existing open source projects and code.
 NLTK (nltk.org) provides some of the basic classes of the SASA tool,
 e.g. frequency distributions and classifiers.  Christopher Potts' twitter
-specific tokenizer for sentiment analysis is used for tokenization. 
-
+specific tokenizer for sentiment analysis is used for tokenization.

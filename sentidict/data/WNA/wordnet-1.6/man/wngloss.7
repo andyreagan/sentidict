@@ -30,21 +30,21 @@ and describe relations between synonym groups.
 converts the lexicographer files into a database that encodes the
 relations between the synonym groups.  The different interfaces to the
 WordNet database utilize a common library of search routines to
-display these relations.  Note that the lexicographer files and 
+display these relations.  Note that the lexicographer files and
 .BR grind (1WN)
-program are not distributed.  
+program are not distributed.
 
 The semantic concordances consist of groups of Brown Corpus files that
-have been semantically tagged by hand.  
-.BR escort (1WN), 
+have been semantically tagged by hand.
+.BR escort (1WN),
 an interface for searching the semantic concordances, uses the sense
 index and taglist files to find sentences with semantic tags to
 specific WordNet senses.  The tools and programs used to
-create the semantic concordances are not distributed.  
+create the semantic concordances are not distributed.
 .BR escort (1WN)
 is included in the semantic concordance package.
 
-See 
+See
 .BR wnpkgs (7WN)
 for a description of the various WordNet packages available.
 .SS Database Organization
@@ -64,7 +64,7 @@ meronymy/holonymy.
 
 Nouns and verbs are organized into hierarchies based on the
 hypernymy/hyponymy relation between synsets.  Additional pointers are
-be used to indicate other relations.  
+be used to indicate other relations.
 
 Adjectives are arranged in clusters containing head synsets and
 satellite synsets.  Each cluster is organized around antonymous pairs
@@ -91,7 +91,7 @@ lexical pointer to the adjective from which it is derived.
 See
 .BR wndb (5WN)
 for a detailed description of the database files and how the data are
-represented. 
+represented.
 .SH GLOSSARY OF TERMS
 Many terms used in the \fIWordNet Reference Manual\fP are unique to
 the WordNet system.  Other general terms have specific meanings when
@@ -110,16 +110,16 @@ Each head synset has one or more \fBsatellite synsets\fP.
 .TP 25
 .B attribute
 A noun for which adjectives express values.
-The noun \fBweight\fP is an attribute, for which the adjectives 
-\fBlight\fP and \fBheavy\fP express values. 
+The noun \fBweight\fP is an attribute, for which the adjectives
+\fBlight\fP and \fBheavy\fP express values.
 .TP 25
 .B base form
 The base form of a word or collocation is the form to which
 inflections are added.
 .TP 25
 .B basic synset
-Syntactically, same as \fBsynset\fP.  Term is used in 
-.BR wninput (5WN) 
+Syntactically, same as \fBsynset\fP.  Term is used in
+.BR wninput (5WN)
 to help explain differences in entering synsets in lexicographer
 files.
 .TP 25
@@ -138,7 +138,7 @@ characters.
 .TP 25
 .B coordinate
 Coordinate terms are words that have the same \fBhypernym\fP.
-.TP 25 
+.TP 25
 .B cross-cluster pointer
 A \fBsemantic pointer\fP from one adjective cluster to another.
 .TP 25
@@ -151,7 +151,7 @@ co-occurrences.  In \fBadjective clusters\fP, direct antonyms appears
 only in \fBhead synsets\fP.
 .TP 25
 .B entailment
-A verb \fBX\fP entails \fBY\fP if \fBX\fP cannot be done unless \fBY\fP is, 
+A verb \fBX\fP entails \fBY\fP if \fBX\fP cannot be done unless \fBY\fP is,
 or has been, done.
 .TP 25
 .B exception list
@@ -170,16 +170,16 @@ Synset in an adjective \fBcluster\fP containing at least one word
 that has a \fBdirect antonym\fP.
 .TP 25
 .B holonym
-The name of the whole of which the meronym names a part.  \fBY\fP 
+The name of the whole of which the meronym names a part.  \fBY\fP
 is a holonym of \fBX\fP if \fBX\fP is a part of \fBY\fP.
 .TP 25
 .B hypernym
 The generic term used to designate a whole class of specific instances.
-\fBY\fP is a hypernym of \fBX\fP if \fBX\fP is a (kind of) \fBY\fP.  
+\fBY\fP is a hypernym of \fBX\fP if \fBX\fP is a (kind of) \fBY\fP.
 .TP 25
 .B hyponym
 The specific
-term used to designate a member of a class.  \fBX\fP is a hyponym of 
+term used to designate a member of a class.  \fBX\fP is a hyponym of
 \fBY\fP if \fBX\fP is a (kind of) \fBY\fP.
 .TP 25
 .B indirect antonym
@@ -221,7 +221,7 @@ Having more than one sense in a syntactic category.
 Number of senses of a word in a syntactic category, in WordNet.
 .TP 25
 .B postnominal
-A postnominal adjective occurs only immediately following the noun 
+A postnominal adjective occurs only immediately following the noun
 that it modifies.
 .TP 25
 .B predicative

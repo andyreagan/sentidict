@@ -2,17 +2,17 @@ from setuptools import setup, find_packages
 import os
 
 # Define version in one place
-VERSION = "0.1.9"
+VERSION = "0.1.10"
 
-# Read the contents of README.markdown file
+# Read the contents of README.md file
 this_directory = os.path.abspath(os.path.dirname(__file__))
-with open(os.path.join(this_directory, 'README.markdown'), encoding='utf-8') as f:
+with open(os.path.join(this_directory, "README.md"), encoding="utf-8") as f:
     long_description = f.read()
 
 # Get the data files
-with open(os.path.join(this_directory, "datafiles.txt"), "r") as file:
+with open(os.path.join(this_directory, "datafiles.txt")) as file:
     data_files = [line.rstrip() for line in file]
-    
+
 setup(
     name="sentidict",
     version=VERSION,
@@ -35,7 +35,7 @@ setup(
         "Operating System :: OS Independent",
     ],
     packages=find_packages(),
-    package_data={"sentidict": ["static/*","templates/*"] + data_files},
+    package_data={"sentidict": ["static/*", "templates/*"] + data_files},
     python_requires=">=3.9",
     install_requires=[
         "marisa_trie",

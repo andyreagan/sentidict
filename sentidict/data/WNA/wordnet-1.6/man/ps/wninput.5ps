@@ -4,7 +4,7 @@
 %%CreationDate: Wed Dec  3 14:10:41 1997
 %%EndComments
 % Start of psdit.pro -- prolog for ditroff translator
-% Copyright (c) 1985,1987 Adobe Systems Incorporated. All Rights Reserved. 
+% Copyright (c) 1985,1987 Adobe Systems Incorporated. All Rights Reserved.
 % GOVERNMENT END USERS: See Notice file in TranScript library directory
 % -- probably /usr/lib/ps/Notice
 % RCS: $Header: psdit.pro,v 2.2 87/11/17 16:40:42 byron Rel $
@@ -32,7 +32,7 @@ currentlinejoin currentdash currentgray currentmiterlimit ] cvx def
 	/llx exch def
 	/y exch 72 mul resolution div def
 	/x exch 72 mul resolution div def
-	
+
 	currentpoint /cy exch def /cx exch def
 
 	/sx x urx llx sub div def 	% scaling for x
@@ -42,7 +42,7 @@ currentlinejoin currentdash currentgray currentmiterlimit ] cvx def
 
 	cx sx div llx sub
 	cy sy div ury sub translate
-	
+
 	/DefFigCTM matrix currentmatrix def
 
 	/initmatrix {
@@ -53,7 +53,7 @@ currentlinejoin currentdash currentgray currentmiterlimit ] cvx def
 	} def
 
 	/initgraphics {
-		DocumentInitState setmiterlimit setgray setdash 
+		DocumentInitState setmiterlimit setgray setdash
 			setlinejoin setlinecap setlinewidth setmatrix
 		DefFigCTM setmatrix
 	} def
@@ -82,15 +82,15 @@ currentlinejoin currentdash currentgray currentmiterlimit ] cvx def
 } def
 /globalstart {
 	% Push details about the enviornment on the stack.
-	fontnum fontsize fontslant fontheight 
-	% firstpage 
-	mh my resolution slotno currentpoint 
-	pagesave restore gsave 
+	fontnum fontsize fontslant fontheight
+	% firstpage
+	mh my resolution slotno currentpoint
+	pagesave restore gsave
 } def
 /globalend {
 	grestore moveto
 	/slotno exch def /resolution exch def /my exch def
-	/mh exch def 
+	/mh exch def
 	% /firstpage exch def
 	/fontheight exch def
 	/fontslant exch def /fontsize exch def /fontnum exch def
@@ -147,7 +147,7 @@ currentlinejoin currentdash currentgray currentmiterlimit ] cvx def
 /arcellipse{oldmat currentmatrix pop
  currentpoint translate 1 diamv diamh div scale /rad diamh 2 div def
  rad 0 rad -180 180 arc oldmat setmatrix}def
-/Dc{gsave dup /diamv exch def /diamh exch def arcellipse dstroke 
+/Dc{gsave dup /diamv exch def /diamh exch def arcellipse dstroke
     grestore diamh 0 rmoveto}def
 /De{gsave /diamv exch def /diamh exch def arcellipse dstroke
     grestore diamh 0 rmoveto}def
@@ -192,7 +192,7 @@ end
 /fraction
  {/fden exch def /fnum exch def gsave /cf currentfont def
   cf fractm makefont setfont 0 .3 dm 2 copy neg rmoveto
-  fnum show rmoveto currentfont cf setfont(\244)show setfont fden show 
+  fnum show rmoveto currentfont cf setfont(\244)show setfont fden show
   grestore ditwid 0 rmoveto} def
 /oce {grestore ditwid 0 rmoveto}def
 /dm {ditsiz mul}def

@@ -1,4 +1,4 @@
-WordNet-Affect 
+WordNet-Affect
 
 All the synset offsets refer to WordNet 1.6
 
@@ -20,7 +20,7 @@ sit = emotion-eliciting situation (e.g. noun "awkwardness#3",
 
 res = emotional response (e.g. noun "cold_sweat#1", verb "tremble#2")
 
-beh = behaviour (e.g. noun "offense#1", adjective "inhibited#1") 
+beh = behaviour (e.g. noun "offense#1", adjective "inhibited#1")
 
 att = attitude (e.g. noun "intolerance#1", noun "defensive#1")
 
@@ -32,7 +32,7 @@ sen = sensation (e.g. noun "coldness#1", verb "feel#3")
 to emotional states/processes.
 
 From theories of emotions we have that moods have to be distincted from
-emotions. Therefore, "mood" synset are affective but not emotional one. 
+emotions. Therefore, "mood" synset are affective but not emotional one.
 
 Personality traits influence attitude to have affective reations to events,
 then "traits" synsets have an indirect reference to the affective states.
@@ -84,7 +84,3 @@ also-see =synset obtained by "also-see" relation
 attribute = synset obtained by "attribute" relation
 
 is-value-of = synset obtained by "is-value-of" relation
-
-
-
-

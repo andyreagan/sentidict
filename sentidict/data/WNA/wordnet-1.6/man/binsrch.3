@@ -22,7 +22,7 @@ first item on a line in the file pointed to by \fIfp\fP.  The
 delimiter between the key and the rest of the fields on the line, if
 any, must be a space.  A pointer to a static variable containing the
 entire line is returned.
-.SB NULL 
+.SB NULL
 is returned if a match is not found.
 .LP
 The remaining functions are not used by WordNet, and are only briefly
@@ -42,7 +42,7 @@ in case of error.
 finds the proper place to insert the contents of \fInew_line\fP,
 having searchkey \fIkey\fP in the sorted file pointed to by \fIfp\fP.
 It returns
-.SB NULL 
+.SB NULL
 if a line with this searchkey is already in the file.
 .SH NOTES
 The maximum length of \fIkey\fP is 1024.
@@ -62,4 +62,3 @@ be followed by at least one space before the newline character.
 The returned string should be copied by the caller if the results need
 to be saved, as a subsequent call will replace the contents of the
 static buffer.
-

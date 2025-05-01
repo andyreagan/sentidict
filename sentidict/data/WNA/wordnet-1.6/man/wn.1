@@ -2,7 +2,7 @@
 .tr ~
 .TH WN 1WN "30 Sept 1997" "WordNet 1.6" "WordNet\(tm User Commands"
 .SH NAME
-wn \- command line interface to WordNet lexical database  
+wn \- command line interface to WordNet lexical database
 .SH SYNOPSIS
 \fBwn\fP [ \fIsearchstr\fP ] [ \fB\-h\fP] [ \fB\-g\fP ] [ \fB\-a\fP ] [ \fB\-l\fP ] [ \fB\-o\fP ] [ \fB\-s\fP ] [ \fP\-n\fI#\fR ] [ \fIsearch_option\fP... ]
 .SH DESCRIPTION
@@ -44,7 +44,7 @@ Perform search on sense number \fI#\fP only.
 .TP 15
 \fB-over\fP
 Display overview of all senses of \fIsearchstr\fP in all syntactic
-categories. 
+categories.
 .SS Search Options
 Note that the last letter of \fIsearch_option\fP generally denotes the
 part of speech that the search applies to: \fBn\fP for nouns, \fBv\fP
@@ -53,7 +53,7 @@ searches may be done for \fIsearchstr\fP with a single command by
 specifying all the appropriate search options.
 
 .TP 15
-\fB\-syns\fP(\fIn\fP | \fIv\fP | \fIa\fP | \fIr\fP) 
+\fB\-syns\fP(\fIn\fP | \fIv\fP | \fIa\fP | \fIr\fP)
 Display synonyms
 and immediate hypernyms of synsets containing \fIsearchstr\fP.
 Synsets are ordered by frequency of use.  For adjectives, if
@@ -61,7 +61,7 @@ Synsets are ordered by frequency of use.  For adjectives, if
 are displayed in place of hypernyms.  If \fIsearchstr\fP is in a
 satellite synset, its head synset is also displayed.
 .TP 15
-\fB\-sims\fP(\fIn\fP | \fIv\fP) 
+\fB\-sims\fP(\fIn\fP | \fIv\fP)
 Display noun or verb synonyms and
 immediate hypernyms of synsets containing \fIsearchstr\fP.  Synsets
 are grouped by similarity of meaning.
@@ -141,7 +141,7 @@ holonym's holonyms.
 Display entailment relations of \fIsearchstr\fP.
 .TP 15
 .B \-framv
-Display applicable verb sentence frames for \fIsearchstr\fP. 
+Display applicable verb sentence frames for \fIsearchstr\fP.
 .TP 15
 .B \-causv
 Display \fIcause to\fP relations of \fIsearchstr\fP.
@@ -266,7 +266,7 @@ displyed and \fBwn(\|)\fP exits with \fB-1\fP.
 .SH ENVIRONMENT VARIABLES
 .TP 20
 .B WNHOME
-Base directory for WordNet.  Unix default is 
+Base directory for WordNet.  Unix default is
 \fB/usr/local/wordnet1.6\fP, PC default is \fBC:\ewn16\fP, Macintosh
 default is \fB:\fP.
 .TP 20
@@ -305,7 +305,7 @@ morphology exception lists
 .SH SEE ALSO
 .BR wnintro (3WN),
 .BR lexnames (5WN),
-.BR wndb (5WN), 
+.BR wndb (5WN),
 .BR wninput (5WN),
 .BR morphy (7WN),
 .BR wngloss (7WN),

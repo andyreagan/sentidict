@@ -27,7 +27,7 @@ my_shifter.setWidth(400);
 if (compH >= refH) {
     var happysad = "happier";
 }
-else { 
+else {
     var happysad = "less happy";
 }
 

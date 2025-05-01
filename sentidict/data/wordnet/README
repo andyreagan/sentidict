@@ -14,7 +14,7 @@ are represented in their familiar orthography; word meanings are
 represented by synonym sets (synsets) - lists of synonymous word forms
 that are interchangeable in some context.  Two kinds of relations are
 recognized: lexical and semantic.  Lexical relations hold between word
-forms; semantic relations hold between word meanings.  
+forms; semantic relations hold between word meanings.
 
 To learn more about WordNet, the book "WordNet: An Electronic Lexical
 Database," containing an updated version of "Five Papers on WordNet"
@@ -55,7 +55,7 @@ http://wordnet.princeton.edu/cgi-bin/bugsubmit.pl
 When reporting a problem, please be as specific as possible, stating
 the computer platform you are using, which interface you are using,
 and the exact error.  The more details you can provide, the more
-likely it is that you will get an answer. 
+likely it is that you will get an answer.
 
 There is a WordNet user discussion group mailing list that we invite
 our users to join.  Users use this list to ask questions of one
@@ -87,7 +87,7 @@ packages. Many systems come with either or both pre-installed.  If
 your system doesn't (some systems have Tcl installed, but not Tk)
 Tcl/Tk can be downloaded from:
 
-http://www.tcl.tk/ 
+http://www.tcl.tk/
 
 Tcl and Tk must be installed BEFORE you compile WordNet. You must also
 have a C compiler before installing Tcl/Tk or WordNet.  WordNet has
@@ -97,5 +97,3 @@ pre-installed on most Unix systems, and can be downloaded from:
 http://gcc.gnu.org/
 
 See the file INSTALL for detailed WordNet installation instructions.
-
-

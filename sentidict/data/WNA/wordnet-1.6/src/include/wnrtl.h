@@ -1,5 +1,5 @@
 /*
-   
+
    wnrtl.h - global variables
 
    $Id: wnrtl.h,v 1.1 1997/09/02 16:31:18 wn Exp $
@@ -28,15 +28,15 @@ extern int wnsnsflag;		/* if set, print WN sense # for each word */
 /* File pointers for database files */
 
 extern int OpenDB;		/* if non-zero, database file are open */
-extern FILE *datafps[NUMPARTS + 1], 
+extern FILE *datafps[NUMPARTS + 1],
             *indexfps[NUMPARTS + 1],
-            *sensefp, 
-            *cousinfp, *cousinexcfp, 
+            *sensefp,
+            *cousinfp, *cousinexcfp,
             *vidxfilefp, *vsentfilefp;
 
 /* Method for interface to check for events while search is running */
 
-extern void (*interface_doevents_func)(void);  
+extern void (*interface_doevents_func)(void);
                         /* callback for interruptable searches in */
                         /* single-threaded interfaces */
 

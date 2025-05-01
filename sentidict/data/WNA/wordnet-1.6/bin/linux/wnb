@@ -1,4 +1,4 @@
-#!/bin/sh 
+#!/bin/sh
 # the following line is evaluated by sh but ignored by tcl \
 wishwn "$0" "$@" &
 # the following line is evaluated by sh but ignored by tcl \
@@ -6,16 +6,16 @@ exec true
 # the preceding lines make this script self-executing on unix systems
 
 ##########################################################################
-#                                                                        # 
-#  A Tcl/Tk interface for WordNet                                        # 
-#  by David Slomin (dgslomin@princeton.edu) - 6/97                       # 
-#  based upon the X-Windows version by Brian Gustafson - 5/91            # 
-#                                                                        # 
+#                                                                        #
+#  A Tcl/Tk interface for WordNet                                        #
+#  by David Slomin (dgslomin@princeton.edu) - 6/97                       #
+#  based upon the X-Windows version by Brian Gustafson - 5/91            #
+#                                                                        #
 ##########################################################################
 
 ### Configuration
 
-set showcontextualhelp 0 
+set showcontextualhelp 0
 set showglosses 1
 set showfileinfo 0
 set showbyteoffset 0
@@ -144,10 +144,10 @@ proc displayoverview {searchword} {
    }
    .results.text configure \
       -state disabled
-   if {$gotone} { 
+   if {$gotone} {
       .statusbar.status configure \
-         -text "Overview of $searchword" 
-   } 
+         -text "Overview of $searchword"
+   }
    blackout 0
    return $gotone
 }
@@ -197,7 +197,7 @@ proc searchanddisplay {searchword senses posnumber searchtypenumber} {
    .statusbar.status configure \
       -text $label
    blackout 0
-} 
+}
 
 proc history_add {searchword senses posnumber searchtypenumber} {
    global posmenu
@@ -426,7 +426,7 @@ proc savetext {whattosave} {
    pack \
       [button .saveas.bottom.save \
          -text "Save" \
-         -command { 
+         -command {
             if [file exists $filename] {
                toplevel .savewarning
                wm title .savewarning "Wordnet Warning"
@@ -604,7 +604,7 @@ proc showaboutbox {} {
       [label .aboutbox.top.left.icon \
          -bitmap @$resourcedir/wn.xbm] \
       -side left \
-      -padx 10 
+      -padx 10
    pack \
       [label .aboutbox.top.right.text1 \
          -anchor w \
@@ -781,7 +781,7 @@ proc grepword {} {
                   set buflines [split $buf \n]
                   foreach line $buflines {
                      .grepwidget.results.frame.list insert end $line
-                  } 
+                  }
                   .grepwidget.buttons.frame.search configure \
                      -text "Search"
                   .grepwidget.status.label configure -text ""
@@ -876,7 +876,7 @@ proc fixword {word} {
    regsub "^ *" $word "" word ; # remove leading spaces
    regsub " *$" $word "" word ; # remove trailing spaces
    regsub -all " " $word "_" word  ; # change other spaces to underscores
-   return $word 
+   return $word
 }
 
 proc updatefonts {} {
@@ -963,7 +963,7 @@ proc blackout {q} {
    }
 }
 
-proc shiftclickhandler {x y} { 
+proc shiftclickhandler {x y} {
    global g_searchword
    set newsearchword [.results.text get "@$x,$y wordstart" "@$x,$y wordend"]
    if {$newsearchword != "\n"} {
@@ -1305,7 +1305,7 @@ if {$labonly} {
             -command "destroy .adviewopt"] \
          -side top \
          -pady 5
-   }   
+   }
 .menubar.options.menu add separator
 .menubar.options.menu add command \
    -label "Set maximum history length" \
@@ -1423,7 +1423,7 @@ menu .posmenubar.adj.menu \
    -tearoff false
 menu .posmenubar.adv.menu \
    -tearoff false
-set posmenu(1) { 
+set posmenu(1) {
    { "Synonyms, ordered by frequency" 2 {} }
    { "Synonyms, grouped by similarity" 24 {} }
    { "Antonyms" 1 {} }
@@ -1471,4 +1471,3 @@ bind .wordframe.entry <Return> golookup
 bind .results.text <Shift-Button-1> {shiftclickhandler %x %y}
 bind . <Control-s> controlshandler
 bind . <Control-g> grepword
-

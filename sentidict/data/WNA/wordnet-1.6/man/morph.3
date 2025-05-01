@@ -22,7 +22,7 @@ functions:
 is used to open the exception list files.  It returns \fB0\fP if
 successful, \fB-1\fP otherwise.  The exception list files must be
 opened before
-.B morphstr(\|) 
+.B morphstr(\|)
 or
 .B morphword(\)
 are called.
@@ -50,8 +50,8 @@ This function is called by
 for each individual word in a collocation.
 .SH NOTES
 .B morphinit(\|)
-is called by 
-.B wninit(\|) 
+is called by
+.B wninit(\|)
 and is not intended to be called directly by an application.
 Applications wishing to use WordNet and/or the morphological functions
 must call \fBwninit(\|)\fP at the start of the program.  See
@@ -76,8 +76,8 @@ works on both words and collocations.
 .fi
 .RE
 
-If 
-.SB ADJECTIVE SATELLITE 
+If
+.SB ADJECTIVE SATELLITE
 is passed, it is treated by \fBmorphstr(\|)\fP as
 .SB ADJECTIVE.
 .SH SEE ALSO
@@ -89,4 +89,4 @@ is passed, it is treated by \fBmorphstr(\|)\fP as
 Passing an invalid part of speech will result in a core dump.
 
 The WordNet database files must be open to use \fBmorphstr(\|)\fP or
-\fBmorphword(\|). 
+\fBmorphword(\|).

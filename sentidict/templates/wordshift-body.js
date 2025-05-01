@@ -32,7 +32,7 @@ var refH = my_shifter._refH();
 if (compH >= refH) {
     var happysad = "happier";
 }
-else { 
+else {
     var happysad = "less happy";
 }
 

@@ -37,7 +37,7 @@ def unescape(s):
 
 def features(tweet, n):
     feats = defaultdict(bool)
-    words = ['<s>'] + tweet[u'tokens'] + ['</s>']
+    words = ['<s>'] + tweet['tokens'] + ['</s>']
     for i in range(len(words)):
         for j in range(i + 1, i + n + 1):
             feat = " ".join(words[i:j])
@@ -46,19 +46,19 @@ def features(tweet, n):
 
 def init(modelfile="model.naivebayes-bool-simple-1"):
     global classifier
-    
+
     # print init message and version number
-    match = re.match('\$Revision:\s+(.*?)\s+\$', __version__)
+    match = re.match(r'\$Revision:\s+(.*?)\s+\$', __version__)
     if match != None:
         ver = match.group(1)
     else:
         ver = __version__
     sys.stderr.write("init sentiment python script version " + ver + '\n')
-    
+
     if debug: return
 
     # read model from file
-    modelpath = os.path.join(os.path.abspath(os.path.dirname(__file__)), modelfile)    
+    modelpath = os.path.join(os.path.abspath(os.path.dirname(__file__)), modelfile)
     f = open(modelpath)
     classifier = pickle.load(f)
     f.close()
@@ -79,15 +79,15 @@ def getSentiment(tweet_json):
         traceback.print_exc()
         print >> sys.stderr, 'sentiment len =', len(tweet_json), ' text =', tweet_json
         return None
-    text = t[u'text']
+    text = t['text']
     # Process input text
-    text = unescape(text)#.encode('utf8'))                            # encode unicode chars in utf8, 
+    text = unescape(text)#.encode('utf8'))                            # encode unicode chars in utf8,
 
     #print text
     labels = sorted(classifier.labels())
     feat = features(t,1) #1 refers to unigram
-    hyp = classifier.classify(feat) 
-    classprobs = classifier.prob_classify(feat) 
+    hyp = classifier.classify(feat)
+    classprobs = classifier.prob_classify(feat)
     if hyp == 'negative':
         valence = - classprobs.prob('negative')
     elif hyp == 'positive':
@@ -99,17 +99,17 @@ def getSentiment(tweet_json):
     t['sentiment_classification'] = hyp
     #t['ratings'] = " ".join(["%s[%.2f]" % (s + w, r) for w, s, r in zip(words, word_status, ratings)])
     return codecs.encode(json.dumps(t), 'utf-8')
-    
+
 ##==================================================================================================
 ## MAIN
 ##==================================================================================================
 
 if __name__ == "__main__":
-    
+
     flags.DEFINE_string("model_path", "model.naivebayes-bool-simple-1", "pickled naive bayes model")
-    
+
     argv = FLAGS(sys.argv)
-    
+
     init(FLAGS.model_path)
     for t in sys.stdin:
         t = codecs.decode(t, 'utf-8')

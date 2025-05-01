@@ -28,9 +28,3 @@ Date Range: 11/17/13 – 11/17/14 Volume: 246k mentions Regions: Global
 Language: English
 Source: Twitter
 Query: ("hate my life" OR ((i OR me) NEAR/2f (hate NEAR/1f (life OR "my life")))) NOT (("i don't hate" NEAR/4f life) OR "dont hate my life" OR "do not hate my life" OR "cant hate my life" OR "can not hate my life" OR "cannot hate my life") AND site:twitter.com
-
-
-
-
-
-

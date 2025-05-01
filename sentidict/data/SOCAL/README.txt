@@ -34,6 +34,4 @@ http://www.sfu.ca/~mtaboada/research/nserc-project.html
 
 and especially this publication:
 
-Taboada, M., J. Brooke, M. Tofiloski, K. Voll and M. Stede (2011) Lexicon-Based Methods for Sentiment Analysis. Computational Linguistics 37 (2): 267-307. 
-
-
+Taboada, M., J. Brooke, M. Tofiloski, K. Voll and M. Stede (2011) Lexicon-Based Methods for Sentiment Analysis. Computational Linguistics 37 (2): 267-307.

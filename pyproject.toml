@@ -1,3 +1,9 @@
 [build-system]
 requires = ["setuptools>=42", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[tool.black]
+line-length = 100
+target-version = ["py39", "py310", "py311", "py312"]
+skip-string-normalization = true
+exclude = "sentidict/data/.*"

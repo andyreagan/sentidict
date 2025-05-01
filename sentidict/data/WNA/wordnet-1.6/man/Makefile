@@ -66,15 +66,14 @@ douninstall:
 clean:
 	@rm -f *~ "#"*
 
-psfiles: 
+psfiles:
 	@for file in $(WN_FILES) ; \
 	 do \
 		tbl $$file | ptroff -man -t >ps/$${file}ps ; \
 	 done ;
 
-catfiles: 
+catfiles:
 	@for file in $(WN_FILES) ; \
 	 do \
 		tbl $$file | nroff -man >cat/$${file}lp ; \
 	 done ;
-

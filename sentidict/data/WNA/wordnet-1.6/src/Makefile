@@ -28,7 +28,7 @@ SUBDIRS = $(LIBDIR) $(APPDIRS) $(MISCDIRS)
 
 all: compile
 
-compile: 
+compile:
 	@( cd $(LIBDIR) ; echo "Making $(LIBDIR)" ; $(MAKE) -k CC='$(CC)' LOCAL_CFLAGS='$(LOCAL_CFLAGS)' all )
 	@echo "Done compiling library"
 	@for dir in $(APPDIRS) ; \

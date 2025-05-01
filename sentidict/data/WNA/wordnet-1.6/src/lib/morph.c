@@ -1,7 +1,7 @@
 /*
-  
+
   morph.c - WordNet search code morphology functions
-  
+
 */
 
 #include <stdio.h>
@@ -22,7 +22,7 @@
 
 static char *Id = "$Id: morph.c,v 1.54 1997/09/02 16:31:18 wn Exp $";
 
-static char *sufx[] ={ 
+static char *sufx[] ={
     /* Noun suffixes */
     "s","ses","xes","zes","ches","shes",
     /* Verb suffixes */
@@ -31,9 +31,9 @@ static char *sufx[] ={
     "er","est","er", "est"
 };
 
-static char *addr[] ={ 
+static char *addr[] ={
     /* Noun endings */
-    "", "s", "x", "z", "ch", "sh", 
+    "", "s", "x", "z", "ch", "sh",
     /* Verb endings */
     "", "y", "e", "", "e", "", "e", "",
     /* Adjective endings */
@@ -138,7 +138,7 @@ static int do_init(void)
     }
     return(openerr);
 }
-
+
 /* Try to find baseform (lemma) of word or collocation in POS.
    Works like strtok() - first call is with string, subsequent calls
    with NULL argument return additional baseforms for original string. */
@@ -152,7 +152,7 @@ char *morphstr(char *origstr, int pos)
     int prep;
     char *end_idx1, *end_idx2;
     char *append;
-    
+
     if (pos == SATELLITE)
 	pos = ADJ;
 
@@ -202,7 +202,7 @@ char *morphstr(char *origstr, int pos)
 			end_idx = (int)(end_idx2 - str);
 			append = "-";
 		    }
-		}	
+		}
 		if (end_idx < 0) return(NULL);		/* shouldn't do this */
 		strncpy(word, str + st_idx, end_idx - st_idx);
 		word[end_idx - st_idx] = '\0';
@@ -213,8 +213,8 @@ char *morphstr(char *origstr, int pos)
 		strcat(searchstr, append);
 		st_idx = end_idx + 1;
 	    }
-	    
-	    if(tmp = morphword(strcpy(word, str + st_idx), pos)) 
+
+	    if(tmp = morphword(strcpy(word, str + st_idx), pos))
 		strcat(searchstr,tmp);
 	    else
 		strcat(searchstr,word);
@@ -246,16 +246,16 @@ char *morphword(char *word, int pos)
     int i;
     static char retval[WORDBUF];
     char *tmp, tmpbuf[WORDBUF], *end;
-    
+
     sprintf(retval,"");
     sprintf(tmpbuf, "");
     end = "";
-    
-    if(word == NULL) 
+
+    if(word == NULL)
 	return(NULL);
 
     /* first look for word on exception list */
-    
+
     if((tmp = exc_lookup(word, pos)) != NULL)
 	return(tmp);		/* found it in exception list */
 
@@ -267,7 +267,7 @@ char *morphword(char *word, int pos)
 	    cnt = strrchr(word, 'f') - word;
 	    strncat(tmpbuf, word, cnt);
 	    end = "ful";
-	} else 
+	} else
 	    /* check for noun ending with 'ss' or short words */
 	    if (strend(word, "ss") || (strlen(word) <= 2))
 		return(NULL);
@@ -290,11 +290,11 @@ char *morphword(char *word, int pos)
     }
     return(NULL);
 }
-
+
 static int strend(char *str1, char *str2)
 {
     char *pt1;
-    
+
     if(strlen(str2) >= strlen(str1))
 	return(0);
     else {
@@ -309,7 +309,7 @@ static char *wordbase(char *word, int ender)
 {
     char *pt1;
     static char copy[WORDBUF];
-    
+
     strcpy(copy, word);
     if(strend(copy,sufx[ender])) {
 	pt1=strchr(copy,'\0');
@@ -337,7 +337,7 @@ static int hasprep(char *s, int wdcnt)
     }
     return(0);
 }
- 
+
 static char *exc_lookup(char *word, int pos)
 {
     static char line[WORDBUF], *beglp, *endlp;
@@ -369,7 +369,7 @@ static char *exc_lookup(char *word, int pos)
     endlp = NULL;
     return(NULL);
 }
-
+
 static char *morphprep(char *s)
 {
     char *rest, *exc_word, *lastwd = NULL, *last;
@@ -390,7 +390,7 @@ static char *morphprep(char *s)
 	    strcat(end, lastwd);
 	}
     }
-    
+
     strncpy(word, s, rest - s);
     word[rest - s] = '\0';
     for (i = 0, cnt = strlen(word); i < cnt; i++)
@@ -413,7 +413,7 @@ static char *morphprep(char *s)
 		return(retval);
 	}
     }
-    
+
     for (i = 0; i < cnt; i++) {
 	if ((exc_word = wordbase(word, (i + offset))) &&
 	    strcmp(word, exc_word)) { /* ending is different */
@@ -439,8 +439,8 @@ static char *morphprep(char *s)
     return(NULL);
 }
 
-/* 
+/*
  * Revision 1.1  91/09/25  15:39:47  wn
  * Initial revision
- * 
+ *
  */

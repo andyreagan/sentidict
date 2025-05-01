@@ -128,17 +128,17 @@ static char dblicense[] = "\
  *
  * Revision 1.4  92/11/19  11:00:35  wn
  * updates for Mac and windows port
- * 
+ *
  * Revision 1.3  92/09/08  14:36:22  wn
- * update to 1.3 release 
- * 
+ * update to 1.3 release
+ *
  * Revision 1.2  92/03/26  11:16:48  wn
  * added WordNet version number
- * 
+ *
  * Revision 1.1  91/11/26  15:09:30  wn
  * Initial revision
- * 
+ *
  * Revision 1.1  91/09/11  14:43:27  wn
  * Initial revision
- * 
+ *
 */

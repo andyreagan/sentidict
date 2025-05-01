@@ -2,17 +2,18 @@ from .utils import *
 from .dictionaries import *
 from numpy import zeros
 
-def all_features(rawtext,uid,tweet_id,gram_id):
-    '''Return the feature vector for a given tweets.
+
+def all_features(rawtext, uid, tweet_id, gram_id):
+    """Return the feature vector for a given tweets.
 
     Be careful about indexing!
-    Assuming here that we're taking in text of the tweet/gram'''
+    Assuming here that we're taking in text of the tweet/gram"""
 
     my_LIWC_stopped = LIWC(stopVal=0.5)
     my_LIWC = LIWC()
     my_LabMT = LabMT(stopVal=1.0)
     my_ANEW = ANEW(stopVal=1.0)
-    
+
     # create  simple list for the result
     result = zeros(75)
     # the first field, tableID, is not included (leaving 75)
@@ -26,7 +27,7 @@ def all_features(rawtext,uid,tweet_id,gram_id):
         if word in word_dict:
             word_dict[word] += 1
         else:
-            word_dict[word] = 1    
+            word_dict[word] = 1
     result[3] = len(words)
 
     # load the classes that we need
@@ -60,41 +61,44 @@ def all_features(rawtext,uid,tweet_id,gram_id):
 
     # make a word vector
     my_word_vec = my_LIWC.wordVecify(word_dict)
-    all_features = zeros(len(my_LIWC.data["happy"])-2)
+    all_features = zeros(len(my_LIWC.data["happy"]) - 2)
     for word in my_LIWC.data:
-        all_features += array(my_LIWC.data[word][2:])*my_word_vec[my_LIWC.data[word][0]]
-    for i,score in enumerate(all_features):
-        result[10+i] = all_features[i]
+        all_features += array(my_LIWC.data[word][2:]) * my_word_vec[my_LIWC.data[word][0]]
+    for i, score in enumerate(all_features):
+        result[10 + i] = all_features[i]
 
     return result
 
-def load_26(datastructure="auto",stopVal=0.0,v=False):
-    all_sentiment_dictionaries = [LabMT(datastructure=datastructure,stopVal=stopVal,v=v),
-                                  ANEW(datastructure=datastructure,stopVal=stopVal,v=v),
-                                  LIWC07(datastructure=datastructure,stopVal=stopVal,v=v),
-                                  MPQA(datastructure=datastructure,stopVal=stopVal,v=v),
-                                  OL(datastructure=datastructure,stopVal=stopVal,v=v),
-                                  WK(datastructure=datastructure,stopVal=stopVal,v=v),
-                                  LIWC01(datastructure=datastructure,stopVal=stopVal,v=v),
-                                  LIWC15(datastructure=datastructure,stopVal=stopVal,v=v),
-                                  PANASX(datastructure=datastructure,stopVal=stopVal,v=v),
-                                  Pattern(datastructure=datastructure,stopVal=stopVal,v=v),
-                                  SentiWordNet(datastructure=datastructure,stopVal=stopVal,v=v),
-                                  AFINN(datastructure=datastructure,stopVal=stopVal,v=v),
-                                  GI(datastructure=datastructure,stopVal=stopVal,v=v),
-                                  WDAL(datastructure=datastructure,stopVal=stopVal,v=v),
-                                  EmoLex(datastructure=datastructure,stopVal=stopVal,v=v),
-                                  MaxDiff(datastructure=datastructure,stopVal=stopVal,v=v),
-                                  HashtagSent(datastructure=datastructure,stopVal=stopVal,v=v),
-                                  Sent140Lex(datastructure=datastructure,stopVal=stopVal,v=v),
-                                  SOCAL(datastructure=datastructure,stopVal=stopVal,v=v),
-                                  SenticNet(datastructure=datastructure,stopVal=stopVal,v=v),
-                                  Emoticons(datastructure=datastructure,stopVal=stopVal,v=v),
-                                  SentiStrength(datastructure=datastructure,stopVal=stopVal,v=v),
-                                  VADER(datastructure=datastructure,stopVal=stopVal,v=v),
-                                  Umigon(datastructure=datastructure,stopVal=stopVal,v=v),
-                                  USent(datastructure=datastructure,stopVal=stopVal,v=v),
-                                  EmoSenticNet(datastructure=datastructure,stopVal=stopVal,v=v)]
+
+def load_26(datastructure="auto", stopVal=0.0, v=False):
+    all_sentiment_dictionaries = [
+        LabMT(datastructure=datastructure, stopVal=stopVal, v=v),
+        ANEW(datastructure=datastructure, stopVal=stopVal, v=v),
+        LIWC07(datastructure=datastructure, stopVal=stopVal, v=v),
+        MPQA(datastructure=datastructure, stopVal=stopVal, v=v),
+        OL(datastructure=datastructure, stopVal=stopVal, v=v),
+        WK(datastructure=datastructure, stopVal=stopVal, v=v),
+        LIWC01(datastructure=datastructure, stopVal=stopVal, v=v),
+        LIWC15(datastructure=datastructure, stopVal=stopVal, v=v),
+        PANASX(datastructure=datastructure, stopVal=stopVal, v=v),
+        Pattern(datastructure=datastructure, stopVal=stopVal, v=v),
+        SentiWordNet(datastructure=datastructure, stopVal=stopVal, v=v),
+        AFINN(datastructure=datastructure, stopVal=stopVal, v=v),
+        GI(datastructure=datastructure, stopVal=stopVal, v=v),
+        WDAL(datastructure=datastructure, stopVal=stopVal, v=v),
+        EmoLex(datastructure=datastructure, stopVal=stopVal, v=v),
+        MaxDiff(datastructure=datastructure, stopVal=stopVal, v=v),
+        HashtagSent(datastructure=datastructure, stopVal=stopVal, v=v),
+        Sent140Lex(datastructure=datastructure, stopVal=stopVal, v=v),
+        SOCAL(datastructure=datastructure, stopVal=stopVal, v=v),
+        SenticNet(datastructure=datastructure, stopVal=stopVal, v=v),
+        Emoticons(datastructure=datastructure, stopVal=stopVal, v=v),
+        SentiStrength(datastructure=datastructure, stopVal=stopVal, v=v),
+        VADER(datastructure=datastructure, stopVal=stopVal, v=v),
+        Umigon(datastructure=datastructure, stopVal=stopVal, v=v),
+        USent(datastructure=datastructure, stopVal=stopVal, v=v),
+        EmoSenticNet(datastructure=datastructure, stopVal=stopVal, v=v),
+    ]
     # MaxDiff(datastructure=datastructure,stopVal=stopVal,v=v),
     # HashtagSent(datastructure=datastructure,stopVal=stopVal,v=v),
     # SASA(datastructure=datastructure,stopVal=stopVal,v=v),
@@ -102,24 +106,25 @@ def load_26(datastructure="auto",stopVal=0.0,v=False):
     # SANN(datastructure=datastructure,stopVal=stopVal,v=v)
     return all_sentiment_dictionaries
 
+
 def write_tables(sentiment_dictionaries):
     for sentiment_dictionary in sentiment_dictionaries:
         sentiment_dictionary.computeStatistics(0.0)
 
-    table_template = Template(openWithPath("templates/table-short.tex","r").read())
+    table_template = Template(openWithPath("templates/table-short.tex", "r").read())
 
-    f = open("all-dictionary-table-automatic-short.tex","w")
+    f = open("all-dictionary-table-automatic-short.tex", "w")
     f.write(table_template.render({"all_sentiment_dictionaries": sentiment_dictionaries}))
     f.close()
 
-    table_template = Template(openWithPath("templates/table.tex","r").read())
-    
-    f = open("all-dictionary-table-automatic.tex","w")
+    table_template = Template(openWithPath("templates/table.tex", "r").read())
+
+    f = open("all-dictionary-table-automatic.tex", "w")
     f.write(table_template.render({"all_sentiment_dictionaries": sentiment_dictionaries}))
     f.close()
 
-    template = Template(openWithPath("templates/descriptions.tex","r").read())
+    template = Template(openWithPath("templates/descriptions.tex", "r").read())
 
-    f = open("all-dictionaries-list-description.tex","w")
+    f = open("all-dictionaries-list-description.tex", "w")
     f.write(template.render({"all_sentiment_dictionaries": sentiment_dictionaries}))
     f.close()

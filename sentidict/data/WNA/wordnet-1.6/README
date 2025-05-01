@@ -8,16 +8,16 @@ are represented in their familiar orthography; word meanings are
 represented by synonym sets (synset) - lists of synonymous word forms
 that are interchangeable in some context.  Two kinds of relations are
 recognized: lexical and semantic.  Lexical relations hold between word
-forms; semantic relations hold between word meanings.  
+forms; semantic relations hold between word meanings.
 
 To learn more about WordNet, read "Five Papers on WordNet", available
 via anonymous FTP and in printed form.  A book, "WordNet: An
 Electronic Lexical Database", containing an updated version of "Five
 Papers on WordNet" and additional papers by WordNet users, will be
-available from MIT Press in Spring of 1998.  
+available from MIT Press in Spring of 1998.
 
 Information about WordNet, an online interface, and the various
-WordNet packages are available from our Web site at 
+WordNet packages are available from our Web site at
 http://www.cogsci.princeton.edu/~wn/
 
 2. Contacting Us
@@ -59,13 +59,13 @@ WordNet, or download "Five Papers on WordNet".  We also maintain links
 to other related projects and online interfaces to WordNet, and an
 extensive (but by no mean complete) bibliography.  We will add links
 to user applications and papers.  Please send e-mail to the above
-address. 
+address.
 
 4. WordNet Packages
 
 WordNet Version 1.6 is now available.  See the file CHANGES for
 information about changes from version 1.5.  WordNet 1.5 is no longer
-available. 
+available.
 
 Several different WordNet packages are available.  All are available
 from the WordNet FTP site.  The PC and Macintosh packages are also
@@ -75,7 +75,7 @@ site at http://mitpress.mit.edu for the MIT Press catalog.
 Most users require only the database package.  An explanation of each
 package follows.
 
-4.1 Database Package 
+4.1 Database Package
 
 The database package is a complete installation for WordNet 1.6 users.
 It includes the 1.6 database files, precompiled binaries for the
@@ -100,7 +100,7 @@ package is only downloadable in compressed tar file format, although
 once unpackaged it can be used from PC and Macintosh systems since the
 files are in ASCII.
 
-4.4 Sense Map Package 
+4.4 Sense Map Package
 
 To help users automatically convert 1.5 noun senses to their
 corresponding 1.6 senses, we provide noun sense mapping information in
@@ -115,7 +115,7 @@ ASCII.
 Precompiled binaries for the WordNet browsers are included in the
 database package for the following platforms.  A precompiled binary
 for "escort" is included in the semantic concordance package for the
-Unix and Windows-based PC platforms.  
+Unix and Windows-based PC platforms.
 
 Note that these are the platforms that the binaries were compiled on.
 Most should work on newer versions of the operating system.
@@ -161,13 +161,13 @@ In order to facilitate downloading, some of the packages are available
 as either a single file or a series of smaller files.  If you download
 a package that has been split into smaller files, as indicated by the
 suffix ".tar.gz.aX" where "X" is a lower case letter, you must
-download all of the individual files in the package.  
+download all of the individual files in the package.
 
 7.1.1 WordNet Database Packages
 
 Includes WordNet 1.6 database, interfaces, sense index, gloss index,
 interface and library source code, and documentation.
-	
+
 	wn16.unix.tar.gz	Unix
 	wn16.unix.tar.gz.aX	Unix (split into 512K chunks)
 	wn16pc.exe		PC
@@ -194,7 +194,7 @@ documentation.
 7.1.4 Sense Map Package
 
 Includes files mapping of 1.5 noun senses to 1.6 senses and
-documentation. 
+documentation.
 
 	snsmap16.tar.gz		All Platforms
 
@@ -208,13 +208,13 @@ formats:
 	5papers.tar.Z		compress tar file of nroff source
 
 7.1.6 Other Files
-	
+
 	README			this file
 	CHANGES			changes to WordNet made since version 1.5
 	INSTALL.unix		Unix installation instructions
 	INSTALL.pc		PC installation instructions
 	INSTALL.mac		Macintosh installation instructions
-	
+
 7.2 Downloading WordNet via FTP
 
 You can download WordNet directly from the Princeton or Stuttgart FTP
@@ -300,7 +300,7 @@ installation instructions for that package.
 9. Bugs
 
 Please report all bugs, problems, and WordNet related questions to
-wordnet@princeton.edu. 
+wordnet@princeton.edu.
 
 As bugs are reported they are logged on the FTP and Web sites, along
 with the action to take, in the file README.bugs.  You should read

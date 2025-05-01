@@ -54,7 +54,7 @@ are generally useful are described here.
 
 .B wninit(\|)
 opens the files necessary for using WordNet with the WordNet library
-functions.  The database files are opened, and 
+functions.  The database files are opened, and
 .B morphinit(\|)
 is called to open the exception list files.  Returns \fB0\fP if
 successful, \fB-1\fP otherwise.  The database and exception list files
@@ -67,7 +67,7 @@ list files.
 .B re_wninit(\|)
 is used to close the database files and reopen them, and is used
 exclusively for WordNet development.
-.B re_morphinit(\|) 
+.B re_morphinit(\|)
 is called to close and reopen the exception list files.  Return codes
 are as described above.
 
@@ -122,12 +122,12 @@ in case of error.
 .B GetDataOffset(\|)
 returns the synset offset for synset that contains the word sense
 \fIsense_key\fP, and \fB0\fP if \fIsense_key\fP is not in sense index
-file. 
+file.
 
 .B GetPolyCount(\|)
 returns the polysemy count (number of senses in WordNet) for
 \fIlemma\fP encoded in \fIsense_key\fP and \fB0\fP if word is not
-found. 
+found.
 
 .B WNSnsToStr(\|)
 returns sense key encoding for \fIsense_num\fP entry in \fIidx\fP.
@@ -142,7 +142,7 @@ returns the WordNet sense number for the sense key encoding
 represented by \fIlemma\fP and \fIlex_sense\fP.
 
 .B GetSenseIndex(\|)
-returns parsed sense index entry for \fIsense_key\fP and 
+returns parsed sense index entry for \fIsense_key\fP and
 .SB NULL
 if \fIsense_key\fP is not in sense index.
 
@@ -165,6 +165,6 @@ searches are available, and the data returned for each.
 .BR wnintro (7WN).
 
 .SH WARNINGS
-Error checking on passed arguments is not rigorous.  Passing 
+Error checking on passed arguments is not rigorous.  Passing
 .SB NULL
 pointers or invalid values will often cause an application to die.

@@ -30,16 +30,16 @@ page.open(address, function(status) {
     if (status !== 'success') {
 	console.log('FAIL to load the address');
 	phantom.exit();
-    } 
+    }
     else {
 	var out = page.evaluate(function(s) {
 	    // get rid of the credit and button entirely
 	    d3.selectAll('g.resetbutton').remove();
 	    d3.selectAll('.credit').remove();
-	    
+
 	    // nice way
 	    // hedotools.shifter.resetbuttontoggle(false);
-	    
+
 	    // actually get the svg out, using a lot of the crowbar code
 	    var source = '';
 	    var doctype = '<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">';
@@ -73,7 +73,7 @@ page.open(address, function(status) {
 	    svg.setAttribute("version", "1.1");
 
 	    var defsEl = document.createElement("defs");
-	    svg.insertBefore(defsEl, svg.firstChild); 
+	    svg.insertBefore(defsEl, svg.firstChild);
 	    var styleEl = document.createElement("style")
 	    defsEl.appendChild(styleEl);
 	    styleEl.setAttribute("type", "text/css");
@@ -86,7 +86,7 @@ page.open(address, function(status) {
 	    if (!svg.hasAttributeNS(prefix.xmlns, "xmlns:xlink")) {
 		svg.setAttributeNS(prefix.xmlns, "xmlns:xlink", prefix.xlink);
 	    }
-	    
+
 	    var svgxml = (new XMLSerializer()).serializeToString(svg)
 		.replace('</style>', '<![CDATA[' + styles + ']]></style>');
 	    source += doctype + svgxml;
@@ -101,6 +101,3 @@ page.open(address, function(status) {
 	phantom.exit();
     }
 });
-
-
-

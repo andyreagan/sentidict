@@ -6,4 +6,3 @@ for FILE in hedotools.shift.css
 do
     wget https://andyreagan.github.io/hedotools/css/$FILE -O $FILE
 done
-    

@@ -5,28 +5,28 @@ Copyright (C) 2013 National Research Council Canada (NRC)
 Contact: Saif Mohammad (uvgotsaif@gmail.com)
 
 Terms of use:
-1. This lexicon can be used freely for research purposes. 
-2. The papers listed below provide details of the creation and use of 
-   the lexicon. If you use a lexicon, then please cite the associated 
+1. This lexicon can be used freely for research purposes.
+2. The papers listed below provide details of the creation and use of
+   the lexicon. If you use a lexicon, then please cite the associated
    papers.
-3. If interested in commercial use of the lexicon, send email to the 
-   contact. 
-4. If you use the lexicon in a product or application, then please 
-   credit the authors and NRC appropriately. Also, if you send us an 
-   email, we will be thrilled to know about how you have used the 
+3. If interested in commercial use of the lexicon, send email to the
+   contact.
+4. If you use the lexicon in a product or application, then please
+   credit the authors and NRC appropriately. Also, if you send us an
+   email, we will be thrilled to know about how you have used the
    lexicon.
-5. National Research Council Canada (NRC) disclaims any responsibility 
-   for the use of the lexicon and does not provide technical support. 
-   However, the contact listed above will be happy to respond to 
+5. National Research Council Canada (NRC) disclaims any responsibility
+   for the use of the lexicon and does not provide technical support.
+   However, the contact listed above will be happy to respond to
    queries and clarifications.
-6. Rather than redistributing the data, please direct interested 
+6. Rather than redistributing the data, please direct interested
    parties to this page:
-   http://www.purl.com/net/lexicons 
+   http://www.purl.com/net/lexicons
 
 Please feel free to send us an email:
-- with feedback regarding the lexicon. 
-- with information on how you have used the lexicon. 
-- if interested in having us analyze your data for sentiment, emotion, 
+- with feedback regarding the lexicon.
+- with information on how you have used the lexicon.
+- if interested in having us analyze your data for sentiment, emotion,
   and other affectual information.
 - if interested in a collaborative research project.
 
@@ -42,34 +42,34 @@ Each line in the three files has the format:
 
 term<tab>sentimentScore<tab>numPositive<tab>numNegative
 where:
-   term 
+   term
       In unigrams-pmilexicon.txt, term is a unigram (single word).
 	  In bigrams-pmilexicon.txt, term is a bigram (two-word sequence).
-	  A bigram has the form: "string string". The bigram was seen at least once in 
-	  the source tweets from which the lexicon was created. 
+	  A bigram has the form: "string string". The bigram was seen at least once in
+	  the source tweets from which the lexicon was created.
 	  In pairs-pmilexicon.txt, term is a unigram--unigram pair,
       unigram--bigram pair, bigram--unigram pair, or a bigram--bigram pair.
-	  The pairs were generated from a large set of source tweets. Tweets were examined 
-	  one at a time, and all possible unigram and bigram combinations within the tweet 
-	  were chosen. Pairs with certain punctuations, @ symbols, and some function words 
+	  The pairs were generated from a large set of source tweets. Tweets were examined
+	  one at a time, and all possible unigram and bigram combinations within the tweet
+	  were chosen. Pairs with certain punctuations, @ symbols, and some function words
 	  were removed.
 
-   sentimentScore is a real number. A positive score indicates positive 
-      sentiment. A negative score indicates negative sentiment. The absolute 
+   sentimentScore is a real number. A positive score indicates positive
+      sentiment. A negative score indicates negative sentiment. The absolute
       value is the degree of association with the sentiment.
 	  The sentiment score was calculated by subtracting the pointwise mutual
 	  information (PMI) score of the term with positive hashtags and the
-	  PMI of the term with negative hashtags. 
-	  
-	  Terms with a non-zero PMI score with positive hashtags and PMI score of 0 
+	  PMI of the term with negative hashtags.
+
+	  Terms with a non-zero PMI score with positive hashtags and PMI score of 0
 	  with negative hashtags were assigned a sentimentScore of 5.
-	  Terms with a non-zero PMI score with negative hashtags and PMI score of 0 
+	  Terms with a non-zero PMI score with negative hashtags and PMI score of 0
 	  with positive hashtags were assigned a sentimentScore of -5.
 
-   numPositive is the number of times the term co-occurred with a positive 
+   numPositive is the number of times the term co-occurred with a positive
       marker such as a positive emoticon or a positive hashtag.
 
-   numNegative is the number of times the term co-occurred with a negative 
+   numNegative is the number of times the term co-occurred with a negative
       marker such as a negative emoticon or a negative hashtag.
 
 The hashtag lexicon was created from a collection of tweets that had a
@@ -134,4 +134,3 @@ BibTeX entries:
   year={2014}
 }
 .......................................................................
-

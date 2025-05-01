@@ -147,4 +147,3 @@
 #define PREDICATIVE		IPADJ
 
 #endif				/* _WNCONSTS_ */
-

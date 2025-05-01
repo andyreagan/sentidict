@@ -9739,7 +9739,7 @@
             </aspect>
             <aspect rdf:resource="http://sentic.net/api/en/concept/price">
                 <polarity rdf:datatype="http://www.w3.org/2001/XMLSchema#base64Binary">0</polarity>
-            </aspect>     
+            </aspect>
         </sentence>
         <sentence rdf:resource="http://sentic.net/senticdb/sentence">
             <text rdf:datatype="http://www.w3.org/TR/rdf-text">
@@ -9750,7 +9750,7 @@
             </aspect>
             <aspect rdf:resource="http://sentic.net/api/en/concept/player">
                 <polarity rdf:datatype="http://www.w3.org/2001/XMLSchema#base64Binary">1</polarity>
-            </aspect>     
+            </aspect>
         </sentence>
         <sentence rdf:resource="http://sentic.net/senticdb/sentence">
             <text rdf:datatype="http://www.w3.org/TR/rdf-text">
@@ -9761,7 +9761,7 @@
             </aspect>
             <aspect rdf:resource="http://sentic.net/api/en/concept/durability">
                 <polarity rdf:datatype="http://www.w3.org/2001/XMLSchema#base64Binary">0</polarity>
-            </aspect>     
+            </aspect>
         </sentence>
         <sentence rdf:resource="http://sentic.net/senticdb/sentence">
             <text rdf:datatype="http://www.w3.org/TR/rdf-text">
@@ -9772,7 +9772,7 @@
             </aspect>
             <aspect rdf:resource="http://sentic.net/api/en/concept/durability">
                 <polarity rdf:datatype="http://www.w3.org/2001/XMLSchema#base64Binary">0</polarity>
-            </aspect>     
+            </aspect>
         </sentence>
         <sentence rdf:resource="http://sentic.net/senticdb/sentence">
             <text rdf:datatype="http://www.w3.org/TR/rdf-text">
@@ -9783,7 +9783,7 @@
             </aspect>
             <aspect rdf:resource="http://sentic.net/api/en/concept/software">
                 <polarity rdf:datatype="http://www.w3.org/2001/XMLSchema#base64Binary">0</polarity>
-            </aspect>     
+            </aspect>
         </sentence>
         <sentence rdf:resource="http://sentic.net/senticdb/sentence">
             <text rdf:datatype="http://www.w3.org/TR/rdf-text">
@@ -10432,7 +10432,7 @@
             </aspect
                 <aspect rdf:resource="http://sentic.net/api/en/concept/mediasource">
                 <polarity rdf:datatype="http://www.w3.org/2001/XMLSchema#base64Binary">1</polarity>
-            </aspect    
+            </aspect
         </sentence>
         <sentence rdf:resource="http://sentic.net/senticdb/sentence">
             <text rdf:datatype="http://www.w3.org/TR/rdf-text">
@@ -11844,7 +11844,7 @@
             </text>
             <aspect rdf:resource="http://sentic.net/api/en/concept/camera">
                 <polarity rdf:datatype="http://www.w3.org/2001/XMLSchema#base64Binary">1</polarity>
-            </aspect> 
+            </aspect>
             <aspect rdf:resource="http://sentic.net/api/en/concept/features">
                 <polarity rdf:datatype="http://www.w3.org/2001/XMLSchema#base64Binary">1</polarity>
             </aspect>

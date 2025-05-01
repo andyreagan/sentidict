@@ -17,13 +17,13 @@ that users have been asking for.
 A summary of the changes:
 
 	New Tcl/Tk based interface that is uniform on all platforms.
-	
+
 	New options:
 		show synset location in database file (synset offset)
 		show lexical file information
 		show sense numbers for words in synsets
 		user selectable fonts and sizes
-	
+
 	Functional Changes:
 		new "Overview" of all senses comes up first
 		substring search (grep) is now a "File" option
@@ -59,13 +59,13 @@ WordNet database:
 
 	removed list of filenames from database "data" files
 
-	use DBLICENSE_SIZE to get starting offset of first synset 
+	use DBLICENSE_SIZE to get starting offset of first synset
 		in each data file
 
 	frequency counts (polysemy) now based on # of WN senses, not Collins
-	
-	new gloss index (index.gloss) file 
-	
+
+	new gloss index (index.gloss) file
+
 	example sentences for verb senses
 
 
@@ -73,7 +73,7 @@ Prolog version of the database:
 
 	added new file wn_vgp.pl -> verb group pointers
 
-	added field to end of w_s.pl file -> 
+	added field to end of w_s.pl file ->
 		1 : sense is tagged
 		0 : sense is tagged
 
@@ -89,10 +89,10 @@ WordNet Library:
 		files.
 
 	new WNHOME environment variable.  If "old" WNSEARCHDIR is set,
-		it uses that.  If not, and WHOME is set, library code 
+		it uses that.  If not, and WHOME is set, library code
 		looks for database files in WNHOME/dict.  Otherwise
 		the default for your computer platform is used.
-	
+
 	moved SenseCount, OutSenseCount to new "wnresults" data structure
 
 	removed "datastart" variable (use DBLICENSE_SIZE instead)
@@ -116,6 +116,3 @@ WordNet Library:
 		added "tagged_cnt" field
 
 	new SnsIndex structure for parsed "sense index" entry
-
-	
-

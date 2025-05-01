@@ -1,27 +1,26 @@
-# coding: utf-8
-f = open("Sentiment140-Lexicon-v0.1/unigrams-pmilexicon.txt","r")
+f = open("Sentiment140-Lexicon-v0.1/unigrams-pmilexicon.txt")
 unigrams = dict()
 for line in f:
-    word,score,poscount,negcount = line.rstrip().split("\t")
+    word, score, poscount, negcount = line.rstrip().split("\t")
     unigrams[word] = score
 f.close()
 
 # len(unigrams)
-f = open("Sentiment140-Lexicon-v0.1/bigrams-pmilexicon.txt","r")
+f = open("Sentiment140-Lexicon-v0.1/bigrams-pmilexicon.txt")
 bigrams = dict()
 for line in f:
-    word,score,poscount,negcount = line.rstrip().split("\t")
+    word, score, poscount, negcount = line.rstrip().split("\t")
     bigrams[word] = score
 f.close()
 
 # len(bigrams)
-f = open("Sentiment140-Lexicon-v0.1/pairs-pmilexicon.txt","r")
+f = open("Sentiment140-Lexicon-v0.1/pairs-pmilexicon.txt")
 pairs = dict()
 for line in f:
-    word,score,poscount,negcount = line.rstrip().split("\t")
+    word, score, poscount, negcount = line.rstrip().split("\t")
     pairs[word] = score
 f.close()
-    
+
 # len(pairs)
 # len(pairs)+len(bigrams)+len(unigrams)
 # all = unigrams.copy()

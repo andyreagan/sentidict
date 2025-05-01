@@ -1,17 +1,19 @@
 from distutils.core import setup
-setup(name='sasa',
-      version='0.1.3',
-      description='SAIL/AIL Sentiment Analyzer',
-      author='Abe Kazemzadeh',
-      author_email='kazemzad@usc.edu',
-      url='https://code.google.com/p/sasa-tool/',
-      packages=['sasa'],
-      package_dir={'sasa':'sasa'},
-      package_data={'sasa': ['models/model.unigram.nb.bool.politics.unbiased']},
-      install_requires=['nltk'],
-      #package_data={'sasa': ['models/*']},
-      license='apache 2.0',
-      classifiers = [
+
+setup(
+    name="sasa",
+    version="0.1.3",
+    description="SAIL/AIL Sentiment Analyzer",
+    author="Abe Kazemzadeh",
+    author_email="kazemzad@usc.edu",
+    url="https://code.google.com/p/sasa-tool/",
+    packages=["sasa"],
+    package_dir={"sasa": "sasa"},
+    package_data={"sasa": ["models/model.unigram.nb.bool.politics.unbiased"]},
+    install_requires=["nltk"],
+    # package_data={'sasa': ['models/*']},
+    license="apache 2.0",
+    classifiers=[
         "Development Status :: 2 - Pre-Alpha",
         "Environment :: Console",
         "Intended Audience :: Science/Research",
@@ -22,8 +24,9 @@ setup(name='sasa',
         "Topic :: Scientific/Engineering :: Human Machine Interfaces",
         "Topic :: Scientific/Engineering :: Information Analysis",
         "Topic :: Sociology",
-        "Topic :: Text Processing :: Linguistic"],
-      long_description="""
+        "Topic :: Text Processing :: Linguistic",
+    ],
+    long_description="""
 ===============================================
 SASA Sentiment Analysis Tool
 ===============================================
@@ -50,5 +53,4 @@ code. NLTK (nltk.org) provides some of the basic classes of the SASA tool,
 e.g. frequency distributions and classifiers. Christopher Potts'
 twitter-specific tokenizer for sentiment analysis is used for tokenization.
 """,
-      
-      )
+)

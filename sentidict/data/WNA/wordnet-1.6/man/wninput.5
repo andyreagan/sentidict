@@ -4,7 +4,7 @@
 .TH WNINPUT 5WN "30 Sept 1997" "WordNet 1.6" "WordNet\(tm File Formats"
 .SH NAME
 noun.\fIsuffix\fP, verb.\fIsuffix\fP, adj.\fIsuffix\fP, adv.\fIsuffix\fP \-
-WordNet lexicographer files that are input to 
+WordNet lexicographer files that are input to
 .BR grind (1WN)
 .SH DESCRIPTION
 WordNet's source files are written by lexicographers.  They are the
@@ -35,7 +35,7 @@ Adjectives may be organized into clusters containing head synsets and
 satellite synsets.  Adverbs generally point to the adjectives from
 which they are derived.
 
-See 
+See
 .BR wngloss (7WN)
 for a glossary of WordNet terminology and a discussion of the
 database's content and logical organization.
@@ -67,7 +67,7 @@ relations.
 A relation from a source to a target synset is formed by specifying
 a word from the target synset in the source synset, followed by the
 \fIpointer_symbol\fP indicating the pointer type.  The location of a pointer
-within a synset defines it as either lexical or semantic.  
+within a synset defines it as either lexical or semantic.
 The
 .SB Lexicographer File Format
 section describes the syntax for entering a semantic pointer, and
@@ -128,14 +128,14 @@ The \fIpointer_symbol\fPs for adverbs are:
 
 Many pointer types are reflexive, meaning that if a synset contains a
 pointer to another synset, the other synset should contain a
-corresponding reflexive pointer.  
+corresponding reflexive pointer.
 .BR grind (1WN)
 automatically inserts missing reflexive pointers for the following
 pointer types:
 
 .TS
 center box ;
-c | c 
+c | c
 l | l .
 \fBPointer	Reflect\fP
 _
@@ -295,7 +295,7 @@ Numbers (integer or real) may be entered, either by themselves or as
 part of a word string, by following the number with a double quote
 (\fB"\fP).
 
-See 
+See
 .SB Special Adjective Syntax
 for a description of adjective clusters and markers.
 
@@ -324,7 +324,7 @@ brackets used to enclose it are treated differently from those used to
 define an adjective cluster.  Only one word can be specified in each
 word/pointer set, and any number of pointers may be included.  A
 synset can have any number of word/pointer sets.  Each is treated by
-.BR grind (1WN) 
+.BR grind (1WN)
 essentially as a \fIword\fP, so they all must appear
 before any synset \fIpointers\fP representing semantic relations.
 
@@ -429,7 +429,7 @@ are:
 .nf
 \fB(p)\fP	predicate position
 \fB(a)\fP	prenominal (attributive) position
-\fB(ip)\fP	immediately postnominal position		
+\fB(ip)\fP	immediately postnominal position
 .fi
 .RE
 .SH EXAMPLES

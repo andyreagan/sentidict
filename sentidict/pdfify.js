@@ -38,7 +38,6 @@ conversion({ html: '<h1>Hello World</h1>' }, function(err, result) {
 //         console.log("converted the data");
 //         // console.log(result.numberOfPages);
 //         result.stream.pipe(fs.createWriteStream(pdffile));
-//         conversion.kill(); // necessary if you use the electron-server strategy, see bellow for details 
+//         conversion.kill(); // necessary if you use the electron-server strategy, see bellow for details
 //     });
 // });
-

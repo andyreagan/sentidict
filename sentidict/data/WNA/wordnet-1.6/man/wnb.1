@@ -2,7 +2,7 @@
 .tr ~
 .TH WNB 1WN "30 Sept 1997" WordNet "WordNet\(tm User Commands"
 .SH NAME
-wnb \- WordNet window-based browser interface 
+wnb \- WordNet window-based browser interface
 .SH SYNOPSIS
 .LP
 \fBwnb\fP
@@ -11,7 +11,7 @@ wnb \- WordNet window-based browser interface
 WordNet database, allowing synsets and relations to be displayed as
 formatted text.  For each search word, different searches are
 available based on syntactic category and information available in the
-database.  
+database.
 
 \fBwnb\fP is written in Tcl/Tk, which is available for Unix, PC
 and Macintosh platforms.  This allows the same code to work on all
@@ -31,7 +31,7 @@ Menubar
 A menubar runs along the top of the browser window with pulldown menus
 entitled \fBFile\fP, \fBHistory\fP, \fBOptions\fP, and \fBHelp\fP.
 .TP 20
-Search Word Entry 
+Search Word Entry
 Below the Menubar is a line for entering the search
 word.  A search word can be a single word, hyphenated string, or a
 collocation.  Case is ignored.  Although only uninflected forms of
@@ -45,7 +45,7 @@ type and senses to search.  Until a search word is entered this area
 is blank.  After a search word is entered, buttons appear
 corresponding to each syntactic category (\fBNoun\fP, \fBVerb\fP,
 \fBAdjective\fP, \fBAdverb\fP) in which the search string is defined
-in WordNet.  
+in WordNet.
 
 At the right edge of the Search Selection line is a box for entering
 sense numbers.  When this box is empty, search results for all senses
@@ -60,7 +60,7 @@ Most of the browser window consists of a large text buffer for
 displaying the results of WordNet searches.  Horizontal and vertical
 scroll bars are present for scrolling through the output.
 .TP 20
-Status Line 
+Status Line
 A status line is at the bottom of the browser window.
 When search results are displayed in the Results Window, this status
 line reflects the type of search selected.  When there is no search
@@ -237,7 +237,7 @@ to use for the Results Window.  Choices for typeface are: \fBCourier\fP,
 .IP "Help on using the WordNet browser"
 Display this manual page.
 .IP "Help on WordNet terminology"
-Display the 
+Display the
 .BR wngloss (7WN)
 manual page.
 .IP "Display the WordNet license"
@@ -246,7 +246,7 @@ Display the WordNet copyright notice and license agreement.
 Information about this application.
 .RE
 .SH SHORCUTS
-Clicking on any word in the Results Window while holding down the 
+Clicking on any word in the Results Window while holding down the
 .SB SHIFT
 key on the keyboard causes the browser to replace \fBSearch
 Word\fP with the word and display its Overview and available searches.
@@ -258,7 +258,7 @@ highlighted, even it if is in another window.  This method works on
 hyphenated strings and collocations, as well as individual words.
 
 Pressing the
-.SB CONTROL-G 
+.SB CONTROL-G
 keys displays the Substring Search Window.
 .SH SEARCH RESULTS
 The results of a search of the WordNet database are displayed in the
@@ -351,7 +351,7 @@ database for your installation.
 .SH ENVIRONMENT VARIABLES
 .TP 20
 .B WNHOME
-Base directory for WordNet.  Unix default is 
+Base directory for WordNet.  Unix default is
 \fB/usr/local/wordnet1.6\fP, PC default is \fBC:\ewn16\fP, Macintosh
 default is \fB:\fP.
 .TP 20
@@ -391,9 +391,9 @@ morphology exception lists
 .BR wnintro (3WN),
 .BR lexnames (5WN),
 .BR senseindex (5WN),
-.BR wndb (5WN), 
+.BR wndb (5WN),
 .BR wninput (5WN),
-.BR morphy (7WN), 
+.BR morphy (7WN),
 .BR wngloss (7WN),
 .BR wngroups (7WN).
 .SH BUGS

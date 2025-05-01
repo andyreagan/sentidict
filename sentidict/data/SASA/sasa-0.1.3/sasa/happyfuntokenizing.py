@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 """
 This code implements a basic, Twitter-aware tokenizer.
@@ -68,7 +67,7 @@ emoticon_string = r"""
       [<>]?
       [:;=8]                     # eyes
       [\-o\*\']?                 # optional nose
-      [\)\]\(\[dDpP/\:\}\{@\|\\] # mouth      
+      [\)\]\(\[dDpP/\:\}\{@\|\\] # mouth
       |
       [\)\]\(\[dDpP/\:\}\{@\|\\] # mouth
       [\-o\*\']?                 # optional nose
@@ -84,20 +83,20 @@ regex_strings = (
       (?:            # (international)
         \+?[01]
         [\-\s.]*
-      )?            
+      )?
       (?:            # (area code)
         [\(]?
         \d{3}
         [\-\s.\)]*
-      )?    
+      )?
       \d{3}          # exchange
-      [\-\s.]*   
+      [\-\s.]*
       \d{4}          # base
     )"""
     ,
     # Emoticons:
     emoticon_string
-    ,    
+    ,
     # HTML tags:
      r"""<[^>]+>"""
     ,
@@ -115,7 +114,7 @@ regex_strings = (
     |
     (?:[\w_]+)                     # Words without apostrophes or dashes.
     |
-    (?:\.(?:\s*\.){1,})            # Ellipsis dots. 
+    (?:\.(?:\s*\.){1,})            # Ellipsis dots.
     |
     (?:\S)                         # Everything else that isn't whitespace.
     """
@@ -123,7 +122,7 @@ regex_strings = (
 
 ######################################################################
 # This is the core tokenizing regex:
-    
+
 word_re = re.compile(r"""(%s)""" % "|".join(regex_strings), re.VERBOSE | re.I | re.UNICODE)
 
 # The emoticon string gets its own regex so that we can preserve case for them as needed:
@@ -144,7 +143,7 @@ class Tokenizer:
         """
         Argument: s -- any string or unicode object
         Value: a tokenize list of strings; conatenating this list returns the original string if preserve_case=False
-        """        
+        """
         # Try to ensure unicode:
         try:
             s = unicode(s)
@@ -156,7 +155,7 @@ class Tokenizer:
         # Tokenize:
         words = word_re.findall(s)
         # Possible alter the case, but avoid changing emoticons like :D into :d:
-        if not self.preserve_case:            
+        if not self.preserve_case:
             words = map((lambda x : x if emoticon_re.search(x) else x.lower()), words)
         return words
 
@@ -174,7 +173,7 @@ class Tokenizer:
         tweets = api.GetPublicTimeline()
         if tweets:
             for tweet in tweets:
-                if tweet.user.lang == 'en':            
+                if tweet.user.lang == 'en':
                     return self.tokenize(tweet.text)
         else:
             raise Exception("Apologies. I couldn't get Twitter to give me a public English-language tweet. Perhaps try again")
@@ -191,7 +190,7 @@ class Tokenizer:
                 entnum = ent[2:-1]
                 try:
                     entnum = int(entnum)
-                    s = s.replace(ent, unichr(entnum))	
+                    s = s.replace(ent, unichr(entnum))
                 except:
                     pass
         # Now the alpha versions:
@@ -199,10 +198,10 @@ class Tokenizer:
         ents = filter((lambda x : x != amp), ents)
         for ent in ents:
             entname = ent[1:-1]
-            try:            
+            try:
                 s = s.replace(ent, unichr(htmlentitydefs.name2codepoint[entname]))
             except:
-                pass                    
+                pass
             s = s.replace(amp, " and ")
         return s
 
@@ -211,9 +210,9 @@ class Tokenizer:
 if __name__ == '__main__':
     tok = Tokenizer(preserve_case=False)
     samples = (
-        u"RT @ #happyfuncoding: this is a typical Twitter tweet :-)",
-        u"HTML entities &amp; other Web oddities can be an &aacute;cute <em class='grumpy'>pain</em> >:(",
-        u"It's perhaps noteworthy that phone numbers like +1 (800) 123-4567, (800) 123-4567, and 123-4567 are treated as words despite their whitespace."
+        "RT @ #happyfuncoding: this is a typical Twitter tweet :-)",
+        "HTML entities &amp; other Web oddities can be an &aacute;cute <em class='grumpy'>pain</em> >:(",
+        "It's perhaps noteworthy that phone numbers like +1 (800) 123-4567, (800) 123-4567, and 123-4567 are treated as words despite their whitespace."
         )
 
     for s in samples:

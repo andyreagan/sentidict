@@ -4,12 +4,12 @@ Bradley, M.M. & Lang, P.J.
 NIMH Center for the Study of Emotion and Attention
 University of Florida
 
-Bradley, M.M., & Lang, P.J. (1999). Affective norms for English words 
-(ANEW). Gainesville, FL. The NIMH Center for the Study of Emotion and 
+Bradley, M.M., & Lang, P.J. (1999). Affective norms for English words
+(ANEW). Gainesville, FL. The NIMH Center for the Study of Emotion and
 Attention,University of Florida.
 
 For information regarding these stimuli, please contact:
-  
+
 Margaret Bradley, Ph.D.
 Box 100165 HSC
 University of Florida
@@ -18,19 +18,19 @@ email: bradley@nervm.nerdc.ufl.edu
 
 
      There are over 1000 words currently normed in ANEW, using the Self-
-Assessment Manikin (SAM) to acquire ratings of pleasure, arousal, and 
-dominance. Each rating scale runs from 1 to 9, with a rating of '1' 
-indicating a low value on each dimension (e.g., low pleasure, low 
-arousal,low dominance) and '9' high on each dimension (high pleasure, 
-high arousal, high dominance). Listed below are the words, followed by 
-the ANEW word number, and then the mean and standard deviation for 
-valence, arousal, and dominance ratings. The final column lists the word 
-frequency, taken from Kucera and Francis (1967) norms, and is the number 
-of times the word appeared in the data base that Kucera and Francis 
+Assessment Manikin (SAM) to acquire ratings of pleasure, arousal, and
+dominance. Each rating scale runs from 1 to 9, with a rating of '1'
+indicating a low value on each dimension (e.g., low pleasure, low
+arousal,low dominance) and '9' high on each dimension (high pleasure,
+high arousal, high dominance). Listed below are the words, followed by
+the ANEW word number, and then the mean and standard deviation for
+valence, arousal, and dominance ratings. The final column lists the word
+frequency, taken from Kucera and Francis (1967) norms, and is the number
+of times the word appeared in the data base that Kucera and Francis
 used.  Thus, a higher number is more frequent word. Following the tab-
-delimited norms for all subjects are the same set of words with 
-affective norms for male subjects only,followed by the norms for female 
-subjects. 
+delimited norms for all subjects are the same set of words with
+affective norms for male subjects only,followed by the norms for female
+subjects.
 
 
 

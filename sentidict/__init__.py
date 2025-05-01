@@ -1,4 +1,4 @@
-__all__ = ['dictionaries','utils','wordshifts','functions']
+__all__ = ["dictionaries", "utils", "wordshifts", "functions"]
 
 # load everything
 from .dictionaries import *

@@ -7,14 +7,14 @@ AFINN-111: Newest version with 2477 words and phrases.
 
 AFINN-96: 1468 unique words and phrases on 1480 lines. Note that there
 are 1480 lines, as some words are listed twice. The word list in not
-entirely in alphabetic ordering.  
+entirely in alphabetic ordering.
 
 An evaluation of the word list is available in:
 
 Finn Årup Nielsen, "A new ANEW: Evaluation of a word list for
 sentiment analysis in microblogs", http://arxiv.org/abs/1103.2903
 
-The list was used in: 
+The list was used in:
 
 Lars Kai Hansen, Adam Arvidsson, Finn Årup Nielsen, Elanor Colleoni,
 Michael Etter, "Good Friends, Bad News - Affect and Virality in
@@ -33,11 +33,9 @@ http://fnielsen.posterous.com/old-anew-a-sentiment-about-sentiment-analysis
 
 In Python the file may be read into a dictionary with:
 
->>> afinn = dict(map(lambda (k,v): (k,int(v)), 
+>>> afinn = dict(map(lambda (k,v): (k,int(v)),
                      [ line.split('\t') for line in open("AFINN-111.txt") ]))
 >>> afinn["Good".lower()]
 3
 >>> sum(map(lambda word: afinn.get(word, 0), "Rainy day but still in a good mood".lower().split()))
 2
-
-

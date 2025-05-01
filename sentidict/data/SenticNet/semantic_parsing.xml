@@ -35,7 +35,7 @@
         </sentence>
         <sentence rdf:resource="http://sentic.net/senticdb/sentence">
             <text rdf:datatype="http://www.w3.org/TR/rdf-text">
-                the author hasn't even taken the trouble to put up an errata list 
+                the author hasn't even taken the trouble to put up an errata list
             </text>
             <semantics rdf:resource="http://sentic.net/api/en/concept/author"/>
             <semantics rdf:resource="http://sentic.net/api/en/concept/take_trouble"/>
@@ -425,7 +425,7 @@
             <semantics rdf:resource="http://sentic.net/api/en/concept/year"/>
 			<semantics rdf:resource="http://sentic.net/api/en/concept/not_impress"/>
 			<semantics rdf:resource="http://sentic.net/api/en/concept/impress_much"/>
-			
+
         </sentence>
         <sentence rdf:resource="http://sentic.net/senticdb/sentence">
             <text rdf:datatype="http://www.w3.org/TR/rdf-text">
@@ -3489,7 +3489,7 @@
             <text rdf:datatype="http://www.w3.org/TR/rdf-text">
                 during the fast portion of the workout, it is almost as if kathy can't hear the music
             </text>
-            <semantics rdf:resource="http://sentic.net/api/en/concept/be_during_portion"/>  
+            <semantics rdf:resource="http://sentic.net/api/en/concept/be_during_portion"/>
             <semantics rdf:resource="http://sentic.net/api/en/concept/fast_portion"/>
             <semantics rdf:resource="http://sentic.net/api/en/concept/portion"/>
             <semantics rdf:resource="http://sentic.net/api/en/concept/portion_of_workout"/>
@@ -16312,7 +16312,7 @@
             <semantics rdf:resource="http://sentic.net/api/en/concept/worth_scene"/>
             <semantics rdf:resource="http://sentic.net/api/en/concept/quarter"/>
             <semantics rdf:resource="http://sentic.net/api/en/concept/leave_beneath_pillow"/>
-			
+
         </sentence>
         <sentence rdf:resource="http://sentic.net/senticdb/sentence">
             <text rdf:datatype="http://www.w3.org/TR/rdf-text">
@@ -21372,7 +21372,7 @@
         </sentence>
         <sentence rdf:resource="http://sentic.net/senticdb/sentence">
             <text rdf:datatype="http://www.w3.org/TR/rdf-text">
-                lastly its case is fingerprint free, its speakers are movie experience loud, hard to find on a laptop and its hdmi de 
+                lastly its case is fingerprint free, its speakers are movie experience loud, hard to find on a laptop and its hdmi de
             </text>
             <semantics rdf:resource="http://sentic.net/api/en/concept/movie_experience_speaker"/>
             <semantics rdf:resource="http://sentic.net/api/en/concept/hard_movie_experience"/>
@@ -27147,7 +27147,7 @@
                 If you are looking for a good movie to buy for your child, pass on this one
             </text>
 			<semantics rdf:resource="http://sentic.net/api/en/concept/buy_for_child"/>
-            <semantics rdf:resource="http://sentic.net/api/en/concept/look_for_movie"/>			
+            <semantics rdf:resource="http://sentic.net/api/en/concept/look_for_movie"/>
             <semantics rdf:resource="http://sentic.net/api/en/concept/good_movie"/>
             <semantics rdf:resource="http://sentic.net/api/en/concept/movie"/>
             <semantics rdf:resource="http://sentic.net/api/en/concept/pass_on_one"/>
@@ -28886,11 +28886,11 @@
             <text rdf:datatype="http://www.w3.org/TR/rdf-text">
                 The connection between the chord and the a/c adapter is loose and tends to fall out with the slightest notion of tension
             </text>
-            <semantics rdf:resource="http://sentic.net/api/en/concept/connection_between_adapter_and_chord"/>            
+            <semantics rdf:resource="http://sentic.net/api/en/concept/connection_between_adapter_and_chord"/>
             <semantics rdf:resource="http://sentic.net/api/en/concept/tend_connection"/>
             <semantics rdf:resource="http://sentic.net/api/en/concept/connection"/>
             <semantics rdf:resource="http://sentic.net/api/en/concept/chord"/>
-            <semantics rdf:resource="http://sentic.net/api/en/concept/ac_adapter"/>            
+            <semantics rdf:resource="http://sentic.net/api/en/concept/ac_adapter"/>
             <semantics rdf:resource="http://sentic.net/api/en/concept/adapter"/>
             <semantics rdf:resource="http://sentic.net/api/en/concept/loose_connection"/>
             <semantics rdf:resource="http://sentic.net/api/en/concept/fall_out"/>
@@ -29038,7 +29038,7 @@
                 I have a number of booklites, different vendors, different styles, some AC adapter, some straight battery, cheap to higher prices, and this one is the best, the brightest, the one I will most often use
             </text>
             <semantics rdf:resource="http://sentic.net/api/en/concept/best_number"/>
-            <semantics rdf:resource="http://sentic.net/api/en/concept/ac_adapter"/> 
+            <semantics rdf:resource="http://sentic.net/api/en/concept/ac_adapter"/>
             <semantics rdf:resource="http://sentic.net/api/en/concept/have_number"/>
             <semantics rdf:resource="http://sentic.net/api/en/concept/number"/>
             <semantics rdf:resource="http://sentic.net/api/en/concept/number_of_booklite"/>

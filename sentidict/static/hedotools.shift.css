@@ -8,7 +8,7 @@
 .legendrect { cursor: pointer; }
 .yearrect { cursor: pointer; }
 .expanderbutton { cursor: pointer; }
-.sumrectL { cursor: pointer; } 
+.sumrectL { cursor: pointer; }
 .sumrectR { cursor: pointer; }
 .resetbutton { cursor: pointer; }
 svg image { cursor: pointer; }
@@ -33,4 +33,3 @@ div.outwrapper {
     background: #e6e0cc;
     padding: 20px;
 }
-

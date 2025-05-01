@@ -24,7 +24,7 @@ def tokenize(tweet):
         if not text: return None # blank line
         print text
         text = tokenizer.tokenize(text)
-        return codecs.encode(u" ".join(text), "utf-8")
+        return codecs.encode(" ".join(text), "utf-8")
     except Exception, err:
         print >> sys.stderr, err
         print >> sys.stderr, tweet

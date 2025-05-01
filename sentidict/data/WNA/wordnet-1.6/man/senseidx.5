@@ -51,7 +51,7 @@ Each line is of the form:
 
 \fIsense_key\fP is an encoding of the word sense.  Programs can
 construct a sense key in this format and use it as a binary search key
-into the sense index file.  
+into the sense index file.
 The format of a \fIsense_key\fP is
 described below.
 
@@ -136,12 +136,12 @@ The synset type is encoded as follows:
 .SH NOTES
 For non-satellite senses the \fIhead_word\fP and \fIhead_id\fP fields
 have no values, however the field separator character (\fB:\fP) is
-present. 
+present.
 
 The sense index is a very large file (6.1MB), and is not used by the
 WordNet searching software.  It can be useful to many other
 applications that the user may wish to write, and is therefore
-included in the WordNet package.  If 
+included in the WordNet package.  If
 .BR escort (1WN)
 and the semantic concordance are not being used, and you are not doing
 research or development that requires this file, the sense index file

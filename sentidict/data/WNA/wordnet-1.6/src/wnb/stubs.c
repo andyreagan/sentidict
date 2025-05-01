@@ -34,14 +34,14 @@ static char resultbuf[SEARCHBUF];
 ** the search word's base form.
 */
 
-int wn_findvalidsearches (ClientData clientData, Tcl_Interp *interp, 
+int wn_findvalidsearches (ClientData clientData, Tcl_Interp *interp,
    int argc, char *argv[]) {
    unsigned int bitfield;
    char bitfieldstr[32];
    char *morph;
    int pos;
    if (argc != 3) {
-      interp -> result = 
+      interp -> result =
          "usage: findvalidsearches searchword partofspeechnum";
       return TCL_ERROR;
    }
@@ -78,9 +78,9 @@ int wn_bit (ClientData clientData, Tcl_Interp *interp,
    sprintf (bitfieldstr, "%u", bitfield);
    interp -> result = bitfieldstr;
    return TCL_OK;
-} 
+}
 
-/* This command performs the requested search and returns the results in 
+/* This command performs the requested search and returns the results in
 ** a string buffer.  This is the primary purpose of the whole program.
 ** It is invoked from Tcl simply as "search".
 */
@@ -90,7 +90,7 @@ int wn_search (ClientData clientData, Tcl_Interp *interp,
    int pos, searchtype, sense;
    char *morph;
    if (argc != 5) {
-      interp -> result = 
+      interp -> result =
          "usage: search searchword partofspeechnum searchtypenum sensenum";
       return TCL_ERROR;
    }
@@ -111,7 +111,7 @@ int wn_search (ClientData clientData, Tcl_Interp *interp,
 ** search engine whether or not to include textual glosses in the search
 ** results.
 */
- 
+
 int wn_glosses (ClientData clientData, Tcl_Interp *interp,
    int argc, char *argv[]) {
    if (argc != 2) {
@@ -126,7 +126,7 @@ int wn_glosses (ClientData clientData, Tcl_Interp *interp,
 ** search engine whether or not to include lex filenames in the search
 ** results.
 */
- 
+
 int wn_fileinfo (ClientData clientData, Tcl_Interp *interp,
    int argc, char *argv[]) {
    if (argc != 2) {
@@ -138,10 +138,10 @@ int wn_fileinfo (ClientData clientData, Tcl_Interp *interp,
 }
 
 /* This command, accessed in Tcl as "byteoffset" sets the flag that tells the
-** search engine whether or not to include byte offsets into the lex files 
+** search engine whether or not to include byte offsets into the lex files
 ** in the search results.
 */
- 
+
 int wn_byteoffset (ClientData clientData, Tcl_Interp *interp,
    int argc, char *argv[]) {
    if (argc != 2) {
@@ -156,7 +156,7 @@ int wn_byteoffset (ClientData clientData, Tcl_Interp *interp,
 ** search engine whether or not to report the WordNet sense for each word
 ** returned.
 */
- 
+
 int wn_senseflag (ClientData clientData, Tcl_Interp *interp,
    int argc, char *argv[]) {
    if (argc != 2) {
@@ -257,42 +257,41 @@ int tkwn_displayerror (char *msg) {
       }
    }
    /* Now you can make the call */
-   ParamText ((ConstStr255Param) m, (ConstStr255Param) "", 
+   ParamText ((ConstStr255Param) m, (ConstStr255Param) "",
       (ConstStr255Param) "", (ConstStr255Param) "");
    CautionAlert (display_msg_alert_id, NULL);
    return -1;
 }
 #endif
 
-/* This is the initialization routine, which is called from tkAppInit.c 
+/* This is the initialization routine, which is called from tkAppInit.c
 ** when the program starts.  It registers each new command with the Tcl
 ** interpreter.
-*/ 
+*/
 
 int Wordnet_Init (Tcl_Interp *interp) {
    interface_doevents_func = tkwn_doevents;
    display_message = tkwn_displayerror;
    wninit ();
-   Tcl_CreateCommand (interp, "findvalidsearches", (void *) 
+   Tcl_CreateCommand (interp, "findvalidsearches", (void *)
       wn_findvalidsearches, (ClientData) NULL, (Tcl_CmdDeleteProc *) NULL);
-   Tcl_CreateCommand (interp, "bit", (void *) wn_bit, (ClientData) NULL, 
+   Tcl_CreateCommand (interp, "bit", (void *) wn_bit, (ClientData) NULL,
       (Tcl_CmdDeleteProc *) NULL);
-   Tcl_CreateCommand (interp, "search", (void *) wn_search, (ClientData) 
+   Tcl_CreateCommand (interp, "search", (void *) wn_search, (ClientData)
       NULL, (Tcl_CmdDeleteProc *) NULL);
-   Tcl_CreateCommand (interp, "glosses", (void *) wn_glosses, (ClientData) 
+   Tcl_CreateCommand (interp, "glosses", (void *) wn_glosses, (ClientData)
       NULL, (Tcl_CmdDeleteProc *) NULL);
-   Tcl_CreateCommand (interp, "fileinfo", (void *) wn_fileinfo, (ClientData) 
+   Tcl_CreateCommand (interp, "fileinfo", (void *) wn_fileinfo, (ClientData)
       NULL, (Tcl_CmdDeleteProc *) NULL);
-   Tcl_CreateCommand (interp, "byteoffset", (void *) wn_byteoffset, 
+   Tcl_CreateCommand (interp, "byteoffset", (void *) wn_byteoffset,
       (ClientData) NULL, (Tcl_CmdDeleteProc *) NULL);
-   Tcl_CreateCommand (interp, "senseflag", (void *) wn_senseflag, 
+   Tcl_CreateCommand (interp, "senseflag", (void *) wn_senseflag,
       (ClientData) NULL, (Tcl_CmdDeleteProc *) NULL);
    Tcl_CreateCommand (interp, "contextualhelp", (void *) wn_contextualhelp,
       (ClientData) NULL, (Tcl_CmdDeleteProc *) NULL);
    Tcl_CreateCommand (interp, "reopendb", (void *) wn_reopendb, (ClientData)
       NULL, (Tcl_CmdDeleteProc *) NULL);
-   Tcl_CreateCommand (interp, "abortsearch", (void *) wn_abortsearch, 
+   Tcl_CreateCommand (interp, "abortsearch", (void *) wn_abortsearch,
       (ClientData) NULL, (Tcl_CmdDeleteProc *) NULL);
    return TCL_OK;
 }
-

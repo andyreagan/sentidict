@@ -22,7 +22,7 @@
 #define LINE_LEN	(1024*8)
 #endif
 
-static char line[LINE_LEN]; 
+static char line[LINE_LEN];
 
 /* General purpose binary search function to search for key as first
    item on line in open file.  Item is delimited by space. */
@@ -64,13 +64,13 @@ char *bin_search(char *searchkey, FILE *fp)
 	    mid = top + diff;
 	}
     } while((strcmp(key, searchkey)) && (diff != 0));
-    
+
     if(!strcmp(key, searchkey))
 	return(line);
     else
 	return(NULL);
 }
-
+
 static long offset;
 
 static int bin_search_key(char *searchkey, FILE *fp)
@@ -162,7 +162,7 @@ void copyfile(FILE *fromfp, FILE *tofp)
     while ((c = getc(fromfp)) != EOF)
 	putc(c, tofp);
 }
-
+
 /* Function to replace a line in a file.  Returns the original line,
    or NULL in case of error. */
 
@@ -199,7 +199,7 @@ char *insert_line(char *new_line, char *searchkey, FILE *fp)
 
     if (bin_search_key(searchkey, fp))
 	return(NULL);
-    
+
     if ((tfp = tmpfile()) == NULL)
 	return(NULL);		/* could not create temp file */
     if (fseek(fp, offset, 0) == -1)

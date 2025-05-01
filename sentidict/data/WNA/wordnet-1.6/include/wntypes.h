@@ -1,5 +1,5 @@
 /*
-   
+
    wntypes.h - Typedef definitions for WordNet library
 
    $Id: wntypes.h,v 1.2 1997/09/23 15:46:02 wn Exp $
@@ -67,7 +67,7 @@ typedef struct si {
     int tag_cnt;		/* number of semantic tags to sense */
     struct si *nextsi;		/* ptr to next sense index entry */
 } SnsIndex, *SnsIndexPtr;
-    
+
 typedef struct {
     int SenseCount[MAX_FORMS];	/* number of senses word form has */
     int OutSenseCount[MAX_FORMS]; /* number of senses printed for word form */
