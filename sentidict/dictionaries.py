@@ -1407,12 +1407,6 @@ class SenticNet(sentiDict):
     score_range_type = "continuous"
 
     def loadDict(self, bananas, lang):
-        openWithPath(join("data", self.title, "senticnet3.rdf.xml"), "r")
-        # import xml.etree.ElementTree as etree
-        # tree = etree.parse(filename)
-        # root = tree.getroot()
-        # import rdflib
-        # rdf is not properly formatted
         import json
 
         scraped = json.load(openWithPath(join("data", self.title, "senticnet3.json"), "r"))
