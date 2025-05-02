@@ -1,12 +1,16 @@
 # note: nose2 will run all functions that begin with test
 
-from sentidict.utils import stopper, stopper_mat, emotionV, shift
+from sentidict.utils import stopper, stopper_mat, emotionV, shift, openWithPath
 from sentidict.wordshifts import shiftHtml
 from sentidict.dictionaries import sentiDict, LabMT
 import numpy as np
 from numpy import zeros, array
 from scipy.sparse import csr_matrix, issparse
 import subprocess
+import os
+import gzip
+import shutil
+from os.path import join, exists
 
 # from jinja2 import Template
 
@@ -456,3 +460,56 @@ def test_score():
     # it's also not blocking the word list...
     ref_dict = {"neutral": 1, "dude": 1, "niggas": 8, "happy": 5, "happyy": 0, "happyyy": 0}
     assert np.abs(d.score(ref_dict) - 8) < np.abs(fixed_score - 8)
+
+
+def test_openWithPath():
+    # Create a temp directory for test files
+    test_dir = "sentidict/data/test"
+
+    # Remove directory if it already exists (to start fresh)
+    if exists(test_dir):
+        shutil.rmtree(test_dir)
+
+    # Create the test directory and any parent directories that don't exist
+    os.makedirs(test_dir, exist_ok=True)
+
+    # Create test files
+    regular_file = join(test_dir, "test.txt")
+    gzipped_file = join(test_dir, "test.gz")
+
+    # Write content to test files
+    with open(regular_file, 'w', encoding='utf8') as f:
+        f.write("This is a regular file.")
+
+    with gzip.open(gzipped_file, 'wt', encoding='utf8') as f:
+        f.write("This is a gzipped file.")
+
+    # Test reading regular file
+    with openWithPath("data/test/test.txt", "r") as f:
+        content = f.read()
+        assert content == "This is a regular file.", f"Regular file content mismatch: {content}"
+
+    # Test reading gzipped file
+    with openWithPath("data/test/test.gz", "r") as f:
+        content = f.read()
+        assert content == "This is a gzipped file.", f"Gzipped file content mismatch: {content}"
+
+    # Test writing to regular file
+    with openWithPath("data/test/new_test.txt", "w") as f:
+        f.write("New regular content")
+
+    # Verify regular file content
+    with open(join(test_dir, "new_test.txt"), encoding='utf8') as f:
+        content = f.read()
+        assert content == "New regular content", f"Written regular file content mismatch: {content}"
+
+    # Test writing to gzipped file
+    with openWithPath("data/test/new_test.gz", "w") as f:
+        f.write("New gzipped content")
+
+    # Verify gzipped file content
+    with gzip.open(join(test_dir, "new_test.gz"), 'rt', encoding='utf8') as f:
+        content = f.read()
+        assert content == "New gzipped content", f"Written gzipped file content mismatch: {content}"
+
+    shutil.rmtree(test_dir)

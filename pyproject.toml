@@ -47,53 +47,53 @@ pattern = "__version__ = [\"'\"](?P<version>.+)[\"'\"]"
 
 [tool.hatch.build.targets.wheel]
 packages = ["sentidict"]
-exclude = [
-    "sentidict/data",
-    "*.zip",
-    "*.tar.gz",
-    "*.tgz",
-    "*.tar",
-    "*.exe",
-    "*.pdf",
-    "*.rar",
-    "*.xls",
-    "*.xml",
-    "*.PKL",
-    "*.swp",
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "sentidict",
+    "data/LabMT/*.txt.gz",
+    "data/ANEW/all-2.csv.gz",
+    "data/MPQA/subjectivity_clues_hltemnlp05/subjclueslen1-HLTEMNLP05.tff.gz",
+    "data/AFINN/AFINN-111.txt.gz",
+    "data/OL/positive-words.txt.gz",
+    "data/OL/negative-words.txt.gz",
+    "data/WK/BRM-emot-submit.csv.gz",
+    "data/PANAS-X/affect.txt.gz",
+    "data/Pattern/en-sentiment.xml.gz",
+    "data/SentiWordNet/SentiWordNet_3.0.0_20130122.txt.gz",
+    "data/GI/inqtabs.txt.gz",
+    "data/WDAL/words.txt.gz",
+    "data/NRC/NRC-Emotion-Lexicon-v0.92/NRC-emotion-lexicon-wordlevel-alphabetized-v0.92.txt.gz",
+    "data/NRC/MaxDiff-Twitter-Lexicon/Maxdiff-Twitter-Lexicon_-1to1.txt.gz",
+    "data/NRC/NRC-Hashtag-Sentiment-Lexicon-v0.1/unigrams-pmilexicon.txt.gz",
+    "data/NRC/Sentiment140-Lexicon-v0.1/unigrams-pmilexicon.txt.gz",
+    "data/NRC/Sentiment140-Lexicon-v0.1/pairs-pmilexicon.txt.gz",
+    "data/NRC/Sentiment140-Lexicon-v0.1/bigrams-pmilexicon.txt.gz",
+    "data/SOCAL/all_dictionaries-utf8.txt.gz",
+    "data/SenticNet/senticnet3.json.gz",
+    "data/Emoticons/positive.txt.gz",
+    "data/Emoticons/negative.txt.gz",
+    "data/Emoticons/neutral.txt.gz",
+    "data/SentiStrength/EmotionLookupTable.txt.gz",
+    "data/SentiStrength/EmoticonLookupTable-utf8.txt.gz",
+    "data/VADER/vader_sentiment_lexicon-utf8.txt.gz",
+    "data/Umigon/all.txt.gz",
+    "data/USent/SANN/positive.txt.gz",
+    "data/USent/SANN/negative.txt.gz",
+    "data/EmoSenticNet/emosenticnet.csv.gz",
+    # license and readme
+    "LICENSE.md",
+    "README.md",
+    # all the testing, build, and code formatting
+    "test",
+    "examples",
+    "pyproject.toml",
+    ".pre-commit-config.yaml",
+    # all the docs stuff
+    "docs",
+    "build_docs.sh",
+    ".readthedocs.yaml",
 ]
-
-[tool.hatch.build.targets.wheel.forced-include]
-"sentidict/static" = "sentidict/static"
-"sentidict/templates" = "sentidict/templates"
-"sentidict/data/LabMT/labMT2english.txt" = "sentidict/data/LabMT/labMT2english.txt"
-"sentidict/data/ANEW/all-2.csv" = "sentidict/data/ANEW/all-2.csv"
-"sentidict/data/MPQA/subjectivity_clues_hltemnlp05/subjclueslen1-HLTEMNLP05.tff" = "sentidict/data/MPQA/subjectivity_clues_hltemnlp05/subjclueslen1-HLTEMNLP05.tff"
-"sentidict/data/OL/negative-words.txt" = "sentidict/data/OL/negative-words.txt"
-"sentidict/data/OL/positive-words.txt" = "sentidict/data/OL/positive-words.txt"
-"sentidict/data/WK/BRM-emot-submit.csv" = "sentidict/data/WK/BRM-emot-submit.csv"
-"sentidict/data/PANAS-X/affect.txt" = "sentidict/data/PANAS-X/affect.txt"
-"sentidict/data/Pattern/en-sentiment.xml" = "sentidict/data/Pattern/en-sentiment.xml"
-"sentidict/data/SentiWordNet/SentiWordNet_3.0.0_20130122.txt" = "sentidict/data/SentiWordNet/SentiWordNet_3.0.0_20130122.txt"
-"sentidict/data/AFINN/AFINN-111.txt" = "sentidict/data/AFINN/AFINN-111.txt"
-"sentidict/data/GI/inqtabs.txt" = "sentidict/data/GI/inqtabs.txt"
-"sentidict/data/WDAL/words.txt" = "sentidict/data/WDAL/words.txt"
-"sentidict/data/NRC/NRC-Emotion-Lexicon-v0.92/NRC-emotion-lexicon-wordlevel-alphabetized-v0.92.txt" = "sentidict/data/NRC/NRC-Emotion-Lexicon-v0.92/NRC-emotion-lexicon-wordlevel-alphabetized-v0.92.txt"
-"sentidict/data/NRC/MaxDiff-Twitter-Lexicon/Maxdiff-Twitter-Lexicon_-1to1.txt" = "sentidict/data/NRC/MaxDiff-Twitter-Lexicon/Maxdiff-Twitter-Lexicon_-1to1.txt"
-"sentidict/data/NRC/NRC-Hashtag-Sentiment-Lexicon-v0.1/unigrams-pmilexicon.txt" = "sentidict/data/NRC/NRC-Hashtag-Sentiment-Lexicon-v0.1/unigrams-pmilexicon.txt"
-"sentidict/data/NRC/Sentiment140-Lexicon-v0.1/unigrams-pmilexicon.txt" = "sentidict/data/NRC/Sentiment140-Lexicon-v0.1/unigrams-pmilexicon.txt"
-"sentidict/data/SOCAL/all_dictionaries-utf8.txt" = "sentidict/data/SOCAL/all_dictionaries-utf8.txt"
-"sentidict/data/SenticNet/senticnet3.json" = "sentidict/data/SenticNet/senticnet3.json"
-"sentidict/data/Emoticons/positive.txt" = "sentidict/data/Emoticons/positive.txt"
-"sentidict/data/Emoticons/neutral.txt" = "sentidict/data/Emoticons/neutral.txt"
-"sentidict/data/Emoticons/negative.txt" = "sentidict/data/Emoticons/negative.txt"
-"sentidict/data/SentiStrength/EmotionLookupTable.txt" = "sentidict/data/SentiStrength/EmotionLookupTable.txt"
-"sentidict/data/SentiStrength/EmoticonLookupTable-utf8.txt" = "sentidict/data/SentiStrength/EmoticonLookupTable-utf8.txt"
-"sentidict/data/VADER/vader_sentiment_lexicon-utf8.txt" = "sentidict/data/VADER/vader_sentiment_lexicon-utf8.txt"
-"sentidict/data/Umigon/all.txt" = "sentidict/data/Umigon/all.txt"
-"sentidict/data/USent/SANN/positive.txt" = "sentidict/data/USent/SANN/positive.txt"
-"sentidict/data/USent/SANN/negative.txt" = "sentidict/data/USent/SANN/negative.txt"
-"sentidict/data/EmoSenticNet/emosenticnet.csv" = "sentidict/data/EmoSenticNet/emosenticnet.csv"
-
 [project.optional-dependencies]
 docs = [
     "sphinx>=4.0.0",

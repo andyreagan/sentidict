@@ -13,6 +13,7 @@ from numpy import dot, sum, zeros, array, ndarray, arange
 from os import mkdir
 from os.path import isfile, isdir, join, dirname
 from shutil import copy as shcopy
+import gzip
 
 
 def u(x):
@@ -183,9 +184,16 @@ def open_codecs_dictify(file):
     return test_dict
 
 
-def openWithPath(filename, mode, codec="utf8", save_list=False):
-    if save_list:
-        f = open("datafiles.txt", "a")
-        f.write(filename + "\n")
-        f.close()
-    return codecs.open(join(dirname(__file__), filename), mode, codec)
+def openWithPath(filename, mode, codec="utf8"):
+    full_path = join(dirname(__file__), filename)
+
+    # Check if the file is gzipped
+    if ".gz" in filename:
+        # For gzipped files, we need to handle them differently
+        # The 't' mode is for text mode (as opposed to binary)
+        if 'b' not in mode:
+            mode = mode + 't'
+        return gzip.open(full_path, mode, encoding=codec)
+    else:
+        # Regular file handling
+        return codecs.open(full_path, mode, codec)
