@@ -8,7 +8,7 @@ dynamic = ["version"]
 description = "Utilities for dictionary-based sentiment analysis. Includes 28 sentiment dictionaries with loaders, scoring, and interactive visualization."
 readme = "README.md"
 license = {file = "LICENSE.md"}
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 authors = [
     {name = "Andy Reagan", email = "andy@andyreagan.com"}
 ]
@@ -19,25 +19,28 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
-    "marisa_trie",
-    "numpy",
+    "marisa_trie<1.4.0",
+    "numpy<2.4.3",
     "jinja2",
 ]
 
 [project.urls]
+Homepage = "https://github.com/andyreagan/sentidict"
 Documentation = "https://sentidict.readthedocs.io/"
 Repository = "https://github.com/andyreagan/sentidict"
 Issues = "https://github.com/andyreagan/sentidict/issues"
 
 [tool.black]
 line-length = 100
-target-version = ["py39", "py310", "py311", "py312"]
+target-version = ["py310", "py311", "py312", "py313"]
 skip-string-normalization = true
 exclude = "sentidict/data/.*"
 
@@ -94,6 +97,12 @@ include = [
     "build_docs.sh",
     ".readthedocs.yaml",
 ]
+[dependency-groups]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+]
+
 [project.optional-dependencies]
 docs = [
     "sphinx>=4.0.0",
