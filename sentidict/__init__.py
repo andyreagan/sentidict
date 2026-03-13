@@ -3,5 +3,5 @@ from . import utils
 from . import wordshifts
 from . import functions
 
-__version__ = "0.1.13"
+__version__ = "0.1.14"
 __all__ = ["dictionaries", "utils", "wordshifts", "functions"]
