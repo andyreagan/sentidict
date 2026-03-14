@@ -2734,6 +2734,7 @@ wheels = [
 
 [[package]]
 name = "sentidict"
+version = "0.1.15"
 source = { editable = "." }
 dependencies = [
     { name = "jinja2" },
@@ -2796,7 +2797,7 @@ requires-dist = [
     { name = "sphinx-rtd-theme", marker = "extra == 'docs'", specifier = ">=1.0.0" },
     { name = "twine", marker = "extra == 'dev'" },
 ]
-provides-extras = ["dev", "docs", "test"]
+provides-extras = ["docs", "test", "dev"]
 
 [package.metadata.requires-dev]
 dev = [
