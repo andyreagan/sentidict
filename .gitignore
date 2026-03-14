@@ -13,3 +13,4 @@ node_modules
 .ipynb_checkpoints/
 
 **/.claude/settings.local.json
+test-wordshift*.html
