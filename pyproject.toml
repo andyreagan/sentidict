@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "sentidict"
-dynamic = ["version"]
+version = "0.1.15"
 description = "Utilities for dictionary-based sentiment analysis. Includes 28 sentiment dictionaries with loaders, scoring, and interactive visualization."
 readme = "README.md"
 license = {file = "LICENSE.md"}
@@ -44,9 +44,6 @@ target-version = ["py310", "py311", "py312", "py313"]
 skip-string-normalization = true
 exclude = "sentidict/data/.*"
 
-[tool.hatch.version]
-path = "sentidict/__init__.py"
-pattern = "__version__ = [\"'\"](?P<version>.+)[\"'\"]"
 
 [tool.hatch.build.targets.wheel]
 packages = ["sentidict"]
