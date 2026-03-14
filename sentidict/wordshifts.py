@@ -1,9 +1,5 @@
-try:
-    from IPython.display import publish_display_data
-    from IPython import get_ipython
-except ImportError:
-    publish_display_data = None
-    get_ipython = lambda: None  # noqa: E731
+from IPython.display import publish_display_data
+from IPython import get_ipython
 from os.path import join, dirname
 import codecs
 from .utils import shift, copy_static_files
