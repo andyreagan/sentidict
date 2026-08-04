@@ -10,7 +10,7 @@ for line in f:
     if len(neg) > 0:
         my_dict[word] = -1
 
-my_dict = dict()
+my_dict = {}
 for line in f:
     splitline = line.rstrip().split("\t")
     word = splitline[0]

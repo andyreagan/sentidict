@@ -13,6 +13,7 @@ import copy
 import warnings
 from os import mkdir
 from os.path import isdir, isfile, join
+from typing import ClassVar
 
 # from json import loads
 # import csv
@@ -31,12 +32,12 @@ from .utils import isarray, openWithPath, u
 class sentiDict:
     """An abstract class to score them all."""
 
-    data: dict = dict()
+    data: ClassVar[dict] = {}
     # see below for format string spec
     # https://docs.python.org/3/library/struct.html#format-strings
     # these a short,long,longlong
     # short is too small for SentiWordNet
-    fmts = ["Hf", "Lf", "Qf"]
+    fmts: ClassVar[list[str]] = ["Hf", "Lf", "Qf"]
     fmt = fmts[1]
     my_marisa = (marisa_trie.RecordTrie(fmt, []), marisa_trie.RecordTrie(fmt, []))
     """Declare this globally."""
@@ -52,7 +53,7 @@ class sentiDict:
         for key, score in self.data.items():
             # won't check the second test unless the first passes....
             if self.stems and key[-1] == "*" and len(key) > 1:
-                if not key[-2] == "*":
+                if key[-2] != "*":
                     # tmpstemwords.append(key.replace("*",""))
                     tmpstemwords.append(key[:-1])
                     tmpstemscores.append(score[1])
@@ -146,13 +147,15 @@ class sentiDict:
             warnings.warn("The *'s are kept in the dictionary, so won't match words without *")
         return word in self.data
 
-    def stopper(self, tmpVec, stopVal=1.0, ignore=[]):
+    def stopper(self, tmpVec, stopVal=1.0, ignore=None):
         """Take a frequency vector, and 0 out the stop words.
 
         Will always remove the nig* words.
 
         Return the 0'ed vector."""
 
+        if ignore is None:
+            ignore = []
         if not isarray(tmpVec):
             tmpVec = array(tmpVec)
 
@@ -209,15 +212,14 @@ class sentiDict:
                 if abs(self.my_marisa[0].get(word)[0][idx] - center) >= stopVal:
                     totalcount += count
                     totalscore += count * self.my_marisa[0].get(word)[0][idx]
-            elif len(self.my_marisa[1].prefixes(word)) > 0:
-                if (
-                    abs(self.my_marisa[1].get(self.my_marisa[1].prefixes(word)[0])[0][idx] - center)
-                    >= stopVal
-                ):
-                    totalcount += count
-                    totalscore += (
-                        count * self.my_marisa[1].get(self.my_marisa[1].prefixes(word)[0])[0][idx]
-                    )
+            elif len(self.my_marisa[1].prefixes(word)) > 0 and (
+                abs(self.my_marisa[1].get(self.my_marisa[1].prefixes(word)[0])[0][idx] - center)
+                >= stopVal
+            ):
+                totalcount += count
+                totalscore += (
+                    count * self.my_marisa[1].get(self.my_marisa[1].prefixes(word)[0])[0][idx]
+                )
         if totalcount > 0:
             return totalscore / totalcount
         else:
@@ -233,11 +235,10 @@ class sentiDict:
         totalcount = 0
         totalscore = 0.0
         for word, count in wordDict.items():
-            if word in self.data:
-                # this includes words on the boundary...
-                if abs(self.data[word][idx] - center) >= stopVal:
-                    totalcount += count
-                    totalscore += count * self.data[word][idx]
+            # this includes words on the boundary...
+            if word in self.data and abs(self.data[word][idx] - center) >= stopVal:
+                totalcount += count
+                totalscore += count * self.data[word][idx]
         if totalcount > 0:
             return totalscore / totalcount
         else:
@@ -271,19 +272,17 @@ class sentiDict:
         # could do the math, but why
         self.n_nue = self.n_total - self.n_pos - self.n_neg
         if self.score_range_type == "integer":
-            self.score_range = sorted(list(set(self.scorelist)))
+            self.score_range = sorted(set(self.scorelist))
             if len(self.score_range) > 7:
                 self.score_range_str = (
                     "["
-                    + ",".join(map(lambda x: f"{x:.0f}", self.score_range[:2]))
+                    + ",".join(f"{x:.0f}" for x in self.score_range[:2])
                     + ", $\\ldots$,"
-                    + ",".join(map(lambda x: f"{x:.0f}", self.score_range[-2:]))
+                    + ",".join(f"{x:.0f}" for x in self.score_range[-2:])
                     + "]"
                 )
             else:
-                self.score_range_str = (
-                    "[" + ",".join(map(lambda x: f"{x:.0f}", self.score_range)) + "]"
-                )
+                self.score_range_str = "[" + ",".join(f"{x:.0f}" for x in self.score_range) + "]"
 
         elif self.score_range_type == "continuous":
             self.score_range = [self.scorelist.min(), self.scorelist.max()]
@@ -305,9 +304,8 @@ class sentiDict:
         self.stopVal = stopVal
         self.folder = self.title[0].upper() + self.title[1:]
         self.v = v
-        if saveFile:
-            if not isdir(f"{self.folder}"):
-                mkdir(f"{self.folder}")
+        if saveFile and not isdir(f"{self.folder}"):
+            mkdir(f"{self.folder}")
         if datastructure == "auto" and self.stems:
             self.datastructure = "marisatrie"
         elif datastructure == "auto":
@@ -371,22 +369,20 @@ class LabMT(sentiDict):
     stems = False
 
     def loadDict(self, bananas, lang):
-        labMT = dict()
+        labMT = {}
         f = openWithPath(join("data", "LabMT", f"labMT2{lang}.txt.gz"), "r")
         f.readline()
         # word    rank    happs   stddev  rank    rank    rank    rank
-        i = 0
-        for line in f:
+        for i, line in enumerate(f):
             line_parts = line.rstrip().split("\t")
             # this is for the english set
             # word,overallrank,happs,stddev,rank1,rank2,rank3,rank4 = line_parts
             # for other langs, not the same
             # we'll at least assume that the first four ar the same
-            word, happsrank, happs, stddev = line_parts[:4]
+            word, _happsrank, happs, stddev = line_parts[:4]
             # twitter_rank	gbooks_rank	nyt_rank	lyrics_rank
             other_ranks = line_parts[4:]
             labMT[word] = [i, float(happs), float(stddev)] + other_ranks
-            i += 1
         f.close()
         return labMT
 
@@ -421,26 +417,25 @@ class ANEW(sentiDict):
     def loadDict(self, bananas, lang):
         """Load the corpus into a dictionary, straight from the origin corpus file."""
 
-        ANEW_data = dict()
+        ANEW_data = {}
         f = openWithPath(join("data", "ANEW", "all-2.csv.gz"), "r")
         # f = openWithPath(join("data","ANEW","all.csv"),"r")
         # f.readline()
         # Description,Word No.,Valence Mean,Valence SD,Arousal Mean,Arousal SD,Dominance Mean,Dominance SD,Word Frequency
         # ["Description","Word_No","Valence_Mean","Valence_SD","Arousal_Mean","Arousal_SD","Dominance_Mean","Dominance_SD","Word_Frequency",]
         # description,word_no,valence_mean,valence_sd,arousal_mean,arousal_sd,dominance_mean,dominance_sd,word_frequency
-        i = 0
-        for line in f:
+        for i, line in enumerate(f):
             # description,word_no,valence_mean,valence_sd,arousal_mean,arousal_sd,dominance_mean,dominance_sd,word_frequency = line.rstrip().split(",")
             (
                 description,
-                word_no,
+                _word_no,
                 valence_mean,
                 valence_sd,
                 arousal_mean,
                 arousal_sd,
                 dominance_mean,
                 dominance_sd,
-                word_frequency,
+                _word_frequency,
             ) = line.rstrip().split("\t")
             ANEW_data[description] = (
                 i,
@@ -451,7 +446,6 @@ class ANEW(sentiDict):
                 float(dominance_mean),
                 float(dominance_sd),
             )
-            i += 1
         f.close()
         return ANEW_data
 
@@ -477,7 +471,7 @@ class LIWC(sentiDict):
     stems = True
 
     # special for LIWC here
-    word_types: dict = dict()
+    word_types: ClassVar[dict] = {}
     year = "07"
     affect = 125
     positive = 126
@@ -485,7 +479,7 @@ class LIWC(sentiDict):
 
     def loadDict(self, bananas, lang):
         """Load the corpus into a dictionary, straight from the origin corpus file."""
-        word_type_dict = dict()
+        word_type_dict = {}
         f = openWithPath(join("data", "LIWC", f"LIWC20{self.year}_header.dic.gz"), "r")
         # leave space for index, happs_score
         i = 2
@@ -499,7 +493,7 @@ class LIWC(sentiDict):
         f.close()
         self.word_types = word_type_dict.copy()
         # print(word_type_dict)
-        LIWC_data = dict()
+        LIWC_data = {}
         # mostly just the raw data (just no header)
         f = openWithPath(join("data", "LIWC", f"LIWC20{self.year}_words.dic.gz"), "r")
         i = 0
@@ -610,7 +604,7 @@ class MPQA(sentiDict):
 
     def loadDict(self, bananas, lang):
         """Load the corpus into a dictionary, straight from the origin corpus file."""
-        MPQA = dict()
+        MPQA = {}
         scores = [-1, 0, 1]
         emotions = ["negative", "neutral", "positive"]
         f = openWithPath(join("data", "MPQA", "subjclueslen1-HLTEMNLP05.tff.gz"), "r")
@@ -620,9 +614,9 @@ class MPQA(sentiDict):
             # type=weaksubj len=1 word1=abandoned pos1=adj stemmed1=n priorpolarity=negative
             line_parts = [x.split("=")[1] for x in line.rstrip().split(" ")]
             if len(line_parts) == 6:
-                my_type, my_len, word, pos, stemmed, priorpolarity = line_parts
+                _my_type, _my_len, word, _pos, stemmed, priorpolarity = line_parts
             elif len(line_parts) == 7:
-                my_type, my_len, word, pos, stemmed, polarity, priorpolarity = line_parts
+                _my_type, _my_len, word, _pos, stemmed, polarity, priorpolarity = line_parts
                 priorpolarity = polarity
 
             if stemmed == "y":
@@ -634,7 +628,7 @@ class MPQA(sentiDict):
             # check that no words are different polarity when duplicated
             # and if they are, delete, set to neutral
             if word in MPQA:
-                if not MPQA[word][1] == scores[emotions.index(priorpolarity)]:
+                if MPQA[word][1] != scores[emotions.index(priorpolarity)]:
                     # # print all of this to see the duplicate words
                     # # when loading MPQA dictionary
                     # print("{0} has emotion {1} and {2}".format(word,MPQA[word][1],scores[emotions.index(priorpolarity)]))
@@ -674,7 +668,7 @@ class OL(sentiDict):
 
     def loadDict(self, bananas, lang):
         """Load the corpus into a dictionary, straight from the origin corpus file."""
-        liu = dict()
+        liu = {}
         f = openWithPath(join("data", "OL", "negative-words.txt.gz"), "r")
         i = 0
         for line in f:
@@ -729,7 +723,7 @@ class WK(sentiDict):
     score_range_type = "continuous"
 
     def loadDict(self, bananas, lang):
-        Warriner = dict()
+        Warriner = {}
         f = openWithPath(join("data", "WK", "BRM-emot-submit.csv.gz"), "r")
         f.readline()
         # ,Word,V.Mean.Sum,V.SD.Sum,V.Rat.Sum,A.Mean.Sum,A.SD.Sum,A.Rat.Sum,D.Mean.Sum,D.SD.Sum,D.Rat.Sum,V.Mean.M,V.SD.M,V.Rat.M,V.Mean.F,V.SD.F,V.Rat.F,A.Mean.M,A.SD.M,A.Rat.M,A.Mean.F,A.SD.F,A.Rat.F,D.Mean.M,D.SD.M,D.Rat.M,D.Mean.F,D.SD.F,D.Rat.F,V.Mean.Y,V.SD.Y,V.Rat.Y,V.Mean.O,V.SD.O,V.Rat.O,A.Mean.Y,A.SD.Y,A.Rat.Y,A.Mean.O,A.SD.O,A.Rat.O,D.Mean.Y,D.SD.Y,D.Rat.Y,D.Mean.O,D.SD.O,D.Rat.O,V.Mean.L,V.SD.L,V.Rat.L,V.Mean.H,V.SD.H,V.Rat.H,A.Mean.L,A.SD.L,A.Rat.L,A.Mean.H,A.SD.H,A.Rat.H,D.Mean.L,D.SD.L,D.Rat.L,D.Mean.H,D.SD.H,D.Rat.H
@@ -741,67 +735,67 @@ class WK(sentiDict):
                 word,
                 v_mean_sum,
                 v_sd_sum,
-                v_rat_sum,
-                a_mean_sum,
-                a_sd_sum,
-                a_rat_sum,
-                d_mean_sum,
-                d_sd_sum,
-                d_rat_sum,
-                v_mean_m,
-                v_sd_m,
-                v_rat_m,
-                v_mean_f,
-                v_sd_f,
-                v_rat_f,
-                a_mean_m,
-                a_sd_m,
-                a_rat_m,
-                a_mean_f,
-                a_sd_f,
-                a_rat_f,
-                d_mean_m,
-                d_sd_m,
-                d_rat_m,
-                d_mean_f,
-                d_sd_f,
-                d_rat_f,
-                v_mean_y,
-                v_sd_y,
-                v_rat_y,
-                v_mean_o,
-                v_sd_o,
-                v_rat_o,
-                a_mean_y,
-                a_sd_y,
-                a_rat_y,
-                a_mean_o,
-                a_sd_o,
-                a_rat_o,
-                d_mean_y,
-                d_sd_y,
-                d_rat_y,
-                d_mean_o,
-                d_sd_o,
-                d_rat_o,
-                v_mean_l,
-                v_sd_l,
-                v_rat_l,
-                v_mean_h,
-                v_sd_h,
-                v_rat_h,
-                a_mean_l,
-                a_sd_l,
-                a_rat_l,
-                a_mean_h,
-                a_sd_h,
-                a_rat_h,
-                d_mean_l,
-                d_sd_l,
-                d_rat_l,
-                d_mean_h,
-                d_sd_h,
-                d_rat_h,
+                _v_rat_sum,
+                _a_mean_sum,
+                _a_sd_sum,
+                _a_rat_sum,
+                _d_mean_sum,
+                _d_sd_sum,
+                _d_rat_sum,
+                _v_mean_m,
+                _v_sd_m,
+                _v_rat_m,
+                _v_mean_f,
+                _v_sd_f,
+                _v_rat_f,
+                _a_mean_m,
+                _a_sd_m,
+                _a_rat_m,
+                _a_mean_f,
+                _a_sd_f,
+                _a_rat_f,
+                _d_mean_m,
+                _d_sd_m,
+                _d_rat_m,
+                _d_mean_f,
+                _d_sd_f,
+                _d_rat_f,
+                _v_mean_y,
+                _v_sd_y,
+                _v_rat_y,
+                _v_mean_o,
+                _v_sd_o,
+                _v_rat_o,
+                _a_mean_y,
+                _a_sd_y,
+                _a_rat_y,
+                _a_mean_o,
+                _a_sd_o,
+                _a_rat_o,
+                _d_mean_y,
+                _d_sd_y,
+                _d_rat_y,
+                _d_mean_o,
+                _d_sd_o,
+                _d_rat_o,
+                _v_mean_l,
+                _v_sd_l,
+                _v_rat_l,
+                _v_mean_h,
+                _v_sd_h,
+                _v_rat_h,
+                _a_mean_l,
+                _a_sd_l,
+                _a_rat_l,
+                _a_mean_h,
+                _a_sd_h,
+                _a_rat_h,
+                _d_mean_l,
+                _d_sd_l,
+                _d_rat_l,
+                _d_mean_h,
+                _d_sd_h,
+                _d_rat_h,
             ) = line_parts
             Warriner[word] = (int(i), float(v_mean_sum), float(v_sd_sum))
         f.close()
@@ -824,14 +818,12 @@ class PANASX(sentiDict):
     score_range_type = "integer"
 
     def loadDict(self, bananas, lang):
-        PANAS = dict()
+        PANAS = {}
         f = openWithPath(join("data", "PANAS-X", "affect.txt.gz"), "r")
-        i = 0
-        for line in f:
+        for i, line in enumerate(f):
             line_parts = line.rstrip().split(",")
             word, score = line_parts
             PANAS[word] = (i, int(score))
-            i += 1
         f.close()
         return PANAS
 
@@ -868,7 +860,7 @@ class Pattern(sentiDict):
         #     print(child.form)
         #     print(child.attrib['form'])
 
-        my_dict = dict()
+        my_dict = {}
 
         # print(len(my_dict))
         # print(root[0].attrib)
@@ -913,10 +905,10 @@ class SentiWordNet(sentiDict):
     def loadDict(self, bananas, lang):
         f = openWithPath(join("data", self.folder, "SentiWordNet_3.0.0_20130122.txt.gz"), "r")
         f.readline()
-        my_dict = dict()
+        my_dict = {}
         for line in f:
             splitline = line.rstrip().split("\t")
-            words = map(lambda x: x[:-2], splitline[4].split(" "))
+            words = (x[:-2] for x in splitline[4].split(" "))
             # print(words)
             for word in words:
                 if word not in my_dict:
@@ -924,15 +916,13 @@ class SentiWordNet(sentiDict):
                 else:
                     my_dict[word] = my_dict[word] + splitline[2:4]
 
-        i = 0
-        for word in my_dict:
+        for i, word in enumerate(my_dict):
             pos_scores = list(map(float, my_dict[word][0::2]))
             neg_scores = list(map(float, my_dict[word][1::2]))
             my_dict[word] = (
                 i,
                 sum(pos_scores) / len(pos_scores) - sum(neg_scores) / len(neg_scores),
             )
-            i += 1
 
         # my_dict['deflagrate']
         # len(my_dict)
@@ -968,12 +958,10 @@ class AFINN(sentiDict):
     def loadDict(self, bananas, lang):
         # afinn = dict(map(lambda x: (x[0],int(x[1])),
         #              [ line.split("\t") for line in openWithPath("data/AFINN/AFINN/AFINN-111.txt","r") ]))
-        afinn = dict()
-        i = 0
-        for line in openWithPath(join("data", "AFINN", "AFINN-111.txt.gz"), "r"):
+        afinn = {}
+        for i, line in enumerate(openWithPath(join("data", "AFINN", "AFINN-111.txt.gz"), "r")):
             x = line.split("\t")
             afinn[x[0]] = (i, int(x[1]))
-            i += 1
         # afinn = dict([ (line.rstrip().split("\t")[0],int(line.rstrip().split("\t")[1])) for line in openWithPath("data/AFINN/AFINN/AFINN-111.txt","r") ])
         # pos_words = [word for word in afinn if afinn[word] > 0]
         # neg_words = [word for word in afinn if afinn[word] < 0]
@@ -1012,14 +1000,13 @@ class GI(sentiDict):
         #     if len(neg) > 0:
         #         my_dict[word] = -1
 
-        my_dict = dict()
+        my_dict = {}
         i = 0
         for line in f:
             splitline = line.rstrip().split("\t")
             word = splitline[0].lower()
-            if word[-1] in map(str, range(10)):
-                if word[-2] == "#":
-                    word = word[:-2]
+            if word[-1] in map(str, range(10)) and word[-2] == "#":
+                word = word[:-2]
             pos = splitline[2]
             neg = splitline[3]
             if word in my_dict:
@@ -1070,15 +1057,13 @@ class WDAL(sentiDict):
 
     def loadDict(self, bananas, lang):
         f = openWithPath(join("data", "WDAL", "words.txt.gz"), "r")
-        my_dict = dict()
+        my_dict = {}
         f.readline()
-        i = 0
-        for line in f:
+        for i, line in enumerate(f):
             a = line.rstrip().split(" ")
             word = a[0]
-            pleasantness, activation, imagery = a[-3:]
+            pleasantness, _activation, _imagery = a[-3:]
             my_dict[word] = (i, float(pleasantness))
-            i += 1
 
         # len(my_dict)
         # pos_words = [word for word in my_dict if my_dict[word] > 1.5]
@@ -1123,7 +1108,7 @@ class EmoLex(sentiDict):
             ),
             "r",
         )
-        EmoLex_data = dict()
+        EmoLex_data = {}
         i = 0
         emotions = {
             "anger": 2,
@@ -1172,7 +1157,7 @@ class MaxDiff(sentiDict):
 
     def loadDict(self, bananas, lang):
         f = openWithPath(join("data", "NRC", "Maxdiff-Twitter-Lexicon_-1to1.txt.gz"), "r")
-        MaxDiff_data = dict()
+        MaxDiff_data = {}
         i = 0
         for line in f:
             if len(line.split("\t")) == 2:
@@ -1209,9 +1194,9 @@ class HashtagSent(sentiDict):
             "r",
         )
         i = 0
-        unigrams = dict()
+        unigrams = {}
         for line in f:
-            word, score, poscount, negcount = line.rstrip().split("\t")
+            word, score, _poscount, _negcount = line.rstrip().split("\t")
             if word not in unigrams:
                 unigrams[word] = (i, float(score))
                 i += 1
@@ -1244,9 +1229,9 @@ class Sent140Lex(sentiDict):
         f = openWithPath(
             join("data", "NRC", "Sentiment140-Lexicon-v0.1", "unigrams-pmilexicon.txt.gz"), "r"
         )
-        unigrams = dict()
+        unigrams = {}
         for line in f:
-            word, score, poscount, negcount = line.rstrip().split("\t")
+            word, score, _poscount, _negcount = line.rstrip().split("\t")
             if word not in unigrams:
                 unigrams[word] = (i, float(score))
                 i += 1
@@ -1259,9 +1244,9 @@ class Sent140Lex(sentiDict):
         f = openWithPath(
             join("data", "NRC", "Sentiment140-Lexicon-v0.1", "bigrams-pmilexicon.txt.gz"), "r"
         )
-        bigrams = dict()
+        bigrams = {}
         for line in f:
-            word, score, poscount, negcount = line.rstrip().split("\t")
+            word, score, _poscount, _negcount = line.rstrip().split("\t")
             if word not in bigrams:
                 bigrams[word] = (i, float(score))
                 i += 1
@@ -1274,9 +1259,9 @@ class Sent140Lex(sentiDict):
         f = openWithPath(
             join("data", "NRC", "Sentiment140-Lexicon-v0.1", "pairs-pmilexicon.txt.gz"), "r"
         )
-        pairs = dict()
+        pairs = {}
         for line in f:
-            word, score, poscount, negcount = line.rstrip().split("\t")
+            word, score, _poscount, _negcount = line.rstrip().split("\t")
             if word not in pairs:
                 pairs[word] = (i, float(score))
                 i += 1
@@ -1349,7 +1334,7 @@ class SOCAL(sentiDict):
     # [all|everything]_that_it_was_(cracked)_up_to_be 2
     # the all_dictionaries that is loaded is just a cat of the others
     def loadDict(self, bananas, lang):
-        this_dict = dict()
+        this_dict = {}
         f = openWithPath(join("data", self.title, "all_dictionaries-utf8.txt.gz"), "r")
         i = 0
         for line in f:
@@ -1379,13 +1364,6 @@ class SenticNet(sentiDict):
 	Title = {Affective computing and sentiment analysis},
 	Volume = {31},
 	Year = {2016}}"""
-    citation = """@inproceedings{cambria2014senticnet,
-    title={SenticNet 3: a common and common-sense knowledge base for cognition-driven sentiment analysis},
-    author={Cambria, Erik and Olsher, Daniel and Rajagopal, Dheeraj},
-    booktitle={Proceedings of the twenty-eighth AAAI conference on artificial intelligence},
-    pages={1515--1521},
-    year={2014},
-    organization={AAAI Press}}"""
     stems = False
     center = 0.0
     score_range_type = "continuous"
@@ -1415,7 +1393,7 @@ class Emoticons(sentiDict):
     score_range_type = "integer"
 
     def loadDict(self, bananas, lang):
-        emoticon_dict = dict()
+        emoticon_dict = {}
         f = openWithPath(join("data", self.title, "positive.txt.gz"), "r")
         i = 0
         for line in f:
@@ -1477,7 +1455,7 @@ class SentiStrength(sentiDict):
 
     def loadDict(self, bananas, lang):
         f = openWithPath(join("data", self.title, "EmotionLookupTable.txt.gz"), "r")
-        this_dict = dict()
+        this_dict = {}
         i = 0
         for line in f:
             line_split = line.rstrip().split("\t")
@@ -1515,10 +1493,9 @@ class VADER(sentiDict):
     score_range_type = "continuous"
 
     def loadDict(self, bananas, lang):
-        VADER_dict = dict()
+        VADER_dict = {}
         f = openWithPath(join("data", self.title, "vader_sentiment_lexicon-utf8.txt.gz"), "r")
-        i = 0
-        for line in f:
+        for i, line in enumerate(f):
             line_split = line.rstrip().split("\t")
             # print(line)
             # print(line_split)
@@ -1527,7 +1504,6 @@ class VADER(sentiDict):
             std = float(line_split[2])
             line_split[3]
             VADER_dict[word] = (i, score, std)
-            i += 1
         f.close()
         return VADER_dict
 
@@ -1572,7 +1548,7 @@ class Umigon(sentiDict):
     license = "Public Domain"
 
     def loadDict(self, bananas, lang):
-        Umigon_dict = dict()
+        Umigon_dict = {}
         f = openWithPath(join("data", self.title, "all.txt.gz"), "r")
         i = 0
         keys = ["010", "011", "012"]
@@ -1621,7 +1597,7 @@ class USent(sentiDict):
     # https://github.com/nik0spapp/usent
 
     def loadDict(self, bananas, lang):
-        USent_dict = dict()
+        USent_dict = {}
         f = openWithPath(join("data", self.title, "positive.txt.gz"), "r")
         i = 0
         for line in f:
@@ -1673,7 +1649,7 @@ class EmoSenticNet(sentiDict):
     score_range_type = "integer"
 
     def loadDict(self, bananas, lang):
-        ESS_dict = dict()
+        ESS_dict = {}
         f = openWithPath(join("data", self.title, "emosenticnet.csv.gz"), "r")
         i = 0
         f.readline()

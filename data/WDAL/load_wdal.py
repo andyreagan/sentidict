@@ -1,6 +1,6 @@
 f = open("words.txt")
 f.readline()
-my_dict = dict()
+my_dict = {}
 for line in f:
     a = line.rstrip().split(" ")
     word = a[0]
@@ -14,7 +14,7 @@ for line in f:
     my_dict[word] = float(pleasantness)
 
 f = open("words.txt")
-my_dict = dict()
+my_dict = {}
 f.readline()
 for line in f:
     a = line.rstrip().split(" ")

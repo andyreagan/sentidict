@@ -129,7 +129,7 @@ def test_shift():
     compH = emotionV(np.ones(4), test_scores)
     assert np.abs(refH - 6.83) < 0.01
     assert np.abs(compH - 6.75) < 0.01
-    mag, words, types, stypes = shift(test_f, np.ones(4), test_scores, test_words, sort=True)
+    mag, _words, _types, _stypes = shift(test_f, np.ones(4), test_scores, test_words, sort=True)
     assert np.abs(np.sum(mag) == (compH - refH)) < 0.001
 
 

@@ -1,7 +1,3 @@
-from . import dictionaries
-from . import utils
-from . import wordshifts
-from . import functions
+from . import dictionaries, functions, utils, wordshifts
 
-
-__all__ = ["dictionaries", "utils", "wordshifts", "functions"]
+__all__ = ["dictionaries", "functions", "utils", "wordshifts"]

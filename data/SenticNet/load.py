@@ -4,8 +4,8 @@ import re
 f = open("senticnet3.rdf.xml")
 
 
-all_words = list()
-all_scores = list()
+all_words = []
+all_scores = []
 word = False
 for line in f:
     if len(re.findall(r'<text xmlns="http://sentic.net/api">([-&\w ]+)</text>', line)) > 0:
@@ -36,7 +36,7 @@ for line in f:
 print(len(all_words))
 print(len(all_scores))
 
-scraped = dict()
+scraped = {}
 for i, word, score in zip(range(len(all_words)), all_words, all_scores):
     scraped[word] = (i, float(score))
 

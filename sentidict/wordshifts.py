@@ -95,17 +95,16 @@ def shiftHtml(
             isare = " are "
 
     template = env.get_template("templates/wordshift-base.html", "r")
-    f = codecs.open(outFile, "w", "utf8")
 
     if preshift:
         sortedMag, sortedWords, sortedType, sumTypes = shift(
             refFreq, compFreq, scoreList, wordList, sort=True
         )
         # write out the template
-        sortedMag_string = ",".join(map(lambda x: f"{x:.12f}", sortedMag[:200]))
-        sortedWords_string = ",".join(map(lambda x: f'"{x}"', sortedWords[:200]))
-        sortedType_string = ",".join(map(lambda x: f"{x:.0f}", sortedType[:200]))
-        sumTypes_string = ",".join(map(lambda x: f"{x:.3f}", sumTypes))
+        sortedMag_string = ",".join(f"{x:.12f}" for x in sortedMag[:200])
+        sortedWords_string = ",".join(f'"{x}"' for x in sortedWords[:200])
+        sortedType_string = ",".join(f"{x:.0f}" for x in sortedType[:200])
+        sumTypes_string = ",".join(f"{x:.3f}" for x in sumTypes)
 
         # normalize frequencies
         Nref = float(sum(refFreq))
@@ -117,52 +116,49 @@ def shiftHtml(
         refH = f"{sum([refFreq[i] * scoreList[i] for i in range(len(scoreList))]):.4}"
         compH = f"{sum([compFreq[i] * scoreList[i] for i in range(len(scoreList))]):.4}"
 
-        f.write(
-            template.render(
-                sortedMag=sortedMag_string,
-                sortedWords=sortedWords_string,
-                sortedType=sortedType_string,
-                sumTypes=sumTypes_string,
-                title=title,
-                ref_name=ref_name,
-                comp_name=comp_name,
-                ref_name_happs=ref_name_happs,
-                comp_name_happs=comp_name_happs,
-                refH=refH,
-                compH=compH,
-                isare=isare,
-                divnum=divnum,
-                link=link,
-                preshift=preshift,
-            )
+        html = template.render(
+            sortedMag=sortedMag_string,
+            sortedWords=sortedWords_string,
+            sortedType=sortedType_string,
+            sumTypes=sumTypes_string,
+            title=title,
+            ref_name=ref_name,
+            comp_name=comp_name,
+            ref_name_happs=ref_name_happs,
+            comp_name_happs=comp_name_happs,
+            refH=refH,
+            compH=compH,
+            isare=isare,
+            divnum=divnum,
+            link=link,
+            preshift=preshift,
         )
 
     else:
         # write out the template
-        lens_string = ",".join(map(lambda x: f"{x:.12f}", scoreList))
-        words_string = ",".join(map(lambda x: f'"{x}"', wordList))
-        refFreq_string = ",".join(map(lambda x: f"{x:.0f}", refFreq))
-        compFreq_string = ",".join(map(lambda x: f"{x:.0f}", compFreq))
+        lens_string = ",".join(f"{x:.12f}" for x in scoreList)
+        words_string = ",".join(f'"{x}"' for x in wordList)
+        refFreq_string = ",".join(f"{x:.0f}" for x in refFreq)
+        compFreq_string = ",".join(f"{x:.0f}" for x in compFreq)
 
-        f.write(
-            template.render(
-                lens=lens_string,
-                words=words_string,
-                refF=refFreq_string,
-                compF=compFreq_string,
-                title=title,
-                ref_name=ref_name,
-                comp_name=comp_name,
-                ref_name_happs=ref_name_happs,
-                comp_name_happs=comp_name_happs,
-                isare=isare,
-                divnum=divnum,
-                selfshift=selfshift,
-                bgcolor=bgcolor,
-            )
+        html = template.render(
+            lens=lens_string,
+            words=words_string,
+            refF=refFreq_string,
+            compF=compFreq_string,
+            title=title,
+            ref_name=ref_name,
+            comp_name=comp_name,
+            ref_name_happs=ref_name_happs,
+            comp_name_happs=comp_name_happs,
+            isare=isare,
+            divnum=divnum,
+            selfshift=selfshift,
+            bgcolor=bgcolor,
         )
 
-    f.close()
+    with codecs.open(outFile, "w", "utf8") as f:
+        f.write(html)
     print(f"wrote shift to {outFile}")
     if link:
         copy_static_files()
@@ -215,10 +211,10 @@ def shiftHtmlJupyter(
     body = env.get_template("templates/wordshift-body.html")
     js = env.get_template("templates/wordshift-body.js")
 
-    lens_string = ",".join(map(lambda x: f"{x:.12f}", scoreList))
-    words_string = ",".join(map(lambda x: f'"{x}"', wordList))
-    refFreq_string = ",".join(map(lambda x: f"{x:.0f}", refFreq))
-    compFreq_string = ",".join(map(lambda x: f"{x:.0f}", compFreq))
+    lens_string = ",".join(f"{x:.12f}" for x in scoreList)
+    words_string = ",".join(f'"{x}"' for x in wordList)
+    refFreq_string = ",".join(f"{x:.0f}" for x in refFreq)
+    compFreq_string = ",".join(f"{x:.0f}" for x in compFreq)
 
     this_html = body.render(
         lens=lens_string,

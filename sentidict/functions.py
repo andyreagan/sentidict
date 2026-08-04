@@ -52,7 +52,7 @@ def all_features(rawtext, uid, tweet_id, gram_id):
     result[2] = uid
 
     words = listify_quick(rawtext)
-    word_dict = dict()
+    word_dict = {}
     for word in words:
         if word in word_dict:
             word_dict[word] += 1
@@ -143,18 +143,15 @@ def write_tables(sentiment_dictionaries):
 
     table_template = Template(openWithPath("templates/table-short.tex", "r").read())
 
-    f = open("all-dictionary-table-automatic-short.tex", "w")
-    f.write(table_template.render({"all_sentiment_dictionaries": sentiment_dictionaries}))
-    f.close()
+    with open("all-dictionary-table-automatic-short.tex", "w") as f:
+        f.write(table_template.render({"all_sentiment_dictionaries": sentiment_dictionaries}))
 
     table_template = Template(openWithPath("templates/table.tex", "r").read())
 
-    f = open("all-dictionary-table-automatic.tex", "w")
-    f.write(table_template.render({"all_sentiment_dictionaries": sentiment_dictionaries}))
-    f.close()
+    with open("all-dictionary-table-automatic.tex", "w") as f:
+        f.write(table_template.render({"all_sentiment_dictionaries": sentiment_dictionaries}))
 
     template = Template(openWithPath("templates/descriptions.tex", "r").read())
 
-    f = open("all-dictionaries-list-description.tex", "w")
-    f.write(template.render({"all_sentiment_dictionaries": sentiment_dictionaries}))
-    f.close()
+    with open("all-dictionaries-list-description.tex", "w") as f:
+        f.write(template.render({"all_sentiment_dictionaries": sentiment_dictionaries}))

@@ -1,9 +1,9 @@
 f = open("SentiWordNet_3.0.0_20130122.txt")
 f.readline()
-my_dict = dict()
+my_dict = {}
 for line in f:
     splitline = line.rstrip().split("\t")
-    words = map(lambda x: x[:-2], splitline[4].split(" "))
+    words = (x[:-2] for x in splitline[4].split(" "))
     # print(words)
     for word in words:
         if word not in my_dict:
