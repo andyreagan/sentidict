@@ -5,12 +5,14 @@
 # import re
 # import codecs
 # from os import listdir
+# faster, still better memory than dict
+# both allow prefix search
+# import datrie
+# import string
+import copy
+import warnings
 from os import mkdir
-from os.path import isfile, isdir, join
-
-# import sys
-# import matplotlib.pyplot as plt
-from numpy import zeros, array, min, max
+from os.path import isdir, isfile, join
 
 # from json import loads
 # import csv
@@ -19,14 +21,11 @@ from numpy import zeros, array, min, max
 # also, static
 import marisa_trie
 
-# faster, still better memory than dict
-# both allow prefix search
-# import datrie
-# import string
-import copy
-import warnings
-from numpy import sum
-from .utils import isarray, u, openWithPath
+# import sys
+# import matplotlib.pyplot as plt
+from numpy import array, max, min, sum, zeros
+
+from .utils import isarray, openWithPath, u
 
 
 class sentiDict:
@@ -288,9 +287,7 @@ class sentiDict:
 
         elif self.score_range_type == "continuous":
             self.score_range = [self.scorelist.min(), self.scorelist.max()]
-            self.score_range_str = "{:.1f} $\\to$ {:.1f}".format(
-                self.scorelist.min(), self.scorelist.max()
-            )
+            self.score_range_str = f"{self.scorelist.min():.1f} $\\to$ {self.scorelist.max():.1f}"
 
     def __init__(
         self,
@@ -304,11 +301,7 @@ class sentiDict:
     ):
         """Instantiate the class."""
         if v:
-            print(
-                "loading {} with stopVal={}, datastructure={}".format(
-                    self.title, stopVal, datastructure
-                )
-            )
+            print(f"loading {self.title} with stopVal={stopVal}, datastructure={datastructure}")
         self.stopVal = stopVal
         self.folder = self.title[0].upper() + self.title[1:]
         self.v = v
@@ -350,11 +343,7 @@ class sentiDict:
             self.wordVecify = self.wordVecifyTrieMarisa
         # we generally want the load to be silent
         if v:
-            print(
-                "loaded {} with stopVal={}, for {} words".format(
-                    self.title, stopVal, len(self.data)
-                )
-            )
+            print(f"loaded {self.title} with stopVal={stopVal}, for {len(self.data)} words")
 
 
 class LabMT(sentiDict):

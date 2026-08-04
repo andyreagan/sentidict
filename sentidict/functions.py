@@ -1,35 +1,36 @@
 from jinja2 import Template
-from .utils import openWithPath, listify_quick
+from numpy import array, zeros
+
 from .dictionaries import (
-    LabMT,
-    WK,
+    AFINN,
     ANEW,
+    GI,
+    LIWC,
+    LIWC01,
+    LIWC07,
+    LIWC15,
     MPQA,
     OL,
-    LIWC01,
-    GI,
-    LIWC07,
-    EmoLex,
-    LIWC15,
     PANASX,
-    Sent140Lex,
     SOCAL,
-    USent,
-    MaxDiff,
-    Umigon,
     VADER,
-    AFINN,
-    Emoticons,
-    SentiWordNet,
-    LIWC,
-    Pattern,
     WDAL,
-    SenticNet,
-    HashtagSent,
+    WK,
+    EmoLex,
     EmoSenticNet,
+    Emoticons,
+    HashtagSent,
+    LabMT,
+    MaxDiff,
+    Pattern,
+    Sent140Lex,
+    SenticNet,
     SentiStrength,
+    SentiWordNet,
+    Umigon,
+    USent,
 )
-from numpy import zeros, array
+from .utils import listify_quick, openWithPath
 
 
 def all_features(rawtext, uid, tweet_id, gram_id):
@@ -94,7 +95,7 @@ def all_features(rawtext, uid, tweet_id, gram_id):
     for word in my_LIWC.data:
         all_features += array(my_LIWC.data[word][2:]) * my_word_vec[my_LIWC.data[word][0]]
     for i, score in enumerate(all_features):
-        result[10 + i] = all_features[i]
+        result[10 + i] = score
 
     return result
 
