@@ -1,5 +1,5 @@
 f = open("Sentiment140-Lexicon-v0.1/unigrams-pmilexicon.txt")
-unigrams = dict()
+unigrams = {}
 for line in f:
     word, score, poscount, negcount = line.rstrip().split("\t")
     unigrams[word] = score
@@ -7,7 +7,7 @@ f.close()
 
 # len(unigrams)
 f = open("Sentiment140-Lexicon-v0.1/bigrams-pmilexicon.txt")
-bigrams = dict()
+bigrams = {}
 for line in f:
     word, score, poscount, negcount = line.rstrip().split("\t")
     bigrams[word] = score
@@ -15,7 +15,7 @@ f.close()
 
 # len(bigrams)
 f = open("Sentiment140-Lexicon-v0.1/pairs-pmilexicon.txt")
-pairs = dict()
+pairs = {}
 for line in f:
     word, score, poscount, negcount = line.rstrip().split("\t")
     pairs[word] = score

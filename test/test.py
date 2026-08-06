@@ -1,16 +1,18 @@
 # note: nose2 will run all functions that begin with test
 
-from sentidict.utils import stopper, stopper_mat, emotionV, shift, openWithPath
-from sentidict.wordshifts import shiftHtml
-from sentidict.dictionaries import sentiDict, LabMT
-import numpy as np
-from numpy import zeros, array
-from scipy.sparse import csr_matrix, issparse
-import subprocess
-import os
 import gzip
+import os
 import shutil
-from os.path import join, exists
+import subprocess
+from os.path import exists, join
+
+import numpy as np
+from numpy import array, zeros
+from scipy.sparse import csr_matrix, issparse
+
+from sentidict.dictionaries import LabMT, sentiDict
+from sentidict.utils import emotionV, openWithPath, shift, stopper, stopper_mat
+from sentidict.wordshifts import shiftHtml
 
 # from jinja2 import Template
 
@@ -127,7 +129,7 @@ def test_shift():
     compH = emotionV(np.ones(4), test_scores)
     assert np.abs(refH - 6.83) < 0.01
     assert np.abs(compH - 6.75) < 0.01
-    mag, words, types, stypes = shift(test_f, np.ones(4), test_scores, test_words, sort=True)
+    mag, _words, _types, _stypes = shift(test_f, np.ones(4), test_scores, test_words, sort=True)
     assert np.abs(np.sum(mag) == (compH - refH)) < 0.001
 
 
@@ -273,7 +275,7 @@ def test_dict_vs_marisa_all():
     ref_dict = {"the": 1, "dude": 1, "abides": 1, "happy": 5, "happyy": 2, "happyyy": 1}
 
     # Load only the dictionaries we have
-    from sentidict.dictionaries import LabMT, ANEW
+    from sentidict.dictionaries import ANEW, LabMT
 
     # Test only the dictionaries that we know exist and work
     test_dicts = [
@@ -293,7 +295,7 @@ def test_extended_features():
 def test_speedy_all():
     """Test all of the speedy dictionaries on scoring some dict of words."""
     # Instead of loading all dictionaries, only load those that we know work
-    from sentidict.dictionaries import LabMT, ANEW
+    from sentidict.dictionaries import ANEW, LabMT
 
     all_sentidicts = [LabMT(), ANEW()]
     # write_tables(all_sentidicts)

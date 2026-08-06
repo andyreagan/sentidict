@@ -1,10 +1,11 @@
-from labMTsimple.storyLab import (
-    emotionFileReader,
-    emotion,
-    stopper,
-    emotionV,
-)
 import codecs  # handle utf8
+
+from labMTsimple.storyLab import (
+    emotion,
+    emotionFileReader,
+    emotionV,
+    stopper,
+)
 
 if __name__ == "__main__":
     lang = "english"
@@ -18,13 +19,11 @@ if __name__ == "__main__":
     print(labMTwordList[0:5])
 
     ## test shift a subsample of two twitter days
-    f = codecs.open("data/18.01.14.txt", "r", "utf8")
-    saturday = f.read()
-    f.close()
+    with codecs.open("data/18.01.14.txt", "r", "utf8") as f:
+        saturday = f.read()
 
-    f = codecs.open("data/21.01.14.txt", "r", "utf8")
-    tuesday = f.read()
-    f.close()
+    with codecs.open("data/21.01.14.txt", "r", "utf8") as f:
+        tuesday = f.read()
 
     ## compute valence score
     print("computing happiness...")

@@ -1,13 +1,12 @@
-#!/usr/bin/env python3
 #
 # sentidict documentation build configuration file
 #
 # This file is execfile()d with the current directory set to its
 # containing dir.
 
+import importlib.metadata
 import os
 import sys
-import importlib.metadata
 
 sys.path.insert(0, os.path.abspath(".."))
 

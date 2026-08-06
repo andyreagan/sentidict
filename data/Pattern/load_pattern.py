@@ -11,7 +11,7 @@ print(root)
 
 my_dict = {}
 for child in root:
-    my_dict[child.attrib["form"]] = dict()
+    my_dict[child.attrib["form"]] = {}
 
 print(len(my_dict))
 print(root[0].attrib)

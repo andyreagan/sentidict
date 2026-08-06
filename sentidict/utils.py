@@ -1,19 +1,19 @@
-#!/usr/bin/python
 #
 # utils.py
 #
 # written by Andy Reagan
 # 2014-03-01
 
-import re
 import codecs
 import copy
-import subprocess
-from numpy import dot, sum, zeros, array, ndarray, arange
-from os import mkdir
-from os.path import isfile, isdir, join, dirname
-from shutil import copy as shcopy
 import gzip
+import re
+import subprocess
+from os import mkdir
+from os.path import dirname, isdir, isfile, join
+from shutil import copy as shcopy
+
+from numpy import arange, array, dot, ndarray, sum, zeros
 
 
 def u(x):
@@ -24,16 +24,17 @@ def isarray(x):
     return isinstance(x, ndarray)
 
 
-def stopper(tmpVec, score_list, word_list, stopVal=1.0, ignore=[], center=5.0):
+def stopper(tmpVec, score_list, word_list, stopVal=1.0, ignore=None, center=5.0):
     """Take a frequency vector, and 0 out the stop words.
 
     Will always remove the nig* words.
 
     Return the 0'ed vector."""
 
+    if ignore is None:
+        ignore = []
     ignoreWords = ["nigga", "nigger", "niggaz", "niggas"]
-    for word in ignore:
-        ignoreWords.append(word)
+    ignoreWords.extend(ignore)
     newVec = copy.copy(tmpVec)
     for i in range(len(score_list)):
         if abs(score_list[i] - center) < stopVal:
@@ -44,7 +45,7 @@ def stopper(tmpVec, score_list, word_list, stopVal=1.0, ignore=[], center=5.0):
     return newVec
 
 
-def stopper_mat(tmpVec, score_list, word_list, stopVal=1.0, ignore=[], center=5.0):
+def stopper_mat(tmpVec, score_list, word_list, stopVal=1.0, ignore=None, center=5.0):
     """Take a frequency vector, and 0 out the stop words.
 
     A sparse-aware matrix stopper.
@@ -54,16 +55,14 @@ def stopper_mat(tmpVec, score_list, word_list, stopVal=1.0, ignore=[], center=5.
 
     Return the 0'ed matrix, sparse."""
 
+    if ignore is None:
+        ignore = []
     ignoreWords = ["nigga", "nigger", "niggaz", "niggas"]
-    for word in ignore:
-        ignoreWords.append(word)
+    ignoreWords.extend(ignore)
     indices_to_ignore = []
     for i in range(len(score_list)):
-        if abs(score_list[i] - center) < stopVal:
+        if abs(score_list[i] - center) < stopVal or word_list[i] in ignoreWords:
             indices_to_ignore.append(i)
-        elif word_list[i] in ignoreWords:
-            indices_to_ignore.append(i)
-    indices_to_ignore = indices_to_ignore
     # print(indices_to_ignore)
     # newVec = copy.copy(tmpVec)
     newVec = copy.deepcopy(tmpVec)
@@ -165,9 +164,8 @@ def listify_quick(raw):
 
 def open_codecs_dictify(file):
     """Generate a word dict to test."""
-    f = codecs.open(file, "r", "utf8")
-    ref_text_raw = f.read()
-    f.close()
+    with codecs.open(file, "r", "utf8") as f:
+        ref_text_raw = f.read()
     replaceStrings = ["---", "--", "''"]
     for replaceString in replaceStrings:
         ref_text_raw = ref_text_raw.replace(replaceString, " ")
@@ -175,7 +173,7 @@ def open_codecs_dictify(file):
         x.lower()
         for x in re.findall(r"[\w\@\#\'\&\]\*\-\/\[\=\;]+", ref_text_raw, flags=re.UNICODE)
     ]
-    test_dict = dict()
+    test_dict = {}
     for word in words:
         if word in test_dict:
             test_dict[word] += 1

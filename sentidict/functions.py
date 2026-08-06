@@ -1,35 +1,36 @@
 from jinja2 import Template
-from .utils import openWithPath, listify_quick
+from numpy import array, zeros
+
 from .dictionaries import (
-    LabMT,
-    WK,
+    AFINN,
     ANEW,
+    GI,
+    LIWC,
+    LIWC01,
+    LIWC07,
+    LIWC15,
     MPQA,
     OL,
-    LIWC01,
-    GI,
-    LIWC07,
-    EmoLex,
-    LIWC15,
     PANASX,
-    Sent140Lex,
     SOCAL,
-    USent,
-    MaxDiff,
-    Umigon,
     VADER,
-    AFINN,
-    Emoticons,
-    SentiWordNet,
-    LIWC,
-    Pattern,
     WDAL,
-    SenticNet,
-    HashtagSent,
+    WK,
+    EmoLex,
     EmoSenticNet,
+    Emoticons,
+    HashtagSent,
+    LabMT,
+    MaxDiff,
+    Pattern,
+    Sent140Lex,
+    SenticNet,
     SentiStrength,
+    SentiWordNet,
+    Umigon,
+    USent,
 )
-from numpy import zeros, array
+from .utils import listify_quick, openWithPath
 
 
 def all_features(rawtext, uid, tweet_id, gram_id):
@@ -51,7 +52,7 @@ def all_features(rawtext, uid, tweet_id, gram_id):
     result[2] = uid
 
     words = listify_quick(rawtext)
-    word_dict = dict()
+    word_dict = {}
     for word in words:
         if word in word_dict:
             word_dict[word] += 1
@@ -94,7 +95,7 @@ def all_features(rawtext, uid, tweet_id, gram_id):
     for word in my_LIWC.data:
         all_features += array(my_LIWC.data[word][2:]) * my_word_vec[my_LIWC.data[word][0]]
     for i, score in enumerate(all_features):
-        result[10 + i] = all_features[i]
+        result[10 + i] = score
 
     return result
 
@@ -142,18 +143,15 @@ def write_tables(sentiment_dictionaries):
 
     table_template = Template(openWithPath("templates/table-short.tex", "r").read())
 
-    f = open("all-dictionary-table-automatic-short.tex", "w")
-    f.write(table_template.render({"all_sentiment_dictionaries": sentiment_dictionaries}))
-    f.close()
+    with open("all-dictionary-table-automatic-short.tex", "w") as f:
+        f.write(table_template.render({"all_sentiment_dictionaries": sentiment_dictionaries}))
 
     table_template = Template(openWithPath("templates/table.tex", "r").read())
 
-    f = open("all-dictionary-table-automatic.tex", "w")
-    f.write(table_template.render({"all_sentiment_dictionaries": sentiment_dictionaries}))
-    f.close()
+    with open("all-dictionary-table-automatic.tex", "w") as f:
+        f.write(table_template.render({"all_sentiment_dictionaries": sentiment_dictionaries}))
 
     template = Template(openWithPath("templates/descriptions.tex", "r").read())
 
-    f = open("all-dictionaries-list-description.tex", "w")
-    f.write(template.render({"all_sentiment_dictionaries": sentiment_dictionaries}))
-    f.close()
+    with open("all-dictionaries-list-description.tex", "w") as f:
+        f.write(template.render({"all_sentiment_dictionaries": sentiment_dictionaries}))

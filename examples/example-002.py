@@ -1,11 +1,12 @@
+import codecs  # handle utf8
+
 from labMTsimple.storyLab import (
-    emotionFileReader,
     emotion,
-    stopper,
+    emotionFileReader,
     emotionV,
     shiftHtml,
+    stopper,
 )
-import codecs  # handle utf8
 
 if __name__ == '__main__':
     lang = 'english'
@@ -19,13 +20,11 @@ if __name__ == '__main__':
     print(labMTwordList[0:5])
 
     ## test shift a subsample of two twitter days
-    f = codecs.open("data/18.01.14.txt", "r", "utf8")
-    saturday = f.read()
-    f.close()
+    with codecs.open("data/18.01.14.txt", "r", "utf8") as f:
+        saturday = f.read()
 
-    f = codecs.open("data/21.01.14.txt", "r", "utf8")
-    tuesday = f.read()
-    f.close()
+    with codecs.open("data/21.01.14.txt", "r", "utf8") as f:
+        tuesday = f.read()
 
     ## compute valence score
     print('computing happiness...')
@@ -47,33 +46,29 @@ if __name__ == '__main__':
 
     writeCsv = False
     if writeCsv:
-        f = codecs.open("saturdayFvec.csv", "w", "utf8")
-        f.write(f'{saturdayFvec[0]:.0f}')
-        for i in range(1, len(saturdayFvec)):
-            f.write("\n")
-            f.write(f'{saturdayFvec[i]:.0f}')
-        f.close()
+        with codecs.open("saturdayFvec.csv", "w", "utf8") as f:
+            f.write(f'{saturdayFvec[0]:.0f}')
+            for i in range(1, len(saturdayFvec)):
+                f.write("\n")
+                f.write(f'{saturdayFvec[i]:.0f}')
 
-        f = codecs.open("tuesdayFvec.csv", "w", "utf8")
-        f.write(f'{tuesdayFvec[0]:.0f}')
-        for i in range(1, len(tuesdayFvec)):
-            f.write("\n")
-            f.write(f'{tuesdayFvec[i]:.0f}')
-        f.close()
+        with codecs.open("tuesdayFvec.csv", "w", "utf8") as f:
+            f.write(f'{tuesdayFvec[0]:.0f}')
+            for i in range(1, len(tuesdayFvec)):
+                f.write("\n")
+                f.write(f'{tuesdayFvec[i]:.0f}')
 
-        f = codecs.open("labMTvec.csv", "w", "utf8")
-        f.write(f'{labMTvector[0]:.8f}')
-        for i in range(1, len(labMTvector)):
-            f.write("\n")
-            f.write(f'{labMTvector[i]:.8f}')
-        f.close()
+        with codecs.open("labMTvec.csv", "w", "utf8") as f:
+            f.write(f'{labMTvector[0]:.8f}')
+            for i in range(1, len(labMTvector)):
+                f.write("\n")
+                f.write(f'{labMTvector[i]:.8f}')
 
-        f = codecs.open("labMTwords.csv", "w", "utf8")
-        f.write(labMTwordList[0])
-        for i in range(1, len(labMTwordList)):
-            f.write("\n")
-            f.write(labMTwordList[i])
-        f.close()
+        with codecs.open("labMTwords.csv", "w", "utf8") as f:
+            f.write(labMTwordList[0])
+            for i in range(1, len(labMTwordList)):
+                f.write("\n")
+                f.write(labMTwordList[i])
 
     filename = "example-002-shift.html"
     shiftHtml(labMTvector, labMTwordList, tuesdayStoppedVec, saturdayStoppedVec, filename)

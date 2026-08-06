@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "sentidict"
-version = "0.1.15"
+version = "0.2.0"
 description = "Utilities for dictionary-based sentiment analysis. Includes 28 sentiment dictionaries with loaders, scoring, and interactive visualization."
 readme = "README.md"
 license = {file = "LICENSE.md"}
@@ -140,3 +140,7 @@ dependencies = [
 build = "cd docs && make html"
 clean = "cd docs && make clean"
 serve = "python -m http.server -d docs/_build/html 8000"
+
+[tool.ruff]
+# data/ holds vendored third-party code (VADER) and one-off dictionary-prep scripts
+extend-exclude = ["data"]
