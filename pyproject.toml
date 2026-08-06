@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "sentidict"
-version = "0.1.15"
+version = "0.2.0"
 description = "Utilities for dictionary-based sentiment analysis. Includes 28 sentiment dictionaries with loaders, scoring, and interactive visualization."
 readme = "README.md"
 license = {file = "LICENSE.md"}
