@@ -3,7 +3,11 @@ try:
     from IPython.display import publish_display_data
 except ImportError:
     publish_display_data = None
-    get_ipython = lambda: None
+
+    def get_ipython():
+        return None
+
+
 import codecs
 from os.path import dirname, join
 
