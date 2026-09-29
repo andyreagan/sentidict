@@ -1,5 +1,5 @@
-import re
 import json
+import re
 
 f = open("senticnet3.rdf.xml")
 

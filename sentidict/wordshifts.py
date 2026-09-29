@@ -1,14 +1,20 @@
 try:
-    from IPython.display import publish_display_data
     from IPython import get_ipython
+    from IPython.display import publish_display_data
 except ImportError:
     publish_display_data = None
-    get_ipython = lambda: None  # noqa: E731
-from os.path import join, dirname
+
+    def get_ipython():
+        return None
+
+
 import codecs
-from .utils import shift, copy_static_files
+from os.path import dirname, join
+
 from jinja2 import FileSystemLoader
 from jinja2.environment import Environment
+
+from .utils import copy_static_files, shift
 
 env = Environment(loader=FileSystemLoader(dirname(__file__)))
 

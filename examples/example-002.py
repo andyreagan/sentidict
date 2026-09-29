@@ -1,11 +1,12 @@
+import codecs  # handle utf8
+
 from labMTsimple.storyLab import (
-    emotionFileReader,
     emotion,
-    stopper,
+    emotionFileReader,
     emotionV,
     shiftHtml,
+    stopper,
 )
-import codecs  # handle utf8
 
 if __name__ == '__main__':
     lang = 'english'

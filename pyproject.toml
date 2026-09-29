@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "sentidict"
-version = "0.1.15"
+version = "0.1.16"
 description = "Utilities for dictionary-based sentiment analysis. Includes 28 sentiment dictionaries with loaders, scoring, and interactive visualization."
 readme = "README.md"
 license = {file = "LICENSE.md"}
@@ -140,3 +140,12 @@ dependencies = [
 build = "cd docs && make html"
 clean = "cd docs && make clean"
 serve = "python -m http.server -d docs/_build/html 8000"
+
+[tool.ruff.lint]
+# Pin to the pre-ruff-0.16 default rule set. Ruff 0.16 expanded its defaults
+# from ~60 to ~400 rules; opting into the wider set is a separate decision.
+select = ["E4", "E7", "E9", "F"]
+
+[tool.ruff]
+# Legacy Python 2-era loader scripts kept for provenance; not part of the package.
+extend-exclude = ["data"]
