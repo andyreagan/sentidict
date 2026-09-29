@@ -5,15 +5,16 @@
 # written by Andy Reagan
 # 2014-03-01
 
-import re
 import codecs
 import copy
-import subprocess
-from numpy import dot, sum, zeros, array, ndarray, arange
-from os import mkdir
-from os.path import isfile, isdir, join, dirname
-from shutil import copy as shcopy
 import gzip
+import re
+import subprocess
+from os import mkdir
+from os.path import dirname, isdir, isfile, join
+from shutil import copy as shcopy
+
+from numpy import arange, array, dot, ndarray, sum, zeros
 
 
 def u(x):
@@ -59,9 +60,7 @@ def stopper_mat(tmpVec, score_list, word_list, stopVal=1.0, ignore=[], center=5.
         ignoreWords.append(word)
     indices_to_ignore = []
     for i in range(len(score_list)):
-        if abs(score_list[i] - center) < stopVal:
-            indices_to_ignore.append(i)
-        elif word_list[i] in ignoreWords:
+        if abs(score_list[i] - center) < stopVal or word_list[i] in ignoreWords:
             indices_to_ignore.append(i)
     indices_to_ignore = indices_to_ignore
     # print(indices_to_ignore)
